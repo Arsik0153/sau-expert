@@ -1,26 +1,15 @@
 import React from 'react'
-import styled from 'styled-components'
-import Navbar from './components/Navbar'
-import Header from './components/Header'
-import Indicators from './components/Patient/Indicators'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import Patient from './components/Patient/Patient'
 
 const App = () => {
   return (
-    <Container>
-      <Navbar />
-      <Header />
-      <Indicators />
-    </Container>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Patient} />
+      </Switch>
+    </BrowserRouter>
   )
 }
-
-const Container = styled.div`
-  display: grid;
-  grid-template-areas:
-    'nav header'
-    'nav main';
-  grid-template-columns: 260px 1fr;
-  grid-template-rows: 100px 1fr;
-`
 
 export default App

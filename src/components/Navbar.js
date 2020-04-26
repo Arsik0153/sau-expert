@@ -47,6 +47,8 @@ const Container = styled.div`
   background: white;
   padding: 30px;
   border-right: 1px solid #d7d7d7;
+  width: 260px;
+  position: fixed;
 
   ul {
     margin-top: 62.5px;
@@ -56,7 +58,7 @@ const Container = styled.div`
     li {
       display: flex;
       flex-direction: column;
-      margin-bottom: 21px;
+      margin-bottom: 15px;
     }
 
     a {

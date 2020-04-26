@@ -10,8 +10,11 @@ import CalendarContainer from './CalendarContainer'
 import RateCard from './RateCard'
 import SelfrateCard from './SelfrateCard'
 import StepsCard from './StepsCard'
+import { connect } from 'react-redux'
+import { getIndicators } from './../../redux/actions/patientActions'
 
-const Indicators = () => {
+const Indicators = (props) => {
+  console.log(props)
   return (
     <Container>
       <H1>Показатели</H1>
@@ -74,4 +77,28 @@ const CardsContainer = styled.div`
   padding: 50px;
 `
 
-export default Indicators
+const mapStateToProps = (state, ownProps) => {
+  return {
+    indicators: state,
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    indicators: () => dispatch(getIndicators('HELOOOOOOO')),
+  }
+}
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  return {
+    ...ownProps,
+    state: stateProps,
+    actions: dispatchProps,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Indicators)
