@@ -42,7 +42,7 @@ const Indicators = (props) => {
               lastMonth="8"
             />
             <CardDetailed
-              name="Гипогликемия"
+              name="Гипергликемия"
               last="11.11.2019 14:00"
               thisMonth="1"
               lastMonth="4"

@@ -1,14 +1,26 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Calendar from 'react-calendar'
-import './Calendar.css'
+import { Calendar } from './Calendar.tsx'
+
+const data = [
+  {
+    date: '2020-3-6',
+    payload: ['gypo'],
+  },
+  {
+    date: '2020-3-22',
+    payload: ['gypo', 'gyper'],
+  },
+  {
+    date: '2020-3-10',
+    payload: ['gyper'],
+  },
+]
 
 const CalendarContainer = () => {
-  const [now, setNow] = useState(new Date())
-
   return (
     <Container>
-      <Calendar defaultValue={now} value={new Date(2019, 4, 28)} />
+      <Calendar customData={data} />
       <div className="desc">
         <div>
           <div className="ball green"></div>
@@ -16,7 +28,7 @@ const CalendarContainer = () => {
         </div>
         <div>
           <div className="ball red"></div>
-          <p>Гипогликемия</p>
+          <p>Гипергликемия</p>
         </div>
       </div>
     </Container>
