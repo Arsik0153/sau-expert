@@ -47,7 +47,7 @@ const Container = styled.div`
   background: white;
   padding: 30px;
   border-right: 1px solid #d7d7d7;
-  width: 260px;
+  width: 240px;
   position: fixed;
 
   ul {

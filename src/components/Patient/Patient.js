@@ -19,7 +19,7 @@ const Container = styled.div`
   grid-template-areas:
     'nav header'
     'nav main';
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 240px 1fr;
   grid-template-rows: 100px 1fr;
 `
 

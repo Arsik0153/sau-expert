@@ -12,6 +12,7 @@ import SelfrateCard from './SelfrateCard'
 import StepsCard from './StepsCard'
 import { connect } from 'react-redux'
 import { getIndicators } from './../../redux/actions/patientActions'
+import Graphs from './Graphs'
 
 const Indicators = (props) => {
   console.log(props)
@@ -54,7 +55,7 @@ const Indicators = (props) => {
           </CardsContainer>
         </TabPanel>
         <TabPanel>
-          <h2>Content of Graphs</h2>
+          <Graphs />
         </TabPanel>
       </Tabs>
     </Container>
