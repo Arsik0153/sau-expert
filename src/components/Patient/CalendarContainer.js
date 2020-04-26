@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Calendar } from './Calendar.tsx'
+import { Calendar } from './Calendar.js'
 
 const data = [
   {

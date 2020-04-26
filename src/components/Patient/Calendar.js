@@ -119,11 +119,11 @@ export function Calendar({ customData }) {
     setStartDay(getStartDayOfMonth(date))
   }, [date])
 
-  function getStartDayOfMonth(date: Date) {
+  function getStartDayOfMonth(date) {
     return new Date(date.getFullYear(), date.getMonth(), 1).getDay()
   }
 
-  function isLeapYear(year: number) {
+  function isLeapYear(year) {
     return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
   }
 
