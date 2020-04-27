@@ -17,7 +17,7 @@ const data = [
   },
   {
     date: '2020-4-24',
-    percentage: 60,
+    percentage: 40,
   },
   {
     date: '2020-4-25',

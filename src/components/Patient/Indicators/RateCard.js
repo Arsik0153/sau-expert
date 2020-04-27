@@ -5,11 +5,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 
 const RateCard = ({ percentage, week, month }) => {
   const mainColor =
-    percentage === 0
-      ? '#EB5757'
-      : percentage >= 50 && percentage < 90
-      ? '#F2C94C'
-      : '#57C3A7'
+    percentage === 0 ? '#EB5757' : percentage >= 50 ? '#57C3A7' : '#F2C94C'
   return (
     <Container>
       <div className="top">
