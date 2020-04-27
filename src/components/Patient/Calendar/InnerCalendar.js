@@ -61,6 +61,10 @@ const Day = styled.div`
       ? css`
           color: ${props.mainColor};
           border: 2px solid ${props.mainColor};
+          :hover {
+            background: ${props.mainColor};
+            color: white;
+          }
         `
       : null}
 

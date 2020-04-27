@@ -37,9 +37,9 @@ const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.03);
   border-radius: 6px;
-  height: 436px;
   display: flex;
   align-items: center;
+  grid-row: 1 / 3;
 `
 
 export default CalendarBox

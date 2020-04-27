@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import CalendarBox from './CalendarBox'
+import Tasks from './Tasks'
+import Done from './Done'
 
 const Main = () => {
   return (
@@ -8,6 +10,8 @@ const Main = () => {
       <H1>Календарь</H1>
       <Grid>
         <CalendarBox />
+        <Tasks />
+        <Done />
       </Grid>
     </Container>
   )
@@ -25,6 +29,7 @@ const H1 = styled.h1`
 const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, 220px);
   padding: 0 50px;
   padding-bottom: 50px;
   grid-gap: 30px;
