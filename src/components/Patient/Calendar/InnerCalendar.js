@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 import arrow from './../../../assets/arrow.svg'
 
 const Frame = styled.div`
-  width: 280px;
+  width: 420px;
   margin: 0 auto;
 `
 
@@ -16,7 +16,7 @@ const Header = styled.div`
   justify-content: space-between;
   .month {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 24px;
     color: #202020;
   }
 `
@@ -25,7 +25,8 @@ const Button = styled.div`
   cursor: pointer;
   :last-child {
     transform: rotate(180deg);
-    margin-top: 3px;
+    position: relative;
+    top: -2px;
   }
 `
 
@@ -36,8 +37,9 @@ const Body = styled.div`
 `
 
 const Day = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
+  margin: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,51 +49,31 @@ const Day = styled.div`
   z-index: 1000;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
-
-  ${(props) =>
-    props.isCustom
-      ? props.type.length !== 2
-        ? props.type[0] === 'gypo'
-          ? css`
-              background: #57c3a7;
-            `
-          : css`
-              background: rgba(255, 79, 79, 0.76);
-            `
-        : null
-      : null}
+  color: rgba(31, 32, 65, 0.5);
+  strong {
+    font-weight: bold;
+    font-size: 18px;
+    color: #000000;
+  }
 
   ${(props) =>
     props.isCustom
       ? css`
-          color: white;
+          color: ${props.mainColor};
+          border: 2px solid ${props.mainColor};
         `
       : null}
 
-  .left {
-    width: 20px;
-    height: 40px;
-    border-top-left-radius: 40px;
-    border-bottom-left-radius: 40px;
-    left: 0px;
-    position: absolute;
-    background-color: rgba(255, 79, 79, 0.76);
-    z-index: -1;
-  }
-  .right {
-    display: block;
-    width: 20px;
-    height: 40px;
-    background: #57c3a7;
-    border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px;
-    left: 20px;
-    position: absolute;
-    z-index: -1;
-  }
+  ${(props) =>
+    props.isToday
+      ? css`
+          color: white;
+          background: ${props.mainColor};
+        `
+      : null}
 `
 
-export function Calendar({ customData }) {
+export function InnerCalendar({ customData }) {
   const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   const DAYS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   const DAYS_OF_THE_WEEK = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
@@ -165,14 +147,20 @@ export function Calendar({ customData }) {
             const d = index - (startDay - 2)
             let str = `${date.getFullYear()}-${month + 1}-${d}`
             let isCustom = false
-            let type = ''
+            let percentage = 0
             for (let i = 0; i < customData.length; i++) {
               if (customData[i].date === str) {
                 isCustom = true
-                type = customData[i].payload
+                percentage = customData[i].percentage
                 break
               }
             }
+            const mainColor =
+              percentage === 0
+                ? '#EB5757'
+                : percentage >= 50 && percentage < 90
+                ? '#F2C94C'
+                : '#57C3A7'
             return (
               <Day
                 key={index}
@@ -180,14 +168,8 @@ export function Calendar({ customData }) {
                 isSelected={d === day}
                 onClick={() => setDate(new Date(year, month, d))}
                 isCustom={isCustom}
-                type={type}
+                mainColor={mainColor}
               >
-                {isCustom && type.length === 2 ? (
-                  <>
-                    <div className="left"></div>
-                    <div className="right"></div>
-                  </>
-                ) : null}
                 {d > 0 ? d : ''}
               </Day>
             )
