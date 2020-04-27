@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field } from 'formik'
 
 const formSchema = Yup.object().shape({
   comment: Yup.string()
@@ -28,7 +28,8 @@ const Main = () => {
             }}
             validationSchema={formSchema}
             onSubmit={(values) => handleSubmit(values)}
-            render={({ errors, touched }) => (
+          >
+            {(props) => (
               <Form className="form-container">
                 <Field
                   name="comment"
@@ -37,14 +38,14 @@ const Main = () => {
                   as="textarea"
                 />
 
-                {errors.comment && touched.comment && (
-                  <div className="field-error">{errors.comment}</div>
+                {props.errors.comment && props.touched.comment && (
+                  <div className="field-error">{props.errors.comment}</div>
                 )}
 
                 <button type="submit">Submit</button>
               </Form>
             )}
-          />
+          </Formik>
         </Box>
         <Box>
           <H2 style={{ textAlign: 'left', padding: '30px 40px' }}>
@@ -52,54 +53,58 @@ const Main = () => {
           </H2>
           <Scroll>
             <table>
-              <tr>
-                <td>
-                  <a href="">Замерить глюкозу</a>
-                </td>
-                <td>09:00</td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="">Принять 60 ед. базального инсулина</a>
-                </td>
-                <td>09:30</td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="">Замерить давление</a>
-                </td>
-                <td>10:00</td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="">Принять 1 ед. нитроглицерина</a>
-                </td>
-                <td>10:15</td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="">Принять 30 единиц быстродействующего инсулина</a>
-                </td>
-                <td>13:00</td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="">Замерить глюкозу</a>
-                </td>
-                <td>18:00</td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="">Сделать 10000 шагов</a>
-                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="">Оценить работу врача - Сидоров П.М.</a>
-                </td>
-                <td></td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>
+                    <a href="/#">Замерить глюкозу</a>
+                  </td>
+                  <td>09:00</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="/#">Принять 60 ед. базального инсулина</a>
+                  </td>
+                  <td>09:30</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="/#">Замерить давление</a>
+                  </td>
+                  <td>10:00</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="/#">Принять 1 ед. нитроглицерина</a>
+                  </td>
+                  <td>10:15</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="/#">
+                      Принять 30 единиц быстродействующего инсулина
+                    </a>
+                  </td>
+                  <td>13:00</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="/#">Замерить глюкозу</a>
+                  </td>
+                  <td>18:00</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="/#">Сделать 10000 шагов</a>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="/#">Оценить работу врача - Сидоров П.М.</a>
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
             </table>
           </Scroll>
         </Box>

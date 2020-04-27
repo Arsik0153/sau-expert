@@ -14,10 +14,10 @@ const Header = () => {
         </div>
       </div>
       <div className="right">
-        <a href="" className="link">
+        <a href="/#" className="link">
           Выйти
         </a>
-        <a href="" className="notify">
+        <a href="/#" className="notify">
           <img src={notify} alt="notifications" />
         </a>
       </div>

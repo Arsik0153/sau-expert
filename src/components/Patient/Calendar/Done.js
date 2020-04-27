@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import './ProgressBar.css'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 
 const Done = () => {
@@ -42,6 +41,42 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  .CircularProgressbar {
+    width: 30%;
+    vertical-align: middle;
+  }
+  .CircularProgressbar .CircularProgressbar-path {
+    -webkit-transition: stroke-dashoffset 0.5s ease 0s;
+    transition: stroke-dashoffset 0.5s ease 0s;
+  }
+  .CircularProgressbar .CircularProgressbar-trail {
+    stroke: rgba(188, 156, 255, 0.25);
+    stroke-linecap: butt;
+  }
+  .CircularProgressbar .CircularProgressbar-text {
+    fill: #57c3a7;
+    font-weight: 600;
+    font-size: 24px;
+    dominant-baseline: middle;
+    text-anchor: middle;
+  }
+  .CircularProgressbar .CircularProgressbar-background {
+    fill: #d6d6d6;
+  }
+  .CircularProgressbar.CircularProgressbar-inverted
+    .CircularProgressbar-background {
+    fill: #3e98c7;
+  }
+  .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text {
+    fill: #fff;
+  }
+  .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-path {
+    stroke: #fff;
+  }
+  .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-trail {
+    stroke: transparent;
+  }
 `
 const H3 = styled.h3`
   font-weight: normal;
