@@ -21,7 +21,7 @@ const PulseBar = () => {
     ],
     datasets: [
       {
-        label: 'Уровень давления',
+        label: 'Уровень пульса',
         data: [70, 90, 70, 100, 80, 110, 90, 115, 90, 115, 95],
         backgroundColor: 'rgba(255, 79, 79, 0.76)',
         borderColor: 'rgba(255, 79, 79, 0.76)',
