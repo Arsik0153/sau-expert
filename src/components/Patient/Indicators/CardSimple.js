@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const CardSimple = ({ imgSrc, last, num, lastNum }) => {
+const CardSimple = ({ imgSrc, last, num, lastNum, name }) => {
   return (
     <Container>
       <div className="left">
         <span>
           <img src={imgSrc} alt="Glucose" />
-          <Name>Глюкоза</Name>
+          <Name>{name}</Name>
         </span>
         <div className="description">
           Последний замер <br /> {last}

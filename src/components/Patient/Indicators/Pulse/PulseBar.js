@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import event from './../../../assets/event.svg'
-import { Bar } from 'react-chartjs-2'
+import event from './../../../../assets/event.svg'
+import { Line } from 'react-chartjs-2'
 import DatePicker from 'react-datepicker'
 
-const PressureBar = () => {
-  const barData = {
+const PulseBar = () => {
+  const lineData = {
     labels: [
       '29.01',
       '30.01',
@@ -21,34 +21,24 @@ const PressureBar = () => {
     ],
     datasets: [
       {
-        label: 'Уровень давления',
-        data: [
-          [120, 80],
-          [100, 60],
-          [100, 60],
-          [110, 70],
-          [120, 70],
-          [110, 70],
-          [120, 100],
-          [140, 100],
-          [120, 90],
-          [120, 80],
-        ],
-        backgroundColor: '#57C3A7',
-        borderColor: '#E8E8E8',
-        borderWidth: 0,
+        label: 'Уровень пульса',
+        data: [70, 90, 70, 100, 80, 110, 90, 115, 90, 115, 95],
+        backgroundColor: 'rgba(255, 79, 79, 0.76)',
+        borderColor: 'rgba(255, 79, 79, 0.76)',
+        borderWidth: 5,
+        fill: false,
+        pointBorderWidth: 0,
       },
     ],
   }
 
-  const barOptions = {
+  const lineOptions = {
     layout: {},
     scales: {
       yAxes: [
         {
           ticks: {
-            min: 60,
-            max: 180,
+            min: 40,
           },
           gridLines: {
             // You can change the color, the dash effect, the main axe color, etc.
@@ -77,7 +67,7 @@ const PressureBar = () => {
   return (
     <div>
       <div className="flex">
-        <H3>График давления</H3>
+        <H3>График пульса</H3>
         <Picker>
           <DatePicker
             selected={startDate}
@@ -98,7 +88,7 @@ const PressureBar = () => {
         </Picker>
       </div>
 
-      <Bar data={barData} width={650} height={300} options={barOptions} />
+      <Line data={lineData} width={650} height={300} options={lineOptions} />
     </div>
   )
 }
@@ -164,4 +154,4 @@ const Picker = styled.div`
   height: 40px;
 `
 
-export default PressureBar
+export default PulseBar

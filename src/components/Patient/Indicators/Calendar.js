@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
-import arrow from './../../assets/arrow.svg'
+import arrow from './../../../assets/arrow.svg'
 
 const Frame = styled.div`
   width: 280px;

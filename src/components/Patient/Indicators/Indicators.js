@@ -2,16 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import CardSimple from './CardSimple'
-import waterdrop from './../../assets/water-drop.svg'
-import path from './../../assets/path.svg'
-import line from './../../assets/line.svg'
+import waterdrop from './../../../assets/water-drop.svg'
+import path from './../../../assets/path.svg'
+import line from './../../../assets/line.svg'
 import CardDetailed from './CardDetailed'
 import CalendarContainer from './CalendarContainer'
 import RateCard from './RateCard'
 import SelfrateCard from './SelfrateCard'
 import StepsCard from './StepsCard'
 import { connect } from 'react-redux'
-import { getIndicators } from './../../redux/actions/patientActions'
+import { getIndicators } from '../../../redux/actions/patientActions'
 import Graphs from './Graphs'
 
 const Indicators = (props) => {
@@ -27,14 +27,25 @@ const Indicators = (props) => {
 
         <TabPanel>
           <CardsContainer>
-            <CardSimple imgSrc={waterdrop} last="11.11.2019 14:00" num="6.0" />
+            <CardSimple
+              imgSrc={waterdrop}
+              last="11.11.2019 14:00"
+              num="6.0"
+              name="Глюкоза"
+            />
             <CardSimple
               imgSrc={path}
               last="11.11.2019 14:00"
               num="120"
               lastNum="80"
+              name="Давление"
             />
-            <CardSimple imgSrc={line} last="11.11.2019 14:00" num="86" />
+            <CardSimple
+              imgSrc={line}
+              last="11.11.2019 14:00"
+              num="86"
+              name="Пульс"
+            />
             <CardDetailed
               name="Гипогликемия"
               last="11.11.2019 14:00"

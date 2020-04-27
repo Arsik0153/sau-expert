@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import smile from './../../assets/smile.svg'
+import smile from './../../../assets/smile.svg'
 
 const SelfrateCard = () => {
   return (

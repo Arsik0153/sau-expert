@@ -1,9 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import './RateCard.css'
-import { CircularProgressbar } from 'react-circular-progressbar'
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 
 const RateCard = ({ percentage, week, month }) => {
+  const mainColor =
+    percentage === 0
+      ? '#EB5757'
+      : percentage >= 50 && percentage < 90
+      ? '#F2C94C'
+      : '#57C3A7'
   return (
     <Container>
       <div className="top">
@@ -14,7 +20,14 @@ const RateCard = ({ percentage, week, month }) => {
           <br />
           заданий
         </h5>
-        <CircularProgressbar value={percentage} text={`${percentage}%`} />
+        <CircularProgressbar
+          value={percentage}
+          text={`${percentage}%`}
+          styles={buildStyles({
+            pathColor: mainColor,
+            textColor: mainColor,
+          })}
+        />
       </div>
       <div className="bottom">
         <div className="flex">

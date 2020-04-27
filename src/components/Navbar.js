@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from './../assets/logo.svg'
+import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
   return (
@@ -8,33 +9,49 @@ const Navbar = () => {
       <img src={logo} alt="logo" />
       <ul>
         <li>
-          <a href="">Мой профиль</a>
+          <NavLink to="/patient/profile" activeClassName="active">
+            Мой профиль
+          </NavLink>
         </li>
         <li>
-          <a href="" className="active">
+          <NavLink to="/" activeClassName="active" exact={true}>
             Показатели
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a href="">Календарь</a>
+          <NavLink to="/patient/calendar" activeClassName="active">
+            Календарь
+          </NavLink>
         </li>
         <li>
-          <a href="">Жалобы</a>
+          <NavLink to="/patient/issues" activeClassName="active">
+            Жалобы
+          </NavLink>
         </li>
         <li>
-          <a href="">Чат</a>
+          <NavLink to="/patient/chat" activeClassName="active">
+            Чат
+          </NavLink>
         </li>
         <li>
-          <a href="">Справочники</a>
+          <NavLink to="/patient/guides" activeClassName="active">
+            Справочники
+          </NavLink>
         </li>
         <li>
-          <a href="">Рекомендации</a>
+          <NavLink to="/patient/advice" activeClassName="active">
+            Рекомендации
+          </NavLink>
         </li>
         <li>
-          <a href="">Уведомления</a>
+          <NavLink to="/patient/notifications" activeClassName="active">
+            Уведомления
+          </NavLink>
         </li>
         <li>
-          <a href="">Оплата</a>
+          <NavLink to="/patient/pay" activeClassName="active">
+            Оплата
+          </NavLink>
         </li>
       </ul>
     </Container>

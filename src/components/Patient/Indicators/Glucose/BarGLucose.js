@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import event from './../../../assets/event.svg'
-import { Line } from 'react-chartjs-2'
+import event from './../../../../assets/event.svg'
+import { Bar } from 'react-chartjs-2'
 import DatePicker from 'react-datepicker'
 
-const PulseBar = () => {
-  const lineData = {
+const BarGLucose = () => {
+  const barData = {
     labels: [
       '29.01',
       '30.01',
@@ -21,24 +21,22 @@ const PulseBar = () => {
     ],
     datasets: [
       {
-        label: 'Уровень пульса',
-        data: [70, 90, 70, 100, 80, 110, 90, 115, 90, 115, 95],
+        label: 'Уровень глюкозы',
+        data: [5.55, 5.7, 5.75, 5.6, 5.5, 5.6, 5.5, 5.55, 5.7, 5.6, 5.7],
         backgroundColor: 'rgba(255, 79, 79, 0.76)',
-        borderColor: 'rgba(255, 79, 79, 0.76)',
-        borderWidth: 5,
-        fill: false,
-        pointBorderWidth: 0,
+        borderColor: '#E8E8E8',
+        borderWidth: 0,
       },
     ],
   }
 
-  const lineOptions = {
+  const barOptions = {
     layout: {},
     scales: {
       yAxes: [
         {
           ticks: {
-            min: 40,
+            min: 5.3,
           },
           gridLines: {
             // You can change the color, the dash effect, the main axe color, etc.
@@ -67,7 +65,7 @@ const PulseBar = () => {
   return (
     <div>
       <div className="flex">
-        <H3>График пульса</H3>
+        <H3>График глюкозы</H3>
         <Picker>
           <DatePicker
             selected={startDate}
@@ -88,7 +86,7 @@ const PulseBar = () => {
         </Picker>
       </div>
 
-      <Line data={lineData} width={650} height={300} options={lineOptions} />
+      <Bar data={barData} width={650} height={300} options={barOptions} />
     </div>
   )
 }
@@ -154,4 +152,4 @@ const Picker = styled.div`
   height: 40px;
 `
 
-export default PulseBar
+export default BarGLucose
