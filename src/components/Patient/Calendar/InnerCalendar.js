@@ -20,6 +20,7 @@ const Header = styled.div`
     font-weight: 600;
     font-size: 24px;
     color: #202020;
+    margin-left: -20px;
   }
 `
 

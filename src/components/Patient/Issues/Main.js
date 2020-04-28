@@ -28,6 +28,8 @@ const Main = () => {
             }}
             validationSchema={formSchema}
             onSubmit={(values) => handleSubmit(values)}
+            validateOnChange={false}
+            validateOnBlur={false}
           >
             {(props) => (
               <Form className="form-container">
@@ -42,7 +44,7 @@ const Main = () => {
                   <div className="field-error">{props.errors.comment}</div>
                 )}
 
-                <button type="submit">Submit</button>
+                <button type="submit">Отправить</button>
               </Form>
             )}
           </Formik>
@@ -152,6 +154,7 @@ const Box = styled.div`
     }
     ::placeholder {
       color: #bdbdbd;
+      font-family: 'Source Sans Pro', sans-serif;
     }
   }
   button[type='submit'] {
@@ -159,6 +162,8 @@ const Box = styled.div`
     background: #57c3a7;
     border-radius: 4px;
     font-size: 16px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
     color: #ffffff;
     padding: 20px 0;
     border: none;
