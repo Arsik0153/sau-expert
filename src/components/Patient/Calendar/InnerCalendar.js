@@ -6,6 +6,8 @@ import arrow from './../../../assets/arrow.svg'
 const Frame = styled.div`
   width: 420px;
   margin: 0 auto;
+  position: relative;
+  left: 15px;
 `
 
 const Header = styled.div`
@@ -27,6 +29,10 @@ const Button = styled.div`
     transform: rotate(180deg);
     position: relative;
     top: -2px;
+    left: -40px;
+  }
+  :first-child {
+    margin-left: 5px;
   }
 `
 

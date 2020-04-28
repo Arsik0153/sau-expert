@@ -124,7 +124,7 @@ const H1 = styled.h1`
 `
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 340px 1fr;
   padding: 0 50px;
   padding-bottom: 50px;
   grid-gap: 30px;
@@ -184,10 +184,11 @@ const H2 = styled.h2`
 const Scroll = styled.div`
   table {
     width: 100%;
+    min-width: 500px;
     tr {
       display: flex;
       justify-content: space-between;
-      padding: 18px 30px;
+      padding: 18px 40px;
       font-size: 16px;
       color: #202020;
       border-bottom: 1px solid rgba(31, 32, 65, 0.1);

@@ -94,6 +94,7 @@ const Tasks = () => {
 
 const Container = styled.div`
   grid-row: 1 / 6;
+  min-width: 500px;
   background: #ffffff;
   box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.03);
   border-radius: 6px;
