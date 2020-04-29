@@ -34,7 +34,7 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/patient/guides" activeClassName="active">
+          <NavLink to="/patient/references" activeClassName="active">
             Справочники
           </NavLink>
         </li>
@@ -66,6 +66,7 @@ const Container = styled.div`
   border-right: 1px solid #d7d7d7;
   width: 240px;
   position: fixed;
+  z-index: 9999;
 
   ul {
     margin-top: 62.5px;
