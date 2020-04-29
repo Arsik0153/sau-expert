@@ -75,6 +75,29 @@ const Indicators = (props) => {
 
 const Container = styled.div`
   grid-area: main;
+  .react-tabs__tab-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #e6e8f1;
+  }
+  .react-tabs__tab {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 15px;
+    margin-right: 79px;
+    color: #686868;
+    padding-bottom: 16px;
+    cursor: pointer;
+    outline: none;
+  }
+  .react-tabs__tab:first-child {
+    margin-left: 50px;
+  }
+  .react-tabs__tab--selected {
+    font-weight: bold;
+    color: #57c3a7;
+    border-bottom: 4px solid #57c3a7;
+  }
 `
 const H1 = styled.h1`
   font-weight: 600;

@@ -95,6 +95,7 @@ const H3 = styled.h3`
   text-align: center;
   color: #202020;
   margin-bottom: 15px;
+  height: 70px;
 `
 
 export default Main
