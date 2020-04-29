@@ -66,7 +66,7 @@ const Container = styled.div`
   border-right: 1px solid #d7d7d7;
   width: 240px;
   position: fixed;
-  z-index: 9999;
+  z-index: 1000;
 
   ul {
     margin-top: 62.5px;
