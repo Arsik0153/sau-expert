@@ -2,6 +2,33 @@ import React from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import { Formik, Form, Field } from 'formik'
+import Modal from 'react-modal'
+import Pressure from './Pressure'
+import Glucose from './Glucose'
+import Medicine from './Medicine'
+import RateDoctor from './RateDoctor'
+
+Modal.setAppElement('#root')
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    width: 'fit-content',
+    maxWidth: '500px',
+    margin: '0 auto',
+    top: '0 !important',
+    left: '0 !important',
+    right: '0 !important',
+    bottom: '0 !important',
+    position: 'static',
+    padding: '30px',
+  },
+}
 
 const formSchema = Yup.object().shape({
   comment: Yup.string()
@@ -16,8 +43,32 @@ const Main = () => {
     alert('Submit')
   }
 
+  const [modalIsOpen, setIsOpen] = React.useState(false)
+  const [type, setType] = React.useState('')
+
+  const openModal = (type) => {
+    setType(type)
+    setIsOpen(true)
+  }
+
   return (
     <Container>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setIsOpen(false)}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        {type === 'pressure' && (
+          <Pressure closeModal={() => setIsOpen(false)} />
+        )}
+        {type === 'glucose' && <Glucose closeModal={() => setIsOpen(false)} />}
+        {type === 'medicine' && (
+          <Medicine closeModal={() => setIsOpen(false)} />
+        )}
+        {type === 'rate' && <RateDoctor closeModal={() => setIsOpen(false)} />}
+      </Modal>
+
       <H1>Жалобы</H1>
       <Grid>
         <Box style={{ padding: '30px' }}>
@@ -58,51 +109,33 @@ const Main = () => {
               <tbody>
                 <tr>
                   <td>
-                    <a href="/#">Замерить глюкозу</a>
+                    <p onClick={(e) => openModal('glucose')}>
+                      Замерить глюкозу
+                    </p>
                   </td>
                   <td>09:00</td>
                 </tr>
                 <tr>
                   <td>
-                    <a href="/#">Принять 60 ед. базального инсулина</a>
+                    <p onClick={(e) => openModal('medicine')}>
+                      Принять 60 ед. базального инсулина
+                    </p>
                   </td>
                   <td>09:30</td>
                 </tr>
                 <tr>
                   <td>
-                    <a href="/#">Замерить давление</a>
+                    <p onClick={(e) => openModal('pressure')}>
+                      Замерить давление
+                    </p>
                   </td>
                   <td>10:00</td>
                 </tr>
                 <tr>
                   <td>
-                    <a href="/#">Принять 1 ед. нитроглицерина</a>
-                  </td>
-                  <td>10:15</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="/#">
-                      Принять 30 единиц быстродействующего инсулина
-                    </a>
-                  </td>
-                  <td>13:00</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="/#">Замерить глюкозу</a>
-                  </td>
-                  <td>18:00</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="/#">Сделать 10000 шагов</a>
-                  </td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="/#">Оценить работу врача - Сидоров П.М.</a>
+                    <p onClick={(e) => openModal('rate')}>
+                      Оценить работу врача - Сидоров П.М.
+                    </p>
                   </td>
                   <td></td>
                 </tr>
@@ -197,11 +230,13 @@ const Scroll = styled.div`
       font-size: 16px;
       color: #202020;
       border-bottom: 1px solid rgba(31, 32, 65, 0.1);
-      a {
+      p {
         text-decoration: underline;
         color: #57c3a7;
+        cursor: pointer;
       }
     }
+  }
 `
 
 export default Main
