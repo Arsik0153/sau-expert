@@ -1,20 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const MsgMy = () => {
+const MsgMy = ({ text, time, src }) => {
   return (
     <Container>
       <div className="flex">
-        <Msg>
-          Done! Furthermore, please check Tracking page to see new photos from
-          event construction site.
-        </Msg>
-        <MyIcon
-          src="https://sun9-72.userapi.com/c857632/v857632437/1eb217/Yy_HgWS2HXo.jpg"
-          alt="My Photo"
-        />
+        <Msg>{text}</Msg>
+        <MyIcon src={src} alt="My Photo" />
       </div>
-      <Time>18.11.2019 10:30</Time>
+      <Time>{time}</Time>
     </Container>
   )
 }
@@ -22,7 +16,7 @@ const MsgMy = () => {
 const Container = styled.div`
   width: 70%;
   float: right;
-  padding: 30px;
+  margin: 10px 30px;
   .flex {
     display: flex;
     justify-content: space-between;

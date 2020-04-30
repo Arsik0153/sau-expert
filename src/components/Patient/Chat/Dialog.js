@@ -12,7 +12,7 @@ const Dialog = () => {
 
 const Container = styled.div`
   width: 100%;
-  height: calc(100% - 92px);
+  height: calc(80% - 92px);
 `
 
 export default Dialog

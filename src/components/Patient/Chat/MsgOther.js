@@ -1,28 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const MsgOther = () => {
+const MsgOther = ({ text, time, src }) => {
   return (
     <Container>
       <div className="flex">
-        <Msg>
-          Done! Furthermore, please check Tracking page to see new photos from
-          event construction site.
-        </Msg>
-        <MyIcon
-          src="https://sun9-72.userapi.com/c857632/v857632437/1eb217/Yy_HgWS2HXo.jpg"
-          alt="My Photo"
-        />
+        <MyIcon src={src} alt="My Photo" />
+        <Msg>{text}</Msg>
       </div>
-      <Time>18.11.2019 10:30</Time>
+      <Time>{time}</Time>
     </Container>
   )
 }
 
 const Container = styled.div`
   width: 70%;
-  float: right;
-  padding: 50px 30px;
+  float: left;
+  margin: 10px 30px;
   .flex {
     display: flex;
     justify-content: space-between;
@@ -30,7 +24,7 @@ const Container = styled.div`
 `
 const Msg = styled.p`
   width: calc(100% - 20px);
-  background: #c5ffdd;
+  background: #f4f4f6;
   border-radius: 5px;
   padding: 20px 15px;
 `
@@ -39,12 +33,13 @@ const MyIcon = styled.img`
   height: 46px;
   border-radius: 100%;
   object-fit: cover;
-  margin-left: 20px;
+  margin-right: 20px;
 `
 const Time = styled.p`
   font-size: 16px;
   color: #828282;
   padding: 8px 0 0 20px;
+  margin-left: 60px;
 `
 
 export default MsgOther
