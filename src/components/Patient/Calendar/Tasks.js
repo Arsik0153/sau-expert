@@ -121,10 +121,27 @@ const Scroll = styled.div`
   margin-top: 15px;
   table {
     width: 100%;
-    display: block;
-    height: 450px;
-    overflow-y: auto;
-    overflow-x: hidden;
+
+    tbody {
+      width: 100%;
+      display: block;
+      height: 450px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #e0e0e0;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #57c3a7;
+        border-radius: 2px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    }
     tr {
       display: flex;
       justify-content: space-between;
@@ -136,26 +153,6 @@ const Scroll = styled.div`
         text-decoration: underline;
         color: #57c3a7;
       }
-    }
-    /* width */
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: #e0e0e0;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: #57c3a7;
-      border-radius: 2px;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
     }
   }
 `

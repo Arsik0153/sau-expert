@@ -64,12 +64,29 @@ const H4 = styled.h4`
 const Scroll = styled.div`
   margin-top: 15px;
   table {
-    width: calc(100% + 15px);
-    padding-right: 15px;
-    display: block;
-    height: 250px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    width: 100%;
+    tbody {
+      width: calc(100% + 15px);
+      padding-right: 15px;
+      display: block;
+      height: 250px;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #e0e0e0;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #57c3a7;
+        border-radius: 2px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    }
     tr {
       display: flex;
       justify-content: space-between;
@@ -77,26 +94,6 @@ const Scroll = styled.div`
       font-size: 16px;
       color: #202020;
       border-bottom: 1px solid rgba(31, 32, 65, 0.1);
-    }
-    /* width */
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: #e0e0e0;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: #57c3a7;
-      border-radius: 2px;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
     }
   }
 `
