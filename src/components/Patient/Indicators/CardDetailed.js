@@ -27,7 +27,7 @@ const CardDetailed = ({ name, last, thisMonth, lastMonth, defaultColor }) => {
 }
 
 const Container = styled.div`
-  height: 333px;
+  height: 370px;
   background: #ffffff;
   box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.03);
   border-radius: 6px;

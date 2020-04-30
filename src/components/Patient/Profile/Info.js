@@ -21,10 +21,6 @@ const Info = () => {
             <td>10.10.1960</td>
           </tr>
           <tr>
-            <td>Телефон</td>
-            <td>+7 800 555 3535</td>
-          </tr>
-          <tr>
             <td>Врачи</td>
             <td>
               <a href="#/">Иванов И.И. </a>(кардиолог), <br />
@@ -46,6 +42,10 @@ const Info = () => {
           <tr>
             <td>E-mail</td>
             <td>ivanov@ivan.ivanovich</td>
+          </tr>
+          <tr>
+            <td>Телефон</td>
+            <td>+7 800 555 3535</td>
           </tr>
         </tbody>
       </Table>
@@ -75,6 +75,9 @@ const Table = styled.table`
     font-size: 16px;
     color: #202020;
     border-bottom: 2px solid rgba(31, 32, 65, 0.1);
+    :last-child {
+      border-bottom: 0;
+    }
     p {
       color: #57c3a7;
     }

@@ -78,6 +78,7 @@ const Box = styled.div`
   background: #ffffff;
   border-radius: 5px;
   padding: 30px;
+  height: fit-content;
   strong {
     font-weight: 600;
     font-size: 16px;

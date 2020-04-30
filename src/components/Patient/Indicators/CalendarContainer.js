@@ -22,11 +22,11 @@ const CalendarContainer = () => {
     <Container>
       <Calendar customData={data} />
       <div className="desc">
-        <div>
+        <div className="cont">
           <div className="ball green"></div>
           <p>Гипогликемия</p>
         </div>
-        <div>
+        <div className="cont">
           <div className="ball red"></div>
           <p>Гипергликемия</p>
         </div>
@@ -45,9 +45,12 @@ const Container = styled.div`
     justify-content: space-between;
     padding: 0 30px;
     margin-top: 10px;
-    div {
+    .cont {
       display: flex;
       align-items: center;
+      :first-child {
+        margin-right: 10px;
+      }
     }
   }
   .ball {
