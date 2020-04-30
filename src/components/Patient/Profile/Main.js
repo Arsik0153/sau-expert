@@ -12,6 +12,14 @@ import Schedule from './Schedule'
 const Main = () => {
   return (
     <Container>
+      <Notification>
+        <p>
+          Уважаемый <strong>Иванов Иван Иванович</strong>, поздравляем с
+          успешной регистрацией в системе Наш менеджер свяжется с Вами по
+          контактному номеру и запишет Вас на прием к врачу После первого приема
+          Вам станет доступен полный функционал системы
+        </p>
+      </Notification>
       <div className="flex">
         <H1>Иван Иванов Иванович</H1>
         <div className="change">
@@ -103,6 +111,20 @@ const H1 = styled.h1`
   font-size: 38px;
   color: #202020;
   margin: 50px 0 45px 50px;
+`
+const Notification = styled.div`
+  background: #6fcf97;
+  border-radius: 5px;
+  padding: 40px;
+  margin: 50px 50px 0 50px;
+  p {
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 300;
+    strong {
+      font-weight: 600;
+    }
+  }
 `
 
 export default Main

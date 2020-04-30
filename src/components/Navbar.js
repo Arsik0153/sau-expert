@@ -9,12 +9,12 @@ const Navbar = () => {
       <img src={logo} alt="logo" />
       <ul>
         <li>
-          <NavLink to="/patient/profile" activeClassName="active">
+          <NavLink to="/" activeClassName="active" exact={true}>
             Мой профиль
           </NavLink>
         </li>
         <li>
-          <NavLink to="/" activeClassName="active" exact={true}>
+          <NavLink to="/patient/indicators" activeClassName="active">
             Показатели
           </NavLink>
         </li>
