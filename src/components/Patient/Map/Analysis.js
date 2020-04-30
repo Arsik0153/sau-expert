@@ -23,6 +23,7 @@ const Analysis = () => {
       images: [...fileNames],
     }
     alert('Submitted')
+    console.log(submitted)
     setError('')
   }
 
