@@ -8,6 +8,7 @@ import References from './components/Patient/References/References'
 import Advice from './components/Patient/Advice/Advice'
 import Profile from './components/Patient/Profile/Profile'
 import Chat from './components/Patient/Chat/Chat'
+import Notifications from './components/Patient/Notifications/Notifications'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route exact path="/patient/references" component={References} />
         <Route exact path="/patient/advice" component={Advice} />
         <Route exact path="/patient/chat" component={Chat} />
+        <Route exact path="/patient/notifications" component={Notifications} />
       </Switch>
     </BrowserRouter>
   )
