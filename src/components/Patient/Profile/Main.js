@@ -7,6 +7,7 @@ import Diagnosis from './Diagnosis'
 import Anketa from './Anketa'
 import Diabet from './Diabet'
 import Heart from './Heart'
+import Schedule from './Schedule'
 
 const Main = () => {
   return (
@@ -38,6 +39,9 @@ const Main = () => {
         </TabPanel>
         <TabPanel>
           <Heart />
+        </TabPanel>
+        <TabPanel>
+          <Schedule />
         </TabPanel>
       </Tabs>
     </Container>
