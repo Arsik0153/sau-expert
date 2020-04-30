@@ -6,6 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Diagnosis from './Diagnosis'
 import Anketa from './Anketa'
 import Diabet from './Diabet'
+import Heart from './Heart'
 
 const Main = () => {
   return (
@@ -34,6 +35,9 @@ const Main = () => {
         </TabPanel>
         <TabPanel>
           <Diabet />
+        </TabPanel>
+        <TabPanel>
+          <Heart />
         </TabPanel>
       </Tabs>
     </Container>
