@@ -121,7 +121,7 @@ const Table = () => {
 const Container = styled.table`
   width: calc(100% - 100px);
   padding: 0 50px 0 50px;
-  margin: 0 50px;
+  margin: 0 50px 50px 50px;
   background: #ffffff;
   box-shadow: 0px 10px 20px rgba(31, 32, 65, 0.05);
   border-radius: 4px;
