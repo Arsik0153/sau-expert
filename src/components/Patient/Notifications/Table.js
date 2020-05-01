@@ -120,14 +120,18 @@ const Table = () => {
 
 const Container = styled.table`
   width: calc(100% - 100px);
-  border-collapse: collapse;
+  padding: 0 50px 0 50px;
   margin: 0 50px;
+  background: #ffffff;
+  box-shadow: 0px 10px 20px rgba(31, 32, 65, 0.05);
+  border-radius: 4px;
   thead {
-    border-bottom: 40px solid #f4f8f9;
+    margin-bottom: 30px;
     td {
       font-weight: bold;
       font-size: 14px;
       color: #686868;
+      padding: 20px 0 20px 0;
     }
   }
   tbody {
