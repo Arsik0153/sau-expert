@@ -250,6 +250,7 @@ const Scroll = styled.div`
         color: #57c3a7;
       }
     }
+  }
 `
 
 export default Analysis

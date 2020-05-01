@@ -9,7 +9,7 @@ const Navbar = () => {
       <img src={logo} alt="logo" />
       <ul>
         <li>
-          <NavLink to="/" activeClassName="active" exact={true}>
+          <NavLink to="/patient/profile" activeClassName="active" exact={true}>
             Мой профиль
           </NavLink>
         </li>
