@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import onlyAuthorizedUsers from './components/hoc/onlyAuthorizedUsers'
-import onlyNotAuthorizedUsers from './components/hoc/onlyNotAuthorizedUsers'
+import PrivateRoute from './components/route/PrivateRoute'
+import PublicRoute from './components/route/PublicRoute'
 import Patient from './components/Patient/Indicators/Patient'
 import Calendar from './components/Patient/Calendar/Calendar'
 import Issues from './components/Patient/Issues/Issues'
@@ -19,22 +19,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={onlyNotAuthorizedUsers(Auth)} />
-        <Route
-          exact
-          path="/restore"
-          component={onlyNotAuthorizedUsers(Restore)}
-        />
-        <Route
-          exact
-          path="/register"
-          component={onlyNotAuthorizedUsers(Register)}
-        />
-        <Route
-          exact
-          path="/patient/profile"
-          component={onlyAuthorizedUsers(Profile)}
-        />
+        <Route exact path="/" component={Auth} />
+        <Route exact path="/restore" component={Restore} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/patient/profile" component={Profile} />
         <Route exact path="/patient/indicators" component={Patient} />
         <Route exact path="/patient/calendar" component={Calendar} />
         <Route exact path="/patient/issues" component={Issues} />
