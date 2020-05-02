@@ -14,6 +14,13 @@ import Notifications from './components/Patient/Notifications/Notifications'
 import Auth from './components/Auth/Auth'
 import Restore from './components/Auth/Restore'
 import Register from './components/Auth/Register'
+import Manager from './components/Manager/Main/Manager'
+import ManagerPatients from './components/Manager/Patients/Patients'
+import NewPatients from './components/Manager/NewPatients/NewPatients'
+import Doctors from './components/Manager/Doctors/Doctors'
+import Reports from './components/Manager/Reports/Reports'
+import ManagerReferences from './components/Manager/References/Refernces'
+import Newsletter from './components/Manager/Newsletter/Newsletter'
 
 const App = () => {
   return (
@@ -45,6 +52,14 @@ const App = () => {
           path="/patient/notifications"
           component={Notifications}
         />
+
+        <Route exact path="/manager/main" component={Manager} />
+        <Route exact path="/manager/patients" component={ManagerPatients} />
+        <Route exact path="/manager/newpatients" component={NewPatients} />
+        <Route exact path="/manager/doctors" component={Doctors} />
+        <Route exact path="/manager/reports" component={Reports} />
+        <Route exact path="/manager/references" component={ManagerReferences} />
+        <Route exact path="/manager/newsletter" component={Newsletter} />
       </Switch>
     </BrowserRouter>
   )

@@ -4,7 +4,7 @@ import ava from './../assets/ava.png'
 import notify from './../assets/notification.svg'
 import { useHistory } from 'react-router-dom'
 
-const Header = (props) => {
+const Header = ({ type = 'patient' }) => {
   let history = useHistory()
 
   const signOut = (e) => {
@@ -19,7 +19,9 @@ const Header = (props) => {
         <img src={ava} alt="avatar" />
         <div className="info">
           <div className="name">Иван Иванов</div>
-          <div className="role">Пациент</div>
+          {type === 'patient' && <div className="role">Пациент</div>}
+          {type === 'manager' && <div className="role">Менеджер</div>}
+          {type === 'doctor' && <div className="role">Врач</div>}
         </div>
       </div>
       <div className="right">
