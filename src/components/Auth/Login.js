@@ -29,9 +29,12 @@ const Login = (props) => {
   const [status, setStatus] = useState(props.loginState.status)
   useEffect(() => {
     setStatus(props.loginState.status)
+    if (props.loginState.status === 'pending') setFirstTime(false)
   }, [props.loginState.status])
 
-  if (props.loginState.status === 'success')
+  const [firstTime, setFirstTime] = useState(true)
+
+  if (props.loginState.status === 'success' && !firstTime)
     return <Redirect to="/patient/profile" />
 
   return (

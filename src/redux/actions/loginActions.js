@@ -13,7 +13,7 @@ export const login = (values) => {
         dispatch(loginSuccess(res.data.token))
       })
       .catch((error) => {
-        dispatch(loginFailure(error.response))
+        dispatch(loginFailure(error.response.data.non_field_errors[0]))
       })
   }
 }

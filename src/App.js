@@ -19,18 +19,32 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Auth} />
-        <Route exact path="/restore" component={Restore} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/patient/profile" component={Profile} />
-        <Route exact path="/patient/indicators" component={Patient} />
-        <Route exact path="/patient/calendar" component={Calendar} />
-        <Route exact path="/patient/issues" component={Issues} />
-        <Route exact path="/patient/map" component={Map} />
-        <Route exact path="/patient/references" component={References} />
-        <Route exact path="/patient/advice" component={Advice} />
-        <Route exact path="/patient/chat" component={Chat} />
-        <Route exact path="/patient/notifications" component={Notifications} />
+        <PublicRoute restricted={true} exact path="/" component={Auth} />
+        <PublicRoute
+          restricted={true}
+          exact
+          path="/restore"
+          component={Restore}
+        />
+        <PublicRoute
+          restricted={true}
+          exact
+          path="/register"
+          component={Register}
+        />
+        <PrivateRoute exact path="/patient/profile" component={Profile} />
+        <PrivateRoute exact path="/patient/indicators" component={Patient} />
+        <PrivateRoute exact path="/patient/calendar" component={Calendar} />
+        <PrivateRoute exact path="/patient/issues" component={Issues} />
+        <PrivateRoute exact path="/patient/map" component={Map} />
+        <PrivateRoute exact path="/patient/references" component={References} />
+        <PrivateRoute exact path="/patient/advice" component={Advice} />
+        <PrivateRoute exact path="/patient/chat" component={Chat} />
+        <PrivateRoute
+          exact
+          path="/patient/notifications"
+          component={Notifications}
+        />
       </Switch>
     </BrowserRouter>
   )

@@ -2,14 +2,16 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { isLogin } from './../utils/isLogin'
 
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
+const PublicRoute = ({ component: Component, restricted = false, ...rest }) => {
   return (
-    // restricted = false meaning public route
-    // restricted = true meaning restricted route
     <Route
       {...rest}
       render={(props) =>
-        isLogin() && restricted ? <Redirect to="/" /> : <Component {...props} />
+        isLogin() && restricted ? (
+          <Redirect to="/patient/profile" />
+        ) : (
+          <Component {...props} />
+        )
       }
     />
   )
