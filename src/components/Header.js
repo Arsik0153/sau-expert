@@ -2,8 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 import ava from './../assets/ava.png'
 import notify from './../assets/notification.svg'
+import { useHistory } from 'react-router-dom'
 
-const Header = () => {
+const Header = (props) => {
+  let history = useHistory()
+
+  const signOut = (e) => {
+    e.preventDefault()
+    localStorage.removeItem('token')
+    history.push('/')
+  }
+
   return (
     <Container>
       <div className="left">
@@ -14,7 +23,7 @@ const Header = () => {
         </div>
       </div>
       <div className="right">
-        <a href="/#" className="link">
+        <a href="/#" className="link" onClick={(e) => signOut(e)}>
           Выйти
         </a>
         <a href="/#" className="notify">

@@ -70,9 +70,16 @@ const Register = (props) => {
       phone: values.phone,
       avatar: values.avatar[0],
     }
+    setEmail(values.email)
     props.register(request)
   }
   const [fileNames, setFileNames] = useState([])
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState(props.auth.error)
+  useEffect(() => {
+    setError(props.auth.error)
+  }, [props.auth.error])
+
   const [status, setStatus] = useState('')
   useEffect(() => {
     setStatus(props.auth.status)
@@ -87,7 +94,7 @@ const Register = (props) => {
   return (
     <Container>
       {status === 'success' ? (
-        <Confirm key={props.auth.key} />
+        <Confirm email={email} />
       ) : (
         <Card>
           <div className="flex">
@@ -335,6 +342,9 @@ const Register = (props) => {
                       </>
                     )}
                   </div>
+                )}
+                {status === 'error' && (
+                  <div className="field-error">{error}</div>
                 )}
                 {status === 'pending' ? (
                   <div className="preloader-container">

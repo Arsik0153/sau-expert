@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import logo from './../../assets/logo.svg'
 import * as Yup from 'yup'
 import { Formik, Form, Field } from 'formik'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { login } from './../../redux/actions/loginActions'
+import Preloader from './../helpers/Preloader'
 
 const formSchema = Yup.object().shape({
   email: Yup.string()
@@ -14,11 +17,22 @@ const formSchema = Yup.object().shape({
     .min(6, 'Пароль должен содержать минимум 6 символов'),
 })
 
-const Login = () => {
+const Login = (props) => {
   const handleSubmit = (values) => {
-    console.log(values)
-    alert('Submit')
+    props.login(values)
   }
+  const [error, setError] = useState(props.loginState.error)
+  useEffect(() => {
+    setError(props.loginState.error)
+  }, [props.loginState.error])
+
+  const [status, setStatus] = useState(props.loginState.status)
+  useEffect(() => {
+    setStatus(props.loginState.status)
+  }, [props.loginState.status])
+
+  if (props.loginState.status === 'success')
+    return <Redirect to="/patient/profile" />
 
   return (
     <Card>
@@ -47,8 +61,14 @@ const Login = () => {
             {props.touched.password && props.errors.password && (
               <div className="field-error">{props.errors.password}</div>
             )}
-
-            <button type="submit">Войти</button>
+            {error && <div className="field-error">{error}</div>}
+            {status === 'pending' ? (
+              <div className="preloader-container">
+                <Preloader />
+              </div>
+            ) : (
+              <button type="submit">Войти</button>
+            )}
           </Form>
         )}
       </Formik>
@@ -66,6 +86,12 @@ const Card = styled.div`
   padding: 50px 55px;
   border-radius: 5px;
   background: #fff;
+  .preloader-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
   input {
     width: 100%;
     background: #ffffff;
@@ -137,4 +163,18 @@ const H3 = styled.h3`
   margin-bottom: 20px;
 `
 
-export default Login
+const mapStateToProps = (state) => {
+  return {
+    loginState: state.login,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (values) => {
+      dispatch(login(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

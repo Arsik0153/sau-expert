@@ -9,7 +9,7 @@ export const confirm = (values) => {
         ...values,
       })
       .then((res) => {
-        dispatch(confirmSuccess(res.data))
+        dispatch(confirmSuccess(res.status))
       })
       .catch((error) => {
         console.log(error.response)
@@ -24,7 +24,7 @@ const confirmStarted = () => ({
 
 const confirmSuccess = (data) => ({
   type: 'CONFIRM_SUCCESS',
-  payload: data.session_key,
+  payload: data,
 })
 
 const confirmFailure = (error) => ({

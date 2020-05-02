@@ -12,8 +12,7 @@ export const register = (values) => {
         dispatch(registerSuccess(res.data))
       })
       .catch((error) => {
-        console.log(error.response)
-        dispatch(registerFailure(error.message))
+        dispatch(registerFailure(error.response.data.email))
       })
   }
 }

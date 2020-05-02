@@ -4,21 +4,21 @@ const initialState = {
   error: null,
 }
 
-export const confirmReducer = (state = initialState, action) => {
+export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'CONFIRM_STARTED':
+    case 'LOGIN_STARTED':
       return {
         ...state,
         status: 'pending',
       }
-    case 'CONFIRM_SUCCESS':
+    case 'LOGIN_SUCCESS':
       return {
         ...state,
         status: 'success',
         error: null,
         token: action.payload,
       }
-    case 'CONFIRM_FAILURE':
+    case 'LOGIN_FAILURE':
       return {
         ...state,
         status: 'error',

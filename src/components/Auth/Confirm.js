@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import logo from './../../assets/logo.svg'
 import * as Yup from 'yup'
@@ -6,6 +6,7 @@ import { Formik, Form, Field } from 'formik'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { confirm } from './../../redux/actions/confirmActions'
+import Preloader from './../helpers/Preloader'
 
 const formSchema = Yup.object().shape({
   code: Yup.string()
@@ -18,46 +19,64 @@ const Confirm = (props) => {
   const handleSubmit = (values) => {
     let request = {
       code: values.code,
-      session_key: props.key,
+      session_key: props.session_key,
     }
-    console.log(request)
     props.confirm(request)
   }
-  /*useEffect(() => {
+  const [status, setStatus] = useState(props.confirm.status)
+  useEffect(() => {
+    setStatus(props.status)
     console.log(props)
-  }, [props])*/
+  }, [props.status])
 
   return (
     <Container>
       <Card>
         <Logo src={logo} alt="SAU Expert" />
-        <H3>Подтверждение регистрации</H3>
-        <p>
-          На Ваш Email example@user.com был отправлен код. Введите его в поле
-          ниже.
-        </p>
-        <Formik
-          initialValues={{
-            code: '',
-          }}
-          validationSchema={formSchema}
-          onSubmit={(values) => handleSubmit(values)}
-          validateOnChange={false}
-          validateOnBlur={false}
-        >
-          {(props) => (
-            <Form className="form-container">
-              <label>Код подтверждения</label>
-              <Field name="code" placeholder="111111" type="text" />
+        {status === 'success' ? (
+          <>
+            <H3>Вы успешно зарегистрированы</H3>
+            <Link to="/">Войти </Link>
+          </>
+        ) : (
+          <>
+            <H3>Подтверждение регистрации</H3>
+            <p>
+              На Ваш Email {props.email} был отправлен код. Введите его в поле
+              ниже.
+            </p>
+            <Formik
+              initialValues={{
+                code: '',
+              }}
+              validationSchema={formSchema}
+              onSubmit={(values) => handleSubmit(values)}
+              validateOnChange={false}
+              validateOnBlur={false}
+            >
+              {(props) => (
+                <Form className="form-container">
+                  <label>Код подтверждения</label>
+                  <Field name="code" placeholder="111111" type="text" />
 
-              {props.touched.code && props.errors.code && (
-                <div className="field-error">{props.errors.code}</div>
+                  {props.touched.code && props.errors.code && (
+                    <div className="field-error">{props.errors.code}</div>
+                  )}
+                  {status === 'error' && (
+                    <div className="field-error">Введённый код неверный</div>
+                  )}
+                  {status === 'pending' ? (
+                    <div className="preloader-container">
+                      <Preloader />
+                    </div>
+                  ) : (
+                    <button type="submit">Отправить</button>
+                  )}
+                </Form>
               )}
-
-              <button type="submit">Отправить</button>
-            </Form>
-          )}
-        </Formik>
+            </Formik>
+          </>
+        )}
       </Card>
     </Container>
   )
@@ -69,6 +88,17 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  .preloader-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  a {
+    text-decoration: underline;
+    font-size: 16px;
+    color: #57c3a7;
+  }
 `
 const Card = styled.div`
   max-width: 470px;
@@ -127,11 +157,6 @@ const Card = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
-    a {
-      text-decoration: underline;
-      font-size: 16px;
-      color: #57c3a7;
-    }
   }
   p {
     margin-bottom: 20px;
@@ -152,7 +177,8 @@ const H3 = styled.h3`
 
 const mapStateToProps = (state) => {
   return {
-    confirm: state.confirm,
+    status: state.confirm.status,
+    session_key: state.auth.key,
   }
 }
 
