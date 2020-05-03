@@ -19,10 +19,34 @@ const Main = () => {
           <div className="form-group">
             <label>Локация</label>
             <select>
-              <option selected="selected" value="">
-                Врачам
-              </option>
-              <option value="">Пациентам</option>
+              <option value="1">Нур-Султан</option>
+              <option value="2">Алматы</option>
+              <option value="3">Талдыкорган</option>
+              <option value="4">Кокшетау</option>
+              <option value="5">Степногорск</option>
+              <option value="6">Актобе</option>
+              <option value="7">Атырау</option>
+              <option value="8">Усть-Каменогорск</option>
+              <option value="9">Тараз</option>
+              <option value="10">Уральск</option>
+              <option value="11">Аксай</option>
+              <option value="12">Караганда</option>
+              <option value="13">Жезказган</option>
+              <option value="14">Балхаш</option>
+              <option value="15">Темиртау</option>
+              <option value="16">Костанай</option>
+              <option value="17">Рудный</option>
+              <option value="18">Кызылорда</option>
+              <option value="19">Актау</option>
+              <option value="20">Жанаозен</option>
+              <option value="21">Павлодар</option>
+              <option value="22">Экибастуз</option>
+              <option value="23">Петропавловск</option>
+              <option value="24">Шымкент</option>
+              <option value="25">Туркестан</option>
+              <option value="26">Семей</option>
+              <option value="27">Риддер</option>
+              <option value="28">Другой</option>
             </select>
           </div>
           <button type="submit">Отправить</button>
