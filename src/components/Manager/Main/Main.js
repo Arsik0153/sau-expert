@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import options from './../../../assets/options.svg'
+import { Link } from 'react-router-dom'
 
 const Main = () => {
   return (
     <Container>
       <div className="flex">
         <H1>Главная</H1>
-        <Button>Добавить менеджера</Button>
+        <Link to="/manager/newmanager">Добавить менеджера</Link>
       </div>
       <H3>Пациенты</H3>
       <CardsContainer>
@@ -74,22 +75,20 @@ const Container = styled.div`
     margin: 50px 50px 25px 50px;
     display: flex;
     justify-content: space-between;
+    a {
+      padding: 20px 25px;
+      font-weight: 400;
+      font-size: 14px;
+      background: #57c3a7;
+      border-radius: 4px;
+      color: #fff;
+    }
   }
 `
 const H1 = styled.h1`
   font-weight: 600;
   font-size: 38px;
   color: #202020;
-`
-const Button = styled.button`
-  padding: 20px 25px;
-  font-weight: 400;
-  font-size: 14px;
-  background: #57c3a7;
-  border-radius: 4px;
-  color: #fff;
-  border: none;
-  cursor: pointer;
 `
 const H3 = styled.h3`
   font-weight: 600;

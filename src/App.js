@@ -21,6 +21,7 @@ import Doctors from './components/Manager/Doctors/Doctors'
 import Reports from './components/Manager/Reports/Reports'
 import ManagerReferences from './components/Manager/References/Refernces'
 import Newsletter from './components/Manager/Newsletter/Newsletter'
+import NewManager from './components/Manager/NewManager/NewManager'
 
 const App = () => {
   return (
@@ -60,6 +61,7 @@ const App = () => {
         <Route exact path="/manager/reports" component={Reports} />
         <Route exact path="/manager/references" component={ManagerReferences} />
         <Route exact path="/manager/newsletter" component={Newsletter} />
+        <Route exact path="/manager/newmanager" component={NewManager} />
       </Switch>
     </BrowserRouter>
   )
