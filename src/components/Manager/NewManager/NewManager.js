@@ -19,10 +19,9 @@ const formSchema = Yup.object().shape({
   password: Yup.string()
     .required('Заполните поле пароль')
     .min(6, 'Пароль должен содержать минимум 6 символов'),
-  passwordConfirmation: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Пароли должны совпадать'
-  ),
+  passwordConfirmation: Yup.string()
+    .required('Подтвердите пароль')
+    .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать'),
   lastName: Yup.string().required('Введите фамилию'),
   firstName: Yup.string().required('Введите имя'),
   patronymic: Yup.string(),
@@ -72,11 +71,6 @@ const NewManager = (props) => {
             lastName: '',
             firstName: '',
             patronymic: '',
-            sex: '1',
-            birthDate: '',
-            city: '',
-            address: '',
-            phone: '',
             avatar: [],
           }}
           validationSchema={formSchema}

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ava from './../../../assets/ava-full.png'
+import { Link } from 'react-router-dom'
 
 const Table = () => {
   return (
@@ -18,8 +19,10 @@ const Table = () => {
         <tr>
           <Status active={true}>Активный</Status>
           <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" />
-            <p>Игоров А.И.</p>
+            <Link to="/manager/patient/123">
+              <img src={ava} alt="Photo" />
+              <p>Игоров А.И.</p>
+            </Link>
           </td>
           <td>10.04.1988</td>
           <td>Гипертоническая болезнь</td>
@@ -28,8 +31,10 @@ const Table = () => {
         <tr>
           <Status active={true}>Активный</Status>
           <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" />
-            <p>Игоров А.И.</p>
+            <Link to="/manager/patient/123">
+              <img src={ava} alt="Photo" />
+              <p>Игоров А.И.</p>
+            </Link>
           </td>
           <td>10.04.1988</td>
           <td>Гипертоническая болезнь</td>
@@ -38,8 +43,10 @@ const Table = () => {
         <tr>
           <Status active={false}>Неактивный</Status>
           <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" />
-            <p>Игоров А.И.</p>
+            <Link to="/manager/patient/123">
+              <img src={ava} alt="Photo" />
+              <p>Игоров А.И.</p>
+            </Link>
           </td>
           <td>10.04.1988</td>
           <td>Гипертоническая болезнь</td>
@@ -48,8 +55,10 @@ const Table = () => {
         <tr>
           <Status active={false}>Неактивный</Status>
           <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" />
-            <p>Игоров А.И.</p>
+            <Link to="/manager/patient/123">
+              <img src={ava} alt="Photo" />
+              <p>Игоров А.И.</p>
+            </Link>
           </td>
           <td>10.04.1988</td>
           <td>Гипертоническая болезнь</td>
@@ -58,8 +67,10 @@ const Table = () => {
         <tr>
           <Status active={true}>Активный</Status>
           <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" />
-            <p>Игоров А.И.</p>
+            <Link to="/manager/patient/123">
+              <img src={ava} alt="Photo" />
+              <p>Игоров А.И.</p>
+            </Link>
           </td>
           <td>10.04.1988</td>
           <td>Гипертоническая болезнь</td>
@@ -68,8 +79,10 @@ const Table = () => {
         <tr>
           <Status active={true}>Активный</Status>
           <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" />
-            <p>Игоров А.И.</p>
+            <Link to="/manager/patient/123">
+              <img src={ava} alt="Photo" />
+              <p>Игоров А.И.</p>
+            </Link>
           </td>
           <td>10.04.1988</td>
           <td>Гипертоническая болезнь</td>
@@ -78,8 +91,10 @@ const Table = () => {
         <tr>
           <Status active={false}>Неактивный</Status>
           <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" />
-            <p>Игоров А.И.</p>
+            <Link to="/manager/patient/123">
+              <img src={ava} alt="Photo" />
+              <p>Игоров А.И.</p>
+            </Link>
           </td>
           <td>10.04.1988</td>
           <td>Гипертоническая болезнь</td>
@@ -88,8 +103,10 @@ const Table = () => {
         <tr>
           <Status active={false}>Неактивный</Status>
           <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" />
-            <p>Игоров А.И.</p>
+            <Link to="/manager/patient/123">
+              <img src={ava} alt="Photo" />
+              <p>Игоров А.И.</p>
+            </Link>
           </td>
           <td>10.04.1988</td>
           <td>Гипертоническая болезнь</td>
@@ -130,6 +147,9 @@ const Container = styled.table`
       p {
         margin-top: 17px;
         font-weight: 600;
+      }
+      a {
+        color: #686868;
       }
       td {
         padding: 7px 0;

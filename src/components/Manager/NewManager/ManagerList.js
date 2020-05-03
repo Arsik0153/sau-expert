@@ -99,9 +99,10 @@ const Table = styled.table`
         color: #686868;
       }
       .controlBtn:first-child {
-        width: 16px;
+        width: 15px;
         height: 14px;
         cursor: pointer;
+        margin-top: 2px;
       }
       .controlBtn:last-child {
         width: 15px;
