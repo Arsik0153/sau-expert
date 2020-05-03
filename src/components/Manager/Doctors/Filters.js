@@ -59,6 +59,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   margin: 0 50px 0 50px;
   select {
+    height: 40px;
     background: #ffffff;
     border: 1px solid rgba(31, 32, 65, 0.25);
     box-sizing: border-box;

@@ -72,6 +72,9 @@ const Form = styled.form`
       font-weight: 300;
     }
   }
+  select {
+    height: 40px;
+  }
   textarea {
     height: 150px;
   }
