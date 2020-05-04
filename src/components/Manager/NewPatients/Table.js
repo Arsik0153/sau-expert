@@ -57,13 +57,15 @@ const Container = styled.table`
   background: #ffffff;
   box-shadow: 0px 10px 20px rgba(31, 32, 65, 0.05);
   border-radius: 4px;
+  border-collapse: collapse;
+  padding: 0 15px;
   thead {
     margin-bottom: 30px;
     td {
       font-weight: bold;
       font-size: 14px;
       color: #686868;
-      padding: 20px 0 20px 0;
+      padding: 20px;
     }
   }
   tbody {
@@ -83,9 +85,9 @@ const Container = styled.table`
       }
       td {
         min-width: 70px;
-        padding: 7px 0;
         font-size: 14px;
         color: #686868;
+        padding: 7px 20px;
       }
     }
   }

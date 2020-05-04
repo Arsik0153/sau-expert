@@ -7,6 +7,7 @@ import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from './../../redux/actions/loginActions'
 import Preloader from './../helpers/Preloader'
+import { getUserInfo } from './../../redux/actions/userActions'
 
 const formSchema = Yup.object().shape({
   email: Yup.string()
@@ -33,9 +34,12 @@ const Login = (props) => {
   }, [props.loginState.status])
 
   const [firstTime, setFirstTime] = useState(true)
+  useEffect(() => {
+    props.getUserInfo({ Authorization: `Token ${props.loginState.token}` })
+  }, [props.loginState.token])
 
-  if (props.loginState.status === 'success' && !firstTime)
-    return <Redirect to="/patient/profile" />
+  /*if (props.loginState.status === 'success' && !firstTime)
+    return <Redirect to="/patient/profile" />*/
 
   return (
     <Card>
@@ -169,6 +173,7 @@ const H3 = styled.h3`
 const mapStateToProps = (state) => {
   return {
     loginState: state.login,
+    userState: state.user,
   }
 }
 
@@ -176,6 +181,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: (values) => {
       dispatch(login(values))
+    },
+    getUserInfo: (values) => {
+      dispatch(getUserInfo(values))
     },
   }
 }

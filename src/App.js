@@ -24,6 +24,7 @@ import Newsletter from './components/Manager/Newsletter/Newsletter'
 import NewManager from './components/Manager/NewManager/NewManager'
 import ViewPatient from './components/Manager/ViewPatient/ViewPatient'
 import NewDoctor from './components/Manager/NewDoctor/NewDoctor'
+import ViewDoctor from './components/Manager/ViewDoctor/ViewDoctor'
 
 const App = () => {
   return (
@@ -70,6 +71,7 @@ const App = () => {
           component={ViewPatient}
         />
         <Route exact path="/manager/newdoctor" component={NewDoctor} />
+        <Route exact path="/manager/doctor/:doctorId" component={ViewDoctor} />
       </Switch>
     </BrowserRouter>
   )
