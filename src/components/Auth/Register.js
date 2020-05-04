@@ -43,11 +43,11 @@ const formSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать'),
   lastName: Yup.string().required('Введите фамилию'),
   firstName: Yup.string().required('Введите имя'),
-  patronymic: Yup.string().required('Введите отчество'),
+  patronymic: Yup.string(),
   sex: Yup.string().required('Введите пол'),
   birthDate: Yup.string().required('Введите дату рождения'),
   city: Yup.string().required('Выберите город'),
-  address: Yup.string().required('Введите адрес'),
+  address: Yup.string(),
   phone: Yup.string()
     .required('Введите номер телефона')
     .min(12, 'Введите корректный номер телефона'),

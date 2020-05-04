@@ -67,6 +67,9 @@ const Container = styled.div`
   width: 240px;
   position: fixed;
   z-index: 1000;
+  img {
+    height: 37px;
+  }
 
   ul {
     margin-top: 62.5px;
