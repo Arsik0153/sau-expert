@@ -4,7 +4,7 @@ import close from './../../../assets/close.svg'
 import event from './../../../assets/event.svg'
 import DatePicker from 'react-datepicker'
 
-const PatientDoctors = ({ closeModal }) => {
+const Appointment = ({ closeModal }) => {
   const handleSubmit = (values) => {
     console.log(values)
     alert('Submit')
@@ -15,35 +15,29 @@ const PatientDoctors = ({ closeModal }) => {
 
   return (
     <Box>
-      <H2>Врачи пользователя</H2>
+      <H2>Назначить прием</H2>
       <Close src={close} alt="Close" onClick={() => closeModal()} />
       <H3>Иванов Иван Иванович</H3>
-      <H5>Текущие врачи пациента</H5>
-      <Table>
-        <tr>
-          <td>Иванов И.И.</td>
-          <td>кардиолог</td>
-        </tr>
-        <tr>
-          <td>Сидоров П.М.</td>
-          <td>терапевт</td>
-        </tr>
-      </Table>
-      <H5>Прикрепить к новому врачу</H5>
-      <div className="flex">
-        <select>
-          <option value="">Петров А.А. (кардиолог)</option>
-        </select>
-        <Plus>
-          <p>+</p>
-        </Plus>
+      <H5>Назначить прием у врача</H5>
+      <select>
+        <option value="">Петров А.А. (кардиолог)</option>
+      </select>
+      <H5>Дата и время приема</H5>
+      <div className="inner-flex">
+        <DatePicker
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+        />
+        <img src={event} alt="Date" />
       </div>
       <button type="submit">Сохранить</button>
     </Box>
   )
 }
 const Box = styled.div`
-  border-radius: 4px;
   height: fit-content;
   position: relative;
   min-width: 450px;
@@ -115,8 +109,18 @@ const Box = styled.div`
       font-weight: 300;
     }
   }
-  .flex {
+  .inner-flex {
     display: flex;
+    img {
+      position: relative;
+      top: -2px;
+      left: -30px;
+    }
+  }
+  .react-datepicker-wrapper input {
+    height: 40px;
+    margin: 0;
+    width: 300px;
   }
 `
 const H2 = styled.h2`
@@ -142,37 +146,5 @@ const H5 = styled.h5`
   color: #333333;
   margin: 15px 0;
 `
-const Table = styled.table`
-  width: 100%;
-  tr {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0px;
-    font-size: 16px;
-    color: #202020;
-    border-bottom: 1px solid rgba(31, 32, 65, 0.1);
-    p {
-      text-decoration: underline;
-      color: #57c3a7;
-      cursor: pointer;
-    }
-  }
-`
-const Plus = styled.button`
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  background: #57c3a7;
-  border: none;
-  border-radius: 10px;
-  p {
-    font-weight: 500;
-    font-size: 30px;
-    margin-top: -3px;
-  }
-`
 
-export default PatientDoctors
+export default Appointment

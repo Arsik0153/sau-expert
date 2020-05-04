@@ -5,6 +5,7 @@ import Graph from './Graph'
 import Modal from 'react-modal'
 import SubControl from './SubControl'
 import PatientDoctors from './PatientDoctors'
+import Appointment from './Appointment'
 
 Modal.setAppElement('#root')
 
@@ -26,6 +27,7 @@ const customStyles = {
     bottom: '0 !important',
     position: 'static',
     padding: '30px',
+    overflow: 'none',
   },
 }
 
@@ -52,6 +54,9 @@ const Main = () => {
         {type === 'patientdoctors' && (
           <PatientDoctors closeModal={() => setIsOpen(false)} />
         )}
+        {type === 'appointment' && (
+          <Appointment closeModal={() => setIsOpen(false)} />
+        )}
       </Modal>
 
       <div className="flex">
@@ -63,7 +68,9 @@ const Main = () => {
           <Button onClick={(e) => openModal('patientdoctors')}>
             Прикрепить к врачу
           </Button>
-          <Button>Назначить прием</Button>
+          <Button onClick={(e) => openModal('appointment')}>
+            Назначить прием
+          </Button>
         </div>
       </div>
       <Info />
