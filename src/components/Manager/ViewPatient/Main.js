@@ -102,6 +102,7 @@ const Button = styled.button`
   border: none;
   cursor: pointer;
   margin-left: 10px;
+  outline: none;
 `
 
 export default Main

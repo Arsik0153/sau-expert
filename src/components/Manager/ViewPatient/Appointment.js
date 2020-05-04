@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import close from './../../../assets/close.svg'
 import event from './../../../assets/event.svg'
-import DatePicker from 'react-datepicker'
+import DatePicker, { registerLocale } from 'react-datepicker'
+import ru from 'date-fns/locale/ru'
+registerLocale('ru', ru)
 
 const Appointment = ({ closeModal }) => {
   const handleSubmit = (values) => {
@@ -25,6 +27,8 @@ const Appointment = ({ closeModal }) => {
       <H5>Дата и время приема</H5>
       <div className="inner-flex">
         <DatePicker
+          locale="ru"
+          dateFormat="dd.MM.yyyy"
           selected={startDate}
           onChange={(date) => setStartDate(date)}
           selectsStart

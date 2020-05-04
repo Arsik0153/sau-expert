@@ -23,6 +23,7 @@ import ManagerReferences from './components/Manager/References/Refernces'
 import Newsletter from './components/Manager/Newsletter/Newsletter'
 import NewManager from './components/Manager/NewManager/NewManager'
 import ViewPatient from './components/Manager/ViewPatient/ViewPatient'
+import NewDoctor from './components/Manager/NewDoctor/NewDoctor'
 
 const App = () => {
   return (
@@ -68,6 +69,7 @@ const App = () => {
           path="/manager/patient/:patientId"
           component={ViewPatient}
         />
+        <Route exact path="/manager/newdoctor" component={NewDoctor} />
       </Switch>
     </BrowserRouter>
   )

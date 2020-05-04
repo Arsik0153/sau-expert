@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import close from './../../../assets/close.svg'
 import event from './../../../assets/event.svg'
-import DatePicker from 'react-datepicker'
+import DatePicker, { registerLocale } from 'react-datepicker'
+import ru from 'date-fns/locale/ru'
+registerLocale('ru', ru)
 
 const SubControl = ({ closeModal }) => {
   const handleSubmit = (values) => {
@@ -29,6 +31,8 @@ const SubControl = ({ closeModal }) => {
             <p>Дата начала</p>
             <div className="inner-flex">
               <DatePicker
+                locale="ru"
+                dateFormat="dd.MM.yyyy"
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
                 selectsStart
@@ -44,8 +48,10 @@ const SubControl = ({ closeModal }) => {
             <p>Дата окончания</p>
             <div className="inner-flex">
               <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                locale="ru"
+                dateFormat="dd.MM.yyyy"
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
                 selectsStart
                 startDate={startDate}
                 endDate={endDate}

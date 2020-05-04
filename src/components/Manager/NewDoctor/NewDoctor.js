@@ -8,8 +8,25 @@ import Dropzone from 'react-dropzone'
 import upload from './../../../assets/upload.svg'
 import { connect } from 'react-redux'
 import Preloader from './../../helpers/Preloader'
-import ManagerList from './ManagerList'
 
+const phoneNumberMask = [
+  /\+/,
+  /[1-9]/,
+  '(',
+  /[1-9]/,
+  /\d/,
+  /\d/,
+  ')',
+  ' ',
+  /\d/,
+  /\d/,
+  /\d/,
+  '-',
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+]
 const birthDateMask = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]
 
 const formSchema = Yup.object().shape({
@@ -26,9 +43,17 @@ const formSchema = Yup.object().shape({
   firstName: Yup.string().required('Введите имя'),
   patronymic: Yup.string(),
   avatar: Yup.array(),
+  sex: Yup.string().required('Введите пол'),
+  birthDate: Yup.string().required('Введите дату рождения'),
+  city: Yup.string().required('Выберите город'),
+  position: Yup.string().required('Введите должность'),
+  phone: Yup.string()
+    .required('Введите номер телефона')
+    .min(12, 'Введите корректный номер телефона'),
+  experience: Yup.string().required('Введите стаж работы'),
 })
 
-const NewManager = (props) => {
+const NewDoctor = (props) => {
   const handleSubmit = (values) => {
     let request = {
       email: values.email,
@@ -63,8 +88,8 @@ const NewManager = (props) => {
     <Container>
       <Card>
         <div className="flex">
-          <H3>Регистрация нового менеджера</H3>
-          <Link to="/manager/main">Вернуться назад</Link>
+          <H3>Регистрация нового врача</H3>
+          <Link to="/manager/doctors">Вернуться назад</Link>
         </div>
 
         <Formik
@@ -75,6 +100,12 @@ const NewManager = (props) => {
             lastName: '',
             firstName: '',
             patronymic: '',
+            ex: '1',
+            birthDate: '',
+            city: '',
+            phone: '',
+            position: '',
+            experience: '',
             avatar: [],
           }}
           validationSchema={formSchema}
@@ -91,6 +122,20 @@ const NewManager = (props) => {
                 <Field name="firstName" placeholder="Иван" type="text" />
                 <label>Отчество</label>
                 <Field name="patronymic" placeholder="Иванович" type="text" />
+                <label>Email</label>
+                <Field
+                  name="email"
+                  placeholder="example@user.com"
+                  type="email"
+                />
+                <label>Пароль</label>
+                <Field name="password" placeholder="********" type="password" />
+                <label>Подтвердите пароль</label>
+                <Field
+                  name="passwordConfirmation"
+                  placeholder="********"
+                  type="password"
+                />
                 <label>Фото</label>
                 <div>
                   <Dropzone
@@ -140,20 +185,75 @@ const NewManager = (props) => {
                     ))}
                   </div>
                 </div>
-                <label>Email</label>
+                <label>Телефон</label>
                 <Field
-                  name="email"
-                  placeholder="example@user.com"
-                  type="email"
+                  name="phone"
+                  render={({ field }) => (
+                    <MaskedInput
+                      {...field}
+                      mask={phoneNumberMask}
+                      placeholder="+7 777 777 77 77"
+                      type="text"
+                    />
+                  )}
                 />
-                <label>Пароль</label>
-                <Field name="password" placeholder="********" type="password" />
-                <label>Подтвердите пароль</label>
+                <label>Дата рождения</label>
                 <Field
-                  name="passwordConfirmation"
-                  placeholder="********"
-                  type="password"
+                  name="birthDate"
+                  render={({ field }) => (
+                    <MaskedInput
+                      {...field}
+                      mask={birthDateMask}
+                      placeholder="ГГГГ-ММ-ДД"
+                      type="text"
+                    />
+                  )}
                 />
+                <label>Пол</label>
+                <Field name="sex" as="select" defaultValue={'init'}>
+                  <option value="init">Выберите пол</option>
+                  <option value="1">Мужской</option>
+                  <option value="2">Женский</option>
+                </Field>
+                <label>Город</label>
+                <Field name="city" as="select">
+                  <option selected="selected">Выберите город</option>
+                  <option value="1">Нур-Султан</option>
+                  <option value="2">Алматы</option>
+                  <option value="3">Талдыкорган</option>
+                  <option value="4">Кокшетау</option>
+                  <option value="5">Степногорск</option>
+                  <option value="6">Актобе</option>
+                  <option value="7">Атырау</option>
+                  <option value="8">Усть-Каменогорск</option>
+                  <option value="9">Тараз</option>
+                  <option value="10">Уральск</option>
+                  <option value="11">Аксай</option>
+                  <option value="12">Караганда</option>
+                  <option value="13">Жезказган</option>
+                  <option value="14">Балхаш</option>
+                  <option value="15">Темиртау</option>
+                  <option value="16">Костанай</option>
+                  <option value="17">Рудный</option>
+                  <option value="18">Кызылорда</option>
+                  <option value="19">Актау</option>
+                  <option value="20">Жанаозен</option>
+                  <option value="21">Павлодар</option>
+                  <option value="22">Экибастуз</option>
+                  <option value="23">Петропавловск</option>
+                  <option value="24">Шымкент</option>
+                  <option value="25">Туркестан</option>
+                  <option value="26">Семей</option>
+                  <option value="27">Риддер</option>
+                  <option value="28">Другой</option>
+                </Field>
+                <label>Должность</label>
+                <Field name="position" as="select" defaultValue={'init'}>
+                  <option value="init">Выберите должность</option>
+                  <option value="1">Кардиолог</option>
+                </Field>
+                <label>Стаж работы</label>
+                <Field name="experience" placeholder="10 лет" type="text" />
               </Grid>
 
               {Object.keys(props.errors).length > 0 && (
@@ -200,6 +300,42 @@ const NewManager = (props) => {
                       {props.errors.avatar}
                     </>
                   )}
+                  {props.errors.sex && (
+                    <>
+                      <br />
+                      {props.errors.sex}
+                    </>
+                  )}
+                  {props.errors.birthDate && (
+                    <>
+                      <br />
+                      {props.errors.birthDate}
+                    </>
+                  )}
+                  {props.errors.city && (
+                    <>
+                      <br />
+                      {props.errors.city}
+                    </>
+                  )}
+                  {props.errors.phone && (
+                    <>
+                      <br />
+                      {props.errors.phone}
+                    </>
+                  )}
+                  {props.errors.position && (
+                    <>
+                      <br />
+                      {props.errors.position}
+                    </>
+                  )}
+                  {props.errors.experience && (
+                    <>
+                      <br />
+                      {props.errors.experience}
+                    </>
+                  )}
                 </div>
               )}
               {
@@ -211,12 +347,11 @@ const NewManager = (props) => {
                     <Preloader />
                   </div>
                 ) : (*/
-                <button type="submit">Зарегистрироваться</button>
+                <button type="submit">Добавить</button>
               }
             </Form>
           )}
         </Formik>
-        <ManagerList />
       </Card>
     </Container>
   )
@@ -335,9 +470,9 @@ const H3 = styled.h3`
 const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(4, 0px 52px);
+  grid-template-rows: repeat(7, 0px 52px);
   grid-gap: 30px;
   grid-auto-flow: column;
 `
 
-export default NewManager
+export default NewDoctor

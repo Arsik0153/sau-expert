@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import close from './../../../assets/close.svg'
-import event from './../../../assets/event.svg'
-import DatePicker from 'react-datepicker'
 
 const PatientDoctors = ({ closeModal }) => {
   const handleSubmit = (values) => {
@@ -10,8 +8,6 @@ const PatientDoctors = ({ closeModal }) => {
     alert('Submit')
   }
   let now = new window.Date()
-  const [startDate, setStartDate] = useState(now - 10 * 24 * 60 * 60 * 1000)
-  const [endDate, setEndDate] = useState(now)
 
   return (
     <Box>
@@ -168,6 +164,8 @@ const Plus = styled.button`
   background: #57c3a7;
   border: none;
   border-radius: 10px;
+  outline: none;
+  cursor: pointer;
   p {
     font-weight: 500;
     font-size: 30px;
