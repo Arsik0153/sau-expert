@@ -13,6 +13,7 @@ import { setSubDateReducer } from './setSubDateReducer'
 import { newManagerReducer } from './newManagerReducer'
 import { getManagersReducer } from './getManagersReducer'
 import { newDoctorReducer } from './newDoctorReducer'
+import { viewDoctorReducer } from './viewDoctorReducer'
 
 const rootReducer = combineReducers({
   indicators: indicatorsReducer,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   newManagerInfo: newManagerReducer,
   getManagersInfo: getManagersReducer,
   newDoctorInfo: newDoctorReducer,
+  doctorInfo: viewDoctorReducer,
 })
 
 export default rootReducer

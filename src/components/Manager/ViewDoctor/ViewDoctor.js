@@ -4,12 +4,12 @@ import Navbar from '../Navbar'
 import Header from '../../Header'
 import Main from './Main'
 
-const ViewDoctor = () => {
+const ViewDoctor = (props) => {
   return (
     <Container>
       <Navbar />
       <Header type="manager" />
-      <Main />
+      <Main id={props.match.params.doctorId} />
     </Container>
   )
 }

@@ -41,7 +41,6 @@ const Main = (props) => {
       token: token,
       id: props.id,
     }
-    console.log(request)
     props.viewPatient(request)
   }, [])
 

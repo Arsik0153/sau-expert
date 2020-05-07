@@ -2,7 +2,38 @@ import React from 'react'
 import styled from 'styled-components'
 import avafull from './../../../assets/ava-full.png'
 
-const Info = () => {
+const Info = ({ info }) => {
+  let cities = [
+    'Нур-Султан',
+    'Алматы',
+    'Талдыкорган',
+    'Кокшетау',
+    'Степногорск',
+    'Актобе',
+    'Атырау',
+    'Усть-Каменогорск',
+    'Тараз',
+    'Уральск',
+    'Аксай',
+    'Караганда',
+    'Жезказган',
+    'Балхаш',
+    'Темиртау',
+    'Костанай',
+    'Рудный',
+    'Кызылорда',
+    'Актау',
+    'Жанаозен',
+    'Павлодар',
+    'Экибастуз',
+    'Петропавловск',
+    'Шымкент',
+    'Туркестан',
+    'Семей',
+    'Риддер',
+    'Другой',
+  ]
+
   return (
     <Container>
       <img src={avafull} alt="Avatar" />
@@ -10,42 +41,31 @@ const Info = () => {
         <tbody>
           <tr>
             <td>Ф.И.О.</td>
-            <td>Иванов Иван Иванович</td>
+            <td>{info.short_name}</td>
           </tr>
           <tr>
             <td>Пол</td>
-            <td>Мужской</td>
+            <td>{info.sex === 1 ? 'Мужской' : 'Женский'}</td>
           </tr>
           <tr>
             <td>Дата рождения</td>
-            <td>10.10.1960</td>
-          </tr>
-          <tr>
-            <td>Врачи</td>
-            <td>
-              <a href="#/">Иванов И.И. </a>(кардиолог), <br />
-              <a href="#/">Сидоров П.М.</a>(терапевт)
-            </td>
+            <td>{info.birth_date}</td>
           </tr>
         </tbody>
       </Table>
       <Table>
         <tbody>
-          <tr>
+          {/*<tr>
             <td>Город</td>
-            <td>Алматы</td>
-          </tr>
+            <td>{cities[info.city - 1]}</td>
+          </tr>*/}
           <tr>
-            <td>Адрес</td>
-            <td>Бостандыкский район</td>
+            <td>Опыт</td>
+            <td>{info.experience}</td>
           </tr>
           <tr>
             <td>E-mail</td>
-            <td>ivanov@ivan.ivanovich</td>
-          </tr>
-          <tr>
-            <td>Телефон</td>
-            <td>+7 800 555 3535</td>
+            <td>{info.email}</td>
           </tr>
         </tbody>
       </Table>

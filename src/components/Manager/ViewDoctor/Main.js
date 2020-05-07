@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import change from './../../../assets/edit.svg'
 import Info from './Info'
@@ -6,30 +6,48 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Statistics from './Statistics'
 import Report from './Report'
 import Patients from './Patients'
+import { connect } from 'react-redux'
+import Preloader from './../../helpers/Preloader'
+import { viewDoctor } from './../../../redux/actions/viewDoctorActions'
 
-const Main = () => {
+const Main = (props) => {
+  useEffect(() => {
+    let request = {
+      id: props.id,
+    }
+    props.viewDoctor(request)
+  }, [])
+
   return (
     <Container>
-      <div className="flex">
-        <H1>Иван Иванов Иванович</H1>
-      </div>
-      <Info />
-      <Tabs>
-        <TabList>
-          <Tab>Статистика</Tab>
-          <Tab>Детализированный отчет</Tab>
-          <Tab>Пациенты</Tab>
-        </TabList>
-        <TabPanel>
-          <Statistics />
-        </TabPanel>
-        <TabPanel>
-          <Report />
-        </TabPanel>
-        <TabPanel>
-          <Patients />
-        </TabPanel>
-      </Tabs>
+      {props.doctorInfo.status !== 'success' ? (
+        <div className="preloader-container">
+          <Preloader />
+        </div>
+      ) : (
+        <>
+          <div className="flex">
+            <H1>{props.doctorInfo.info.short_name}</H1>
+          </div>
+          <Info info={props.doctorInfo.info} />
+          <Tabs>
+            <TabList>
+              <Tab>Статистика</Tab>
+              <Tab>Детализированный отчет</Tab>
+              <Tab>Пациенты</Tab>
+            </TabList>
+            <TabPanel>
+              <Statistics />
+            </TabPanel>
+            <TabPanel>
+              <Report />
+            </TabPanel>
+            <TabPanel>
+              <Patients />
+            </TabPanel>
+          </Tabs>
+        </>
+      )}
     </Container>
   )
 }
@@ -53,6 +71,13 @@ const Container = styled.div`
         color: #57c3a7;
       }
     }
+  }
+  .preloader-container {
+    height: calc(100vh - 100px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .react-tabs__tab-list {
@@ -91,4 +116,18 @@ const H1 = styled.h1`
   margin: 50px 0 45px 50px;
 `
 
-export default Main
+const mapStateToProps = (state) => {
+  return {
+    doctorInfo: state.doctorInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    viewDoctor: (values) => {
+      dispatch(viewDoctor(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
