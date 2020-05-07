@@ -3,14 +3,15 @@ import styled from 'styled-components'
 import * as Yup from 'yup'
 import { Formik, Form, Field } from 'formik'
 import { Link } from 'react-router-dom'
-import MaskedInput from 'react-text-mask'
 import Dropzone from 'react-dropzone'
 import upload from './../../../assets/upload.svg'
 import { connect } from 'react-redux'
 import Preloader from './../../helpers/Preloader'
 import ManagerList from './ManagerList'
-
-const birthDateMask = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]
+import {
+  newManager,
+  getManagers,
+} from './../../../redux/actions/newManagerActions'
 
 const formSchema = Yup.object().shape({
   email: Yup.string()
@@ -37,21 +38,28 @@ const NewManager = (props) => {
       first_name: values.firstName,
       patronymic: values.patronymic,
       avatar: values.avatar[0],
+      is_active: 1,
     }
-    setEmail(values.email)
-    props.register(request)
+    props.newManager(request)
   }
   const [fileNames, setFileNames] = useState([])
-  const [email, setEmail] = useState('')
-  /*const [error, setError] = useState(props.auth.error)
+
+  const [error, setError] = useState(props.newManagerInfo.error)
   useEffect(() => {
-    setError(props.auth.error)
-  }, [props.auth.error])
+    setError(props.newManagerInfo.error)
+  }, [props.newManagerInfo.error])
 
   const [status, setStatus] = useState('')
   useEffect(() => {
-    setStatus(props.auth.status)
-  }, [props.auth.status])*/
+    if (props.newManagerInfo.status === 'success') {
+      document.location.reload(true)
+    }
+    setStatus(props.newManagerInfo.status)
+  }, [props.newManagerInfo.status])
+
+  useEffect(() => {
+    props.getManagers()
+  }, [])
 
   const handleDrop = (accepted, rejected, setFieldValue) => {
     setFileNames(accepted.map((file) => file.name))
@@ -188,10 +196,10 @@ const NewManager = (props) => {
                       {props.errors.firstName}
                     </>
                   )}
-                  {props.errors.patrinymic && (
+                  {props.errors.patronymic && (
                     <>
                       <br />
-                      {props.errors.patrinymic}
+                      {props.errors.patronymic}
                     </>
                   )}
                   {props.errors.avatar && (
@@ -202,21 +210,20 @@ const NewManager = (props) => {
                   )}
                 </div>
               )}
-              {
-                /*status === 'error' && (
-                  <div className="field-error">{error}</div>
-                )}
-                {status === 'pending' ? (
-                  <div className="preloader-container">
-                    <Preloader />
-                  </div>
-                ) : (*/
+              {status === 'error' && (
+                <div className="field-error">{error.data.email[0]}</div>
+              )}
+              {status === 'pending' ? (
+                <div className="preloader-container">
+                  <Preloader />
+                </div>
+              ) : (
                 <button type="submit">Зарегистрироваться</button>
-              }
+              )}
             </Form>
           )}
         </Formik>
-        <ManagerList />
+        <ManagerList info={props.getManagersInfo.info.results} />
       </Card>
     </Container>
   )
@@ -340,4 +347,22 @@ const Grid = styled.div`
   grid-auto-flow: column;
 `
 
-export default NewManager
+const mapStateToProps = (state) => {
+  return {
+    newManagerInfo: state.newManagerInfo,
+    getManagersInfo: state.getManagersInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    newManager: (values) => {
+      dispatch(newManager(values))
+    },
+    getManagers: (values) => {
+      dispatch(getManagers(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewManager)

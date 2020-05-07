@@ -4,7 +4,7 @@ import ava from './../../../assets/ava.png'
 import editGreen from './../../../assets/editGreen.svg'
 import deleteRed from './../../../assets/delete.svg'
 
-const ManagerList = () => {
+const ManagerList = ({ info }) => {
   return (
     <Container>
       <H3>Менеджеры</H3>
@@ -17,39 +17,20 @@ const ManagerList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </td>
-            <td>manager@manager.kz</td>
-            <td>
-              <img className="controlBtn" src={editGreen} alt="Edit" />
-              <img className="controlBtn" src={deleteRed} alt="Delete" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </td>
-            <td>manager@manager.kz</td>
-            <td>
-              <img className="controlBtn" src={editGreen} alt="Edit" />
-              <img className="controlBtn" src={deleteRed} alt="Delete" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </td>
-            <td>manager@manager.kz</td>
-            <td>
-              <img className="controlBtn" src={editGreen} alt="Edit" />
-              <img className="controlBtn" src={deleteRed} alt="Delete" />
-            </td>
-          </tr>
+          {info &&
+            info.map((res) => (
+              <tr>
+                <td>
+                  {/*<img src={ava} alt="Photo" />*/}
+                  <p>{res.short_name}</p>
+                </td>
+                <td>{res.email}</td>
+                <td>
+                  <img className="controlBtn" src={editGreen} alt="Edit" />
+                  <img className="controlBtn" src={deleteRed} alt="Delete" />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
     </Container>
