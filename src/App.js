@@ -57,21 +57,37 @@ const App = () => {
           component={Notifications}
         />
 
-        <Route exact path="/manager/main" component={Manager} />
-        <Route exact path="/manager/patients" component={ManagerPatients} />
-        <Route exact path="/manager/newpatients" component={NewPatients} />
-        <Route exact path="/manager/doctors" component={Doctors} />
-        <Route exact path="/manager/reports" component={Reports} />
-        <Route exact path="/manager/references" component={ManagerReferences} />
-        <Route exact path="/manager/newsletter" component={Newsletter} />
-        <Route exact path="/manager/newmanager" component={NewManager} />
-        <Route
+        <PrivateRoute exact path="/manager/main" component={Manager} />
+        <PrivateRoute
+          exact
+          path="/manager/patients"
+          component={ManagerPatients}
+        />
+        <PrivateRoute
+          exact
+          path="/manager/newpatients"
+          component={NewPatients}
+        />
+        <PrivateRoute exact path="/manager/doctors" component={Doctors} />
+        <PrivateRoute exact path="/manager/reports" component={Reports} />
+        <PrivateRoute
+          exact
+          path="/manager/references"
+          component={ManagerReferences}
+        />
+        <PrivateRoute exact path="/manager/newsletter" component={Newsletter} />
+        <PrivateRoute exact path="/manager/newmanager" component={NewManager} />
+        <PrivateRoute
           exact
           path="/manager/patient/:patientId"
           component={ViewPatient}
         />
-        <Route exact path="/manager/newdoctor" component={NewDoctor} />
-        <Route exact path="/manager/doctor/:doctorId" component={ViewDoctor} />
+        <PrivateRoute exact path="/manager/newdoctor" component={NewDoctor} />
+        <PrivateRoute
+          exact
+          path="/manager/doctor/:doctorId"
+          component={ViewDoctor}
+        />
       </Switch>
     </BrowserRouter>
   )

@@ -1,6 +1,6 @@
 const initialState = {
   status: '',
-  info: '',
+  info: {},
   error: null,
 }
 
@@ -16,7 +16,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         status: 'success',
         error: null,
-        token: action.payload,
+        info: action.payload,
       }
     case 'GET_USER_INFO_FAILURE':
       return {

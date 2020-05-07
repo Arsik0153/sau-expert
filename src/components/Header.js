@@ -3,14 +3,17 @@ import styled from 'styled-components'
 import ava from './../assets/ava.png'
 import notify from './../assets/notification.svg'
 import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getUserInfo } from './../redux/actions/userActions'
 
-const Header = ({ type = 'patient' }) => {
+const Header = (props) => {
   let history = useHistory()
-
+  let user = JSON.parse(localStorage.getItem('user'))
   const signOut = (e) => {
     e.preventDefault()
     localStorage.removeItem('token')
-    history.push('/')
+    localStorage.removeItem('user')
+    document.location.reload(true)
   }
 
   return (
@@ -18,10 +21,8 @@ const Header = ({ type = 'patient' }) => {
       <div className="left">
         <img src={ava} alt="avatar" />
         <div className="info">
-          <div className="name">Иван Иванов</div>
-          {type === 'patient' && <div className="role">Пациент</div>}
-          {type === 'manager' && <div className="role">Менеджер</div>}
-          {type === 'doctor' && <div className="role">Врач</div>}
+          <div className="name">{`${user.first_name} ${user.last_name}`}</div>
+          <div className="role">{user.type}</div>
         </div>
       </div>
       <div className="right">
@@ -92,4 +93,10 @@ const Container = styled.div`
   }
 `
 
-export default Header
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  }
+}
+
+export default connect(mapStateToProps)(Header)

@@ -6,9 +6,12 @@ export const getUserInfo = (values) => {
     dispatch(getUserInfoStarted())
     axios
       .get(`${BASE_URL}/user/detail/`, {
-        ...values,
+        headers: {
+          Authorization: `Token ${values}`,
+        },
       })
       .then((res) => {
+        localStorage.setItem('user', JSON.stringify(res.data))
         dispatch(getUserInfoSuccess(res.data))
       })
       .catch((error) => {

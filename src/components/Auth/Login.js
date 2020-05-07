@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 import { login } from './../../redux/actions/loginActions'
 import Preloader from './../helpers/Preloader'
 import { getUserInfo } from './../../redux/actions/userActions'
+import { useHistory } from 'react-router-dom'
+import { isLogin } from './../utils/isLogin'
 
 const formSchema = Yup.object().shape({
   email: Yup.string()
@@ -19,7 +21,10 @@ const formSchema = Yup.object().shape({
 })
 
 const Login = (props) => {
+  let history = useHistory()
+  const [redirectable, setRedirectable] = useState(false)
   const handleSubmit = (values) => {
+    setRedirectable(true)
     props.login(values)
   }
   const [error, setError] = useState(props.loginState.error)
@@ -30,16 +35,21 @@ const Login = (props) => {
   const [status, setStatus] = useState(props.loginState.status)
   useEffect(() => {
     setStatus(props.loginState.status)
-    if (props.loginState.status === 'pending') setFirstTime(false)
   }, [props.loginState.status])
 
-  const [firstTime, setFirstTime] = useState(true)
   useEffect(() => {
-    props.getUserInfo({ Authorization: `Token ${props.loginState.token}` })
+    if (props.loginState.token !== '') {
+      props.getUserInfo(props.loginState.token)
+    }
   }, [props.loginState.token])
 
-  /*if (props.loginState.status === 'success' && !firstTime)
-    return <Redirect to="/patient/profile" />*/
+  useEffect(() => {
+    if (props.userState.status === 'success')
+      if (props.userState.info.type === 'Пациент' && isLogin())
+        history.push('/patient/profile')
+    if (props.userState.info.type === 'Менеджер' && isLogin())
+      history.push('/manager/main')
+  }, [props.userState.status])
 
   return (
     <Card>
@@ -68,7 +78,9 @@ const Login = (props) => {
             {props.touched.password && props.errors.password && (
               <div className="field-error">{props.errors.password}</div>
             )}
-            {error && <div className="field-error">{error}</div>}
+            {error && (
+              <div className="field-error">{error.non_field_errors[0]}</div>
+            )}
             {status === 'pending' ? (
               <div className="preloader-container">
                 <Preloader />

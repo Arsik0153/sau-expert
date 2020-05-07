@@ -13,7 +13,8 @@ export const login = (values) => {
         dispatch(loginSuccess(res.data.token))
       })
       .catch((error) => {
-        dispatch(loginFailure(error))
+        console.log(error.response)
+        dispatch(loginFailure(error.response.data))
       })
   }
 }
