@@ -8,6 +8,7 @@ import PatientDoctors from './PatientDoctors'
 import Appointment from './Appointment'
 import { viewPatient } from './../../../redux/actions/viewPatientActions'
 import { connect } from 'react-redux'
+import Preloader from './../../helpers/Preloader'
 
 Modal.setAppElement('#root')
 
@@ -54,53 +55,61 @@ const Main = (props) => {
 
   return (
     <Container>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setIsOpen(false)}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        {type === 'subcontrol' && (
-          <SubControl
-            closeModal={() => setIsOpen(false)}
-            beginDate={
-              props.patientInfo.info.subscribe
-                ? props.patientInfo.info.subscribe.begin_date
-                : new Date()
-            }
-            endDate={
-              props.patientInfo.info.subscribe
-                ? props.patientInfo.info.subscribe.end_date
-                : new Date()
-            }
-            name={`${props.patientInfo.info.first_name} ${props.patientInfo.info.last_name} ${props.patientInfo.info.patronymic}`}
-            id={props.patientInfo.info.id}
-          />
-        )}
-        {type === 'patientdoctors' && (
-          <PatientDoctors closeModal={() => setIsOpen(false)} />
-        )}
-        {type === 'appointment' && (
-          <Appointment closeModal={() => setIsOpen(false)} />
-        )}
-      </Modal>
-
-      <div className="flex">
-        <H1>{`${props.patientInfo.info.first_name} ${props.patientInfo.info.last_name}`}</H1>
-        <div>
-          <Button onClick={(e) => openModal('subcontrol')}>
-            Управление подпиской
-          </Button>
-          <Button onClick={(e) => openModal('patientdoctors')}>
-            Прикрепить к врачу
-          </Button>
-          <Button onClick={(e) => openModal('appointment')}>
-            Назначить прием
-          </Button>
+      {props.patientInfo.status !== 'success' ? (
+        <div className="preloader-container">
+          <Preloader />
         </div>
-      </div>
-      <Info info={props.patientInfo.info} />
-      <Graph />
+      ) : (
+        <>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={() => setIsOpen(false)}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            {type === 'subcontrol' && (
+              <SubControl
+                closeModal={() => setIsOpen(false)}
+                beginDate={
+                  props.patientInfo.info.subscribe
+                    ? props.patientInfo.info.subscribe.begin_date
+                    : new Date()
+                }
+                endDate={
+                  props.patientInfo.info.subscribe
+                    ? props.patientInfo.info.subscribe.end_date
+                    : new Date()
+                }
+                name={`${props.patientInfo.info.first_name} ${props.patientInfo.info.last_name} ${props.patientInfo.info.patronymic}`}
+                id={props.patientInfo.info.id}
+              />
+            )}
+            {type === 'patientdoctors' && (
+              <PatientDoctors closeModal={() => setIsOpen(false)} />
+            )}
+            {type === 'appointment' && (
+              <Appointment closeModal={() => setIsOpen(false)} />
+            )}
+          </Modal>
+
+          <div className="flex">
+            <H1>{`${props.patientInfo.info.first_name} ${props.patientInfo.info.last_name}`}</H1>
+            <div>
+              <Button onClick={(e) => openModal('subcontrol')}>
+                Управление подпиской
+              </Button>
+              <Button onClick={(e) => openModal('patientdoctors')}>
+                Прикрепить к врачу
+              </Button>
+              <Button onClick={(e) => openModal('appointment')}>
+                Назначить прием
+              </Button>
+            </div>
+          </div>
+          <Info info={props.patientInfo.info} />
+          <Graph />
+        </>
+      )}
     </Container>
   )
 }
@@ -111,6 +120,13 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 50px 50px 30px 50px;
+  }
+  .preloader-container {
+    height: calc(100vh - 100px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `
 const H1 = styled.h1`

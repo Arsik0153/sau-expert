@@ -5,6 +5,7 @@ import event from './../../../assets/event.svg'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import { connect } from 'react-redux'
 import { setSubDate } from './../../../redux/actions/patientModalActions'
+import Preloader from './../../helpers/Preloader'
 import ru from 'date-fns/locale/ru'
 registerLocale('ru', ru)
 
@@ -111,6 +112,9 @@ const SubControl = (props) => {
           </div>
         </div>
       </Dates>
+      {props.setSubDateInfo.status === 'success' && (
+        <p className="success">Успешно</p>
+      )}
       <button type="submit" onClick={() => handleSubmit()}>
         Сохранить
       </button>
@@ -122,6 +126,9 @@ const Box = styled.div`
   position: relative;
   min-width: 450px;
   width: 100%;
+  .success {
+    color: #6fcf97;
+  }
   input {
     width: 100%;
     background: #ffffff;
