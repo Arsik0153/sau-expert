@@ -8,6 +8,8 @@ import Dropzone from 'react-dropzone'
 import upload from './../../../assets/upload.svg'
 import { connect } from 'react-redux'
 import Preloader from './../../helpers/Preloader'
+import { useHistory } from 'react-router-dom'
+import { newDoctor } from './../../../redux/actions/newDoctorActions'
 
 const phoneNumberMask = [
   /\+/,
@@ -41,7 +43,7 @@ const formSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать'),
   lastName: Yup.string().required('Введите фамилию'),
   firstName: Yup.string().required('Введите имя'),
-  patronymic: Yup.string(),
+  patronymic: Yup.string().required('Введите отчество'),
   avatar: Yup.array(),
   sex: Yup.string().required('Введите пол'),
   birthDate: Yup.string().required('Введите дату рождения'),
@@ -54,29 +56,39 @@ const formSchema = Yup.object().shape({
 })
 
 const NewDoctor = (props) => {
+  let history = useHistory()
   const handleSubmit = (values) => {
     let request = {
+      is_active: 1,
       email: values.email,
       password: values.password,
       last_name: values.lastName,
       first_name: values.firstName,
       patronymic: values.patronymic,
       avatar: values.avatar[0],
+      birth_date: values.birthDate,
+      sex_id: values.sex,
+      position_id: values.position,
+      city_id: values.city,
+      experience: values.experience,
+      phone: values.phone,
     }
-    setEmail(values.email)
-    props.register(request)
+    props.newDoctor(request)
   }
   const [fileNames, setFileNames] = useState([])
-  const [email, setEmail] = useState('')
+
   /*const [error, setError] = useState(props.auth.error)
   useEffect(() => {
     setError(props.auth.error)
-  }, [props.auth.error])
+  }, [props.auth.error])*/
 
   const [status, setStatus] = useState('')
   useEffect(() => {
-    setStatus(props.auth.status)
-  }, [props.auth.status])*/
+    if (props.newDoctorInfo.status === 'success') {
+      history.push('/manager/doctors/')
+    }
+    setStatus(props.newDoctorInfo.status)
+  }, [props.newDoctorInfo.status])
 
   const handleDrop = (accepted, rejected, setFieldValue) => {
     setFileNames(accepted.map((file) => file.name))
@@ -100,7 +112,7 @@ const NewDoctor = (props) => {
             lastName: '',
             firstName: '',
             patronymic: '',
-            ex: '1',
+            sex: '1',
             birthDate: '',
             city: '',
             phone: '',
@@ -475,4 +487,18 @@ const Grid = styled.div`
   grid-auto-flow: column;
 `
 
-export default NewDoctor
+const mapStateToProps = (state) => {
+  return {
+    newDoctorInfo: state.newDoctorInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    newDoctor: (values) => {
+      dispatch(newDoctor(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewDoctor)
