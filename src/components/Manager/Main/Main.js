@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import options from './../../../assets/options.svg'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {
+  getPatientStatistics,
+  getDoctorStatistics,
+} from './../../../redux/actions/ManagerStatisticActions'
 
-const Main = () => {
+const Main = (props) => {
+  let user = JSON.parse(localStorage.getItem('user'))
+  let token = localStorage.getItem('token')
+
+  useEffect(() => {
+    props.getPatientStatistics(token)
+    props.getDoctorStatistics(token)
+  }, [])
   return (
     <Container>
       <div className="flex">
@@ -11,60 +23,65 @@ const Main = () => {
         <Link to="/manager/newmanager">Добавить менеджера</Link>
       </div>
       <H3>Пациенты</H3>
-      <CardsContainer>
-        <Card color="#686868">
-          <img src={options} alt="More" />
-          <H5>Все пациенты</H5>
-          <p>
-            <span>564</span> пациентов
-          </p>
-        </Card>
-        <Card color="#6FCF97">
-          <img src={options} alt="More" />
-          <H5>Активные</H5>
-          <p>
-            <span>254</span> пациентов
-          </p>
-        </Card>
-        <Card color="#BD1119">
-          <img src={options} alt="More" />
-          <H5>Неактивные</H5>
-          <p>
-            <span>123</span> пациентов
-          </p>
-        </Card>
-        <Card color="#FFC542">
-          <img src={options} alt="More" />
-          <H5>В ожидании</H5>
-          <p>
-            <span>564</span> пациентов
-          </p>
-        </Card>
-      </CardsContainer>
+      {props.patientStatistics.stat && (
+        <CardsContainer>
+          <Card color="#686868">
+            <img src={options} alt="More" />
+            <H5>Все пациенты</H5>
+            <p>
+              <span>{props.patientStatistics.stat.all}</span> пациентов
+            </p>
+          </Card>
+          <Card color="#6FCF97">
+            <img src={options} alt="More" />
+            <H5>Активные</H5>
+            <p>
+              <span>{props.patientStatistics.stat.active}</span> пациентов
+            </p>
+          </Card>
+          <Card color="#BD1119">
+            <img src={options} alt="More" />
+            <H5>Неактивные</H5>
+            <p>
+              <span>{props.patientStatistics.stat.inactive}</span> пациентов
+            </p>
+          </Card>
+          <Card color="#FFC542">
+            <img src={options} alt="More" />
+            <H5>В ожидании</H5>
+            <p>
+              <span>{props.patientStatistics.stat.pending}</span> пациентов
+            </p>
+          </Card>
+        </CardsContainer>
+      )}
+
       <H3>Врачи</H3>
-      <CardsContainer>
-        <Card color="#686868">
-          <img src={options} alt="More" />
-          <H5>Все врачи</H5>
-          <p>
-            <span>564</span> врачей
-          </p>
-        </Card>
-        <Card color="#6FCF97">
-          <img src={options} alt="More" />
-          <H5>Активные</H5>
-          <p>
-            <span>254</span> врачей
-          </p>
-        </Card>
-        <Card color="#BD1119">
-          <img src={options} alt="More" />
-          <H5>Неактивные</H5>
-          <p>
-            <span>123</span> врачей
-          </p>
-        </Card>
-      </CardsContainer>
+      {props.doctorStatistics.stat && (
+        <CardsContainer>
+          <Card color="#686868">
+            <img src={options} alt="More" />
+            <H5>Все врачи</H5>
+            <p>
+              <span>{props.doctorStatistics.stat.all}</span> врачей
+            </p>
+          </Card>
+          <Card color="#6FCF97">
+            <img src={options} alt="More" />
+            <H5>Активные</H5>
+            <p>
+              <span>{props.doctorStatistics.stat.active}</span> врачей
+            </p>
+          </Card>
+          <Card color="#BD1119">
+            <img src={options} alt="More" />
+            <H5>Неактивные</H5>
+            <p>
+              <span>{props.doctorStatistics.stat.inactive}</span> врачей
+            </p>
+          </Card>
+        </CardsContainer>
+      )}
     </Container>
   )
 }
@@ -132,5 +149,22 @@ const H5 = styled.h5`
   color: #202020;
   font-weight: 500;
 `
+const mapStateToProps = (state) => {
+  return {
+    patientStatistics: state.patientStatistics,
+    doctorStatistics: state.doctorStatistics,
+  }
+}
 
-export default Main
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPatientStatistics: (values) => {
+      dispatch(getPatientStatistics(values))
+    },
+    getDoctorStatistics: (values) => {
+      dispatch(getDoctorStatistics(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
