@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ava from './../../../assets/ava-full.png'
 import { Link } from 'react-router-dom'
 
-const Table = () => {
+const Table = ({ result }) => {
   return (
     <Container>
       <thead>
@@ -11,107 +11,30 @@ const Table = () => {
           <td>Статус</td>
           <td>Пользователь</td>
           <td>Дата рождения</td>
-          <td>Диагноз</td>
           <td>Дата регистрации</td>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <Status active={true}>Активный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to="/manager/patient/123">
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </Link>
-          </td>
-          <td>10.04.1988</td>
-          <td>Гипертоническая болезнь</td>
-          <td>10.11.2019 17:00</td>
-        </tr>
-        <tr>
-          <Status active={true}>Активный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to="/manager/patient/123">
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </Link>
-          </td>
-          <td>10.04.1988</td>
-          <td>Гипертоническая болезнь</td>
-          <td>10.11.2019 17:00</td>
-        </tr>
-        <tr>
-          <Status active={false}>Неактивный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to="/manager/patient/123">
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </Link>
-          </td>
-          <td>10.04.1988</td>
-          <td>Гипертоническая болезнь</td>
-          <td>10.11.2019 17:00</td>
-        </tr>
-        <tr>
-          <Status active={false}>Неактивный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to="/manager/patient/123">
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </Link>
-          </td>
-          <td>10.04.1988</td>
-          <td>Гипертоническая болезнь</td>
-          <td>10.11.2019 17:00</td>
-        </tr>
-        <tr>
-          <Status active={true}>Активный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to="/manager/patient/123">
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </Link>
-          </td>
-          <td>10.04.1988</td>
-          <td>Гипертоническая болезнь</td>
-          <td>10.11.2019 17:00</td>
-        </tr>
-        <tr>
-          <Status active={true}>Активный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to="/manager/patient/123">
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </Link>
-          </td>
-          <td>10.04.1988</td>
-          <td>Гипертоническая болезнь</td>
-          <td>10.11.2019 17:00</td>
-        </tr>
-        <tr>
-          <Status active={false}>Неактивный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to="/manager/patient/123">
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </Link>
-          </td>
-          <td>10.04.1988</td>
-          <td>Гипертоническая болезнь</td>
-          <td>10.11.2019 17:00</td>
-        </tr>
-        <tr>
-          <Status active={false}>Неактивный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to="/manager/patient/123">
-              <img src={ava} alt="Photo" />
-              <p>Игоров А.И.</p>
-            </Link>
-          </td>
-          <td>10.04.1988</td>
-          <td>Гипертоническая болезнь</td>
-          <td>10.11.2019 17:00</td>
-        </tr>
+        {result &&
+          result.map((res) => (
+            <tr>
+              <Status active={res.is_active}>
+                {res.is_active ? 'Активный' : 'Неактивный'}
+              </Status>
+              <td style={{ width: '20%' }}>
+                <Link to={`/manager/patient/${res.id}`}>
+                  {/*<img src={res.avatar && res.avatar} alt="Photo" />*/}
+                  <p>{res.short_name}</p>
+                </Link>
+              </td>
+              <td>{res.birth_date}</td>
+              <td>{`${new Date(
+                res.date_joined
+              ).toLocaleDateString()} ${new Date(
+                res.date_joined
+              ).toLocaleTimeString()}`}</td>
+            </tr>
+          ))}
       </tbody>
     </Container>
   )
@@ -148,6 +71,7 @@ const Container = styled.table`
       }
       p {
         margin-top: 17px;
+        margin-bottom: 17px;
         font-weight: 600;
       }
       a {

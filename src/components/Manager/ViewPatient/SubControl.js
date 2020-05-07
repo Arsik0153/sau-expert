@@ -3,26 +3,76 @@ import styled from 'styled-components'
 import close from './../../../assets/close.svg'
 import event from './../../../assets/event.svg'
 import DatePicker, { registerLocale } from 'react-datepicker'
+import { connect } from 'react-redux'
+import { setSubDate } from './../../../redux/actions/patientModalActions'
 import ru from 'date-fns/locale/ru'
 registerLocale('ru', ru)
 
-const SubControl = ({ closeModal }) => {
-  const handleSubmit = (values) => {
-    console.log(values)
-    alert('Submit')
+const SubControl = (props) => {
+  let token = localStorage.getItem('token')
+  const handleSubmit = () => {
+    let formattedBegin =
+      beginDate.getFullYear() +
+      '-' +
+      ('0' + (beginDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + beginDate.getDate()).slice(-2)
+
+    let formattedEnd =
+      endDate.getFullYear() +
+      '-' +
+      ('0' + (endDate.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + endDate.getDate()).slice(-2)
+
+    let request = {
+      id: props.id,
+      beginDate: formattedBegin,
+      endDate: formattedEnd,
+      token,
+    }
+    props.setSubDate(request)
   }
-  let now = new window.Date()
-  const [startDate, setStartDate] = useState(now - 10 * 24 * 60 * 60 * 1000)
-  const [endDate, setEndDate] = useState(now)
+  let begin = new window.Date(props.beginDate)
+  let end = new window.Date(props.endDate)
+  const [beginDate, setStartDate] = useState(begin)
+  const [endDate, setEndDate] = useState(end)
+  console.log(beginDate)
+
+  const monthes = [
+    'января',
+    'февраля',
+    'марта',
+    'апреля',
+    'мая',
+    'июня',
+    'июля',
+    'августа',
+    'сентября',
+    'октября',
+    'ноября',
+    'декабря',
+  ]
 
   return (
     <Box>
       <H2>Управление подпиской</H2>
-      <Close src={close} alt="Close" onClick={() => closeModal()} />
-      <H3>Иванов Иван Иванович</H3>
+      <Close src={close} alt="Close" onClick={() => props.closeModal()} />
+      <H3>{props.name}</H3>
       <H5>Текущая подписка</H5>
       <Date>
-        21 января 2020 - 21 апреля 2020 <span>(осталось 55 дней)</span>
+        {`${beginDate.getDate()} ${
+          monthes[beginDate.getMonth()]
+        } ${beginDate.getFullYear()} - ${endDate.getDate()} ${
+          monthes[endDate.getMonth()]
+        } ${endDate.getFullYear()}`}
+        <span>
+          (осталось{' '}
+          {`${Math.ceil(
+            Math.abs(beginDate - endDate) / (1000 * 60 * 60 * 24)
+          )}`}{' '}
+          дней)
+        </span>
       </Date>
       <H5>Изменить даты подписки</H5>
       <Dates>
@@ -32,11 +82,11 @@ const SubControl = ({ closeModal }) => {
             <div className="inner-flex">
               <DatePicker
                 locale="ru"
-                dateFormat="dd.MM.yyyy"
-                selected={startDate}
+                dateFormat="yyyy-MM-dd"
+                selected={beginDate}
                 onChange={(date) => setStartDate(date)}
                 selectsStart
-                startDate={startDate}
+                startDate={beginDate}
                 endDate={endDate}
               />
               <img src={event} alt="Date" />
@@ -49,11 +99,11 @@ const SubControl = ({ closeModal }) => {
             <div className="inner-flex">
               <DatePicker
                 locale="ru"
-                dateFormat="dd.MM.yyyy"
+                dateFormat="yyyy-MM-dd"
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 selectsStart
-                startDate={startDate}
+                startDate={beginDate}
                 endDate={endDate}
               />
               <img src={event} alt="Date" />
@@ -61,7 +111,9 @@ const SubControl = ({ closeModal }) => {
           </div>
         </div>
       </Dates>
-      <button type="submit">Сохранить</button>
+      <button type="submit" onClick={() => handleSubmit()}>
+        Сохранить
+      </button>
     </Box>
   )
 }
@@ -171,4 +223,18 @@ const Dates = styled.div`
   justify-content: space-between;
 `
 
-export default SubControl
+const mapStateToProps = (state) => {
+  return {
+    setSubDateInfo: state.setSubDate,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setSubDate: (values) => {
+      dispatch(setSubDate(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubControl)

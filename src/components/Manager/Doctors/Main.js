@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Filters from './Filters'
 import Table from './Table'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getDoctors } from './../../../redux/actions/managerDoctorActions'
 
-const Main = () => {
+const Main = (props) => {
+  let token = localStorage.getItem('token')
+
+  useEffect(() => {
+    props.getDoctors(token)
+  }, [])
+
   return (
     <Container>
       <div className="flex">
@@ -12,7 +20,7 @@ const Main = () => {
         <Link to="/manager/newdoctor">Добавить врача</Link>
       </div>
       <Filters />
-      <Table />
+      <Table result={props.doctorTable.info.results} />
     </Container>
   )
 }
@@ -40,4 +48,18 @@ const H1 = styled.h1`
   color: #202020;
 `
 
-export default Main
+const mapStateToProps = (state) => {
+  return {
+    doctorTable: state.doctorTable,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getDoctors: (values) => {
+      dispatch(getDoctors(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

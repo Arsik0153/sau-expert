@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Info from './Info'
 import Graph from './Graph'
@@ -6,6 +6,8 @@ import Modal from 'react-modal'
 import SubControl from './SubControl'
 import PatientDoctors from './PatientDoctors'
 import Appointment from './Appointment'
+import { viewPatient } from './../../../redux/actions/viewPatientActions'
+import { connect } from 'react-redux'
 
 Modal.setAppElement('#root')
 
@@ -31,7 +33,17 @@ const customStyles = {
   },
 }
 
-const Main = () => {
+const Main = (props) => {
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    let request = {
+      token: token,
+      id: props.id,
+    }
+    console.log(request)
+    props.viewPatient(request)
+  }, [])
+
   const [modalIsOpen, setIsOpen] = React.useState(false)
   const [type, setType] = React.useState('')
 
@@ -49,7 +61,21 @@ const Main = () => {
         contentLabel="Example Modal"
       >
         {type === 'subcontrol' && (
-          <SubControl closeModal={() => setIsOpen(false)} />
+          <SubControl
+            closeModal={() => setIsOpen(false)}
+            beginDate={
+              props.patientInfo.info.subscribe
+                ? props.patientInfo.info.subscribe.begin_date
+                : new Date()
+            }
+            endDate={
+              props.patientInfo.info.subscribe
+                ? props.patientInfo.info.subscribe.end_date
+                : new Date()
+            }
+            name={`${props.patientInfo.info.first_name} ${props.patientInfo.info.last_name} ${props.patientInfo.info.patronymic}`}
+            id={props.patientInfo.info.id}
+          />
         )}
         {type === 'patientdoctors' && (
           <PatientDoctors closeModal={() => setIsOpen(false)} />
@@ -60,7 +86,7 @@ const Main = () => {
       </Modal>
 
       <div className="flex">
-        <H1>Иван Иванов Иванович</H1>
+        <H1>{`${props.patientInfo.info.first_name} ${props.patientInfo.info.last_name}`}</H1>
         <div>
           <Button onClick={(e) => openModal('subcontrol')}>
             Управление подпиской
@@ -73,7 +99,7 @@ const Main = () => {
           </Button>
         </div>
       </div>
-      <Info />
+      <Info info={props.patientInfo.info} />
       <Graph />
     </Container>
   )
@@ -105,4 +131,18 @@ const Button = styled.button`
   outline: none;
 `
 
-export default Main
+const mapStateToProps = (state) => {
+  return {
+    patientInfo: state.patientInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    viewPatient: (values) => {
+      dispatch(viewPatient(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
