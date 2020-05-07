@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import avafull from './../../../assets/ava-full.png'
+import { Link } from 'react-router-dom'
 
 const Info = ({ info }) => {
   let cities = [
@@ -57,9 +58,9 @@ const Info = ({ info }) => {
               {info.doctors &&
                 info.doctors.map((doctor) => (
                   <React.Fragment key={doctor.id}>
-                    <a href={`/manager/doctor/${doctor.id}`}>
+                    <Link to={`/manager/doctor/${doctor.id}`}>
                       {doctor.short_name}
-                    </a>
+                    </Link>
                     ({doctor.position})
                     <br />
                   </React.Fragment>
