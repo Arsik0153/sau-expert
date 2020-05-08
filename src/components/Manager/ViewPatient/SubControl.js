@@ -6,8 +6,6 @@ import DatePicker, { registerLocale } from 'react-datepicker'
 import { connect } from 'react-redux'
 import { setSubDate } from './../../../redux/actions/patientModalActions'
 import Preloader from './../../helpers/Preloader'
-import ru from 'date-fns/locale/ru'
-registerLocale('ru', ru)
 
 const SubControl = (props) => {
   let token = localStorage.getItem('token')

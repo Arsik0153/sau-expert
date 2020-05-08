@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import { Formik, Form, Field } from 'formik'
@@ -7,6 +7,12 @@ import Pressure from './Pressure'
 import Glucose from './Glucose'
 import Medicine from './Medicine'
 import RateDoctor from './RateDoctor'
+import { connect } from 'react-redux'
+import {
+  getIssues,
+  newIssue,
+} from './../../../redux/actions/patient/issuesActions'
+import Preloader from './../../helpers/Preloader'
 
 Modal.setAppElement('#root')
 
@@ -38,11 +44,18 @@ const formSchema = Yup.object().shape({
     .required('Заполните поле'),
 })
 
-const Main = () => {
+const Main = (props) => {
+  let token = localStorage.getItem('token')
   const handleSubmit = (values) => {
-    console.log(values)
-    alert('Submit')
+    props.newIssue({
+      text: values.comment,
+      token,
+    })
   }
+
+  useEffect(() => {
+    if (props.newIssueInfo.status === 'success') props.getIssues(token)
+  }, [props.newIssueInfo.status])
 
   const [modalIsOpen, setIsOpen] = React.useState(false)
   const [type, setType] = React.useState('')
@@ -51,6 +64,10 @@ const Main = () => {
     setType(type)
     setIsOpen(true)
   }
+
+  useEffect(() => {
+    props.getIssues(token)
+  }, [])
 
   return (
     <Container>
@@ -105,44 +122,30 @@ const Main = () => {
           <H2 style={{ textAlign: 'left', padding: '30px 40px' }}>
             Ваши жалобы
           </H2>
-          <Scroll>
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <p onClick={(e) => openModal('glucose')}>
-                      Замерить глюкозу
-                    </p>
-                  </td>
-                  <td>09:00</td>
-                </tr>
-                <tr>
-                  <td>
-                    <p onClick={(e) => openModal('medicine')}>
-                      Принять 60 ед. базального инсулина
-                    </p>
-                  </td>
-                  <td>09:30</td>
-                </tr>
-                <tr>
-                  <td>
-                    <p onClick={(e) => openModal('pressure')}>
-                      Замерить давление
-                    </p>
-                  </td>
-                  <td>10:00</td>
-                </tr>
-                <tr>
-                  <td>
-                    <p onClick={(e) => openModal('rate')}>
-                      Оценить работу врача - Сидоров П.М.
-                    </p>
-                  </td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </Scroll>
+          {props.issues.status !== 'success' ? (
+            <div className="preloader-container">
+              <Preloader />
+            </div>
+          ) : (
+            <>
+              <Scroll>
+                <table>
+                  <tbody>
+                    {props.issues.info.results.map((issue) => (
+                      <tr key={issue.id}>
+                        <td>
+                          <p onClick={(e) => openModal('glucose')}>
+                            {issue.text}
+                          </p>
+                        </td>
+                        <td>{issue.created_at}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Scroll>
+            </>
+          )}
         </Box>
       </Grid>
     </Container>
@@ -151,6 +154,13 @@ const Main = () => {
 
 const Container = styled.div`
   grid-area: main;
+  .preloader-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `
 const H1 = styled.h1`
   font-weight: 600;
@@ -240,4 +250,22 @@ const Scroll = styled.div`
   }
 `
 
-export default Main
+const mapStateToProps = (state) => {
+  return {
+    issues: state.issues,
+    newIssueInfo: state.newIssueInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getIssues: (values) => {
+      dispatch(getIssues(values))
+    },
+    newIssue: (values) => {
+      dispatch(newIssue(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

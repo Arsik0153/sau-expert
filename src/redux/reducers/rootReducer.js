@@ -14,6 +14,9 @@ import { newManagerReducer } from './newManagerReducer'
 import { getManagersReducer } from './getManagersReducer'
 import { newDoctorReducer } from './newDoctorReducer'
 import { viewDoctorReducer } from './viewDoctorReducer'
+import { viewMyProfileReducer } from './patient/viewMyProfileReducer'
+import { getIssuesReducer } from './patient/getIssuesReducer'
+import { newIssueReducer } from './patient/newIssueReducer'
 
 const rootReducer = combineReducers({
   indicators: indicatorsReducer,
@@ -31,6 +34,9 @@ const rootReducer = combineReducers({
   getManagersInfo: getManagersReducer,
   newDoctorInfo: newDoctorReducer,
   doctorInfo: viewDoctorReducer,
+  myProfile: viewMyProfileReducer,
+  issues: getIssuesReducer,
+  newIssueInfo: newIssueReducer,
 })
 
 export default rootReducer

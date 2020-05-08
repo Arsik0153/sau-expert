@@ -1,8 +1,40 @@
 import React from 'react'
 import styled from 'styled-components'
 import avafull from './../../../assets/ava-full.png'
+import { Link } from 'react-router-dom'
 
-const Info = () => {
+let cities = [
+  'Нур-Султан',
+  'Алматы',
+  'Талдыкорган',
+  'Кокшетау',
+  'Степногорск',
+  'Актобе',
+  'Атырау',
+  'Усть-Каменогорск',
+  'Тараз',
+  'Уральск',
+  'Аксай',
+  'Караганда',
+  'Жезказган',
+  'Балхаш',
+  'Темиртау',
+  'Костанай',
+  'Рудный',
+  'Кызылорда',
+  'Актау',
+  'Жанаозен',
+  'Павлодар',
+  'Экибастуз',
+  'Петропавловск',
+  'Шымкент',
+  'Туркестан',
+  'Семей',
+  'Риддер',
+  'Другой',
+]
+
+const Info = ({ info }) => {
   return (
     <Container>
       <img src={avafull} alt="Avatar" />
@@ -10,21 +42,29 @@ const Info = () => {
         <tbody>
           <tr>
             <td>Ф.И.О.</td>
-            <td>Иванов Иван Иванович</td>
+            <td>{`${info.first_name} ${info.last_name} ${info.patronymic}`}</td>
           </tr>
           <tr>
             <td>Пол</td>
-            <td>Мужской</td>
+            <td>{info.sex === 1 ? 'Мужской' : 'Женский'}</td>
           </tr>
           <tr>
             <td>Дата рождения</td>
-            <td>10.10.1960</td>
+            <td>{info.birth_date}</td>
           </tr>
           <tr>
             <td>Врачи</td>
             <td>
-              <a href="#/">Иванов И.И. </a>(кардиолог), <br />
-              <a href="#/">Сидоров П.М.</a>(терапевт)
+              {info.doctors &&
+                info.doctors.map((doctor) => (
+                  <React.Fragment key={doctor.id}>
+                    <Link to={`/manager/doctor/${doctor.id}`}>
+                      {doctor.short_name}
+                    </Link>
+                    ({doctor.position})
+                    <br />
+                  </React.Fragment>
+                ))}
             </td>
           </tr>
         </tbody>
@@ -33,19 +73,19 @@ const Info = () => {
         <tbody>
           <tr>
             <td>Город</td>
-            <td>Алматы</td>
+            <td>{cities[info.city - 1]}</td>
           </tr>
           <tr>
             <td>Адрес</td>
-            <td>Бостандыкский район</td>
+            <td>{info.address}</td>
           </tr>
           <tr>
             <td>E-mail</td>
-            <td>ivanov@ivan.ivanovich</td>
+            <td>{info.email}</td>
           </tr>
           <tr>
             <td>Телефон</td>
-            <td>+7 800 555 3535</td>
+            <td>{info.phone}</td>
           </tr>
         </tbody>
       </Table>
@@ -80,9 +120,6 @@ const Table = styled.table`
     }
     p {
       color: #57c3a7;
-    }
-    td {
-      white-space: nowrap;
     }
     td:first-child {
       font-weight: 600;

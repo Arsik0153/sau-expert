@@ -26,7 +26,6 @@ const Confirm = (props) => {
   const [status, setStatus] = useState(props.confirm.status)
   useEffect(() => {
     setStatus(props.status)
-    console.log(props)
   }, [props.status])
 
   return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import change from './../../../assets/edit.svg'
 import Info from './Info'
@@ -8,50 +8,66 @@ import Anketa from './Anketa'
 import Diabet from './Diabet'
 import Heart from './Heart'
 import Schedule from './Schedule'
+import { connect } from 'react-redux'
+import { viewMyProfile } from './../../../redux/actions/patient/profileActions'
+import Preloader from './../../helpers/Preloader'
 
-const Main = () => {
+const Main = (props) => {
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    props.viewMyProfile(token)
+  }, [])
+
   return (
     <Container>
-      <Notification>
-        <p>
-          Уважаемый <strong>Иванов Иван Иванович</strong>, поздравляем с
-          успешной регистрацией в системе Наш менеджер свяжется с Вами по
-          контактному номеру и запишет Вас на прием к врачу После первого приема
-          Вам станет доступен полный функционал системы
-        </p>
-      </Notification>
-      <div className="flex">
-        <H1>Иван Иванов Иванович</H1>
-        <div className="change">
-          <p>Редактировать информацию</p>
-          <img src={change} alt="Edit" />
+      {props.myProfile.status !== 'success' ? (
+        <div className="preloader-container">
+          <Preloader />
         </div>
-      </div>
-      <Info />
-      <Tabs>
-        <TabList>
-          <Tab>Диагноз</Tab>
-          <Tab>Анкета</Tab>
-          <Tab>Диабет</Tab>
-          <Tab>Сердце</Tab>
-          <Tab>Режим дня</Tab>
-        </TabList>
-        <TabPanel>
-          <Diagnosis />
-        </TabPanel>
-        <TabPanel>
-          <Anketa />
-        </TabPanel>
-        <TabPanel>
-          <Diabet />
-        </TabPanel>
-        <TabPanel>
-          <Heart />
-        </TabPanel>
-        <TabPanel>
-          <Schedule />
-        </TabPanel>
-      </Tabs>
+      ) : (
+        <>
+          {/*<Notification>
+            <p>
+              Уважаемый <strong>Иванов Иван Иванович</strong>, поздравляем с
+              успешной регистрацией в системе Наш менеджер свяжется с Вами по
+              контактному номеру и запишет Вас на прием к врачу После первого
+              приема Вам станет доступен полный функционал системы
+            </p>
+          </Notification>*/}
+          <div className="flex">
+            <H1>{`${props.myProfile.info.first_name} ${props.myProfile.info.last_name} ${props.myProfile.info.patronymic}`}</H1>
+            <div className="change">
+              <p>Редактировать информацию</p>
+              <img src={change} alt="Edit" />
+            </div>
+          </div>
+          <Info info={props.myProfile.info} />
+          <Tabs>
+            <TabList>
+              <Tab>Диагноз</Tab>
+              <Tab>Анкета</Tab>
+              <Tab>Диабет</Tab>
+              <Tab>Сердце</Tab>
+              <Tab>Режим дня</Tab>
+            </TabList>
+            <TabPanel>
+              <Diagnosis />
+            </TabPanel>
+            <TabPanel>
+              <Anketa />
+            </TabPanel>
+            <TabPanel>
+              <Diabet />
+            </TabPanel>
+            <TabPanel>
+              <Heart />
+            </TabPanel>
+            <TabPanel>
+              <Schedule />
+            </TabPanel>
+          </Tabs>
+        </>
+      )}
     </Container>
   )
 }
@@ -75,6 +91,14 @@ const Container = styled.div`
         color: #57c3a7;
       }
     }
+  }
+
+  .preloader-container {
+    height: calc(100vh - 100px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .react-tabs__tab-list {
@@ -127,4 +151,18 @@ const Notification = styled.div`
   }
 `
 
-export default Main
+const mapStateToProps = (state) => {
+  return {
+    myProfile: state.myProfile,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    viewMyProfile: (values) => {
+      dispatch(viewMyProfile(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
