@@ -80,6 +80,7 @@ const PressureBar = () => {
         <H3>График давления</H3>
         <Picker>
           <DatePicker
+            locale="ru"
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             selectsStart
@@ -87,6 +88,7 @@ const PressureBar = () => {
             endDate={endDate}
           />
           <DatePicker
+            locale="ru"
             selected={endDate}
             onChange={(date) => setEndDate(date)}
             selectsEnd

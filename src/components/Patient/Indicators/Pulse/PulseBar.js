@@ -70,6 +70,7 @@ const PulseBar = () => {
         <H3>График пульса</H3>
         <Picker>
           <DatePicker
+            locale="ru"
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             selectsStart
@@ -77,6 +78,7 @@ const PulseBar = () => {
             endDate={endDate}
           />
           <DatePicker
+            locale="ru"
             selected={endDate}
             onChange={(date) => setEndDate(date)}
             selectsEnd

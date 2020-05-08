@@ -68,6 +68,7 @@ const BarGLucose = () => {
         <H3>График глюкозы</H3>
         <Picker>
           <DatePicker
+            locale="ru"
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             selectsStart
@@ -75,6 +76,7 @@ const BarGLucose = () => {
             endDate={endDate}
           />
           <DatePicker
+            locale="ru"
             selected={endDate}
             onChange={(date) => setEndDate(date)}
             selectsEnd
