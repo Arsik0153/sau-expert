@@ -44,11 +44,12 @@ const Login = (props) => {
   }, [props.loginState.token])
 
   useEffect(() => {
-    if (props.userState.status === 'success')
+    if (props.userState.status === 'success') {
       if (props.userState.info.type === 'Пациент' && isLogin())
         history.push('/patient/profile')
-    if (props.userState.info.type === 'Менеджер' && isLogin())
-      history.push('/manager/main')
+      if (props.userState.info.type === 'Менеджер' && isLogin())
+        history.push('/manager/main')
+    }
   }, [props.userState.status])
 
   return (

@@ -43,49 +43,125 @@ const App = () => {
           path="/register"
           component={Register}
         />
-        <PrivateRoute exact path="/patient/profile" component={Profile} />
-        <PrivateRoute exact path="/patient/indicators" component={Patient} />
-        <PrivateRoute exact path="/patient/calendar" component={Calendar} />
-        <PrivateRoute exact path="/patient/issues" component={Issues} />
-        <PrivateRoute exact path="/patient/map" component={Map} />
-        <PrivateRoute exact path="/patient/references" component={References} />
-        <PrivateRoute exact path="/patient/advice" component={Advice} />
-        <PrivateRoute exact path="/patient/chat" component={Chat} />
+        <PrivateRoute
+          exact
+          path="/patient/profile"
+          type="Пациент"
+          component={Profile}
+        />
+        <PrivateRoute
+          exact
+          path="/patient/indicators"
+          type="Пациент"
+          component={Patient}
+        />
+        <PrivateRoute
+          exact
+          path="/patient/calendar"
+          type="Пациент"
+          component={Calendar}
+        />
+        <PrivateRoute
+          exact
+          path="/patient/issues"
+          type="Пациент"
+          component={Issues}
+        />
+        <PrivateRoute
+          exact
+          path="/patient/map"
+          type="Пациент"
+          component={Map}
+        />
+        <PrivateRoute
+          exact
+          path="/patient/references"
+          type="Пациент"
+          component={References}
+        />
+        <PrivateRoute
+          exact
+          path="/patient/advice"
+          type="Пациент"
+          component={Advice}
+        />
+        <PrivateRoute
+          exact
+          path="/patient/chat"
+          type="Пациент"
+          component={Chat}
+        />
         <PrivateRoute
           exact
           path="/patient/notifications"
+          type="Пациент"
           component={Notifications}
         />
 
-        <PrivateRoute exact path="/manager/main" component={Manager} />
+        <PrivateRoute
+          exact
+          path="/manager/main"
+          type="Менеджер"
+          component={Manager}
+        />
         <PrivateRoute
           exact
           path="/manager/patients"
+          type="Менеджер"
           component={ManagerPatients}
         />
         <PrivateRoute
           exact
           path="/manager/newpatients"
+          type="Менеджер"
           component={NewPatients}
         />
-        <PrivateRoute exact path="/manager/doctors" component={Doctors} />
-        <PrivateRoute exact path="/manager/reports" component={Reports} />
+        <PrivateRoute
+          exact
+          path="/manager/doctors"
+          type="Менеджер"
+          component={Doctors}
+        />
+        <PrivateRoute
+          exact
+          path="/manager/reports"
+          type="Менеджер"
+          component={Reports}
+        />
         <PrivateRoute
           exact
           path="/manager/references"
+          type="Менеджер"
           component={ManagerReferences}
         />
-        <PrivateRoute exact path="/manager/newsletter" component={Newsletter} />
-        <PrivateRoute exact path="/manager/newmanager" component={NewManager} />
+        <PrivateRoute
+          exact
+          path="/manager/newsletter"
+          type="Менеджер"
+          component={Newsletter}
+        />
+        <PrivateRoute
+          exact
+          path="/manager/newmanager"
+          type="Менеджер"
+          component={NewManager}
+        />
         <PrivateRoute
           exact
           path="/manager/patient/:patientId"
+          type="Менеджер"
           component={ViewPatient}
         />
-        <PrivateRoute exact path="/manager/newdoctor" component={NewDoctor} />
+        <PrivateRoute
+          exact
+          path="/manager/newdoctor"
+          type="Менеджер"
+          component={NewDoctor}
+        />
         <PrivateRoute
           exact
           path="/manager/doctor/:doctorId"
+          type="Менеджер"
           component={ViewDoctor}
         />
       </Switch>
