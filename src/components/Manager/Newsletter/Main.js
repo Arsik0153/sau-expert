@@ -9,17 +9,15 @@ const Main = () => {
         <div className="flex">
           <div className="form-group">
             <label>Кому</label>
-            <select>
-              <option selected="selected" value="">
-                Врачам
-              </option>
+            <select defaultValue="default">
+              <option value="default">Врачам</option>
               <option value="">Пациентам</option>
             </select>
           </div>
           <div className="form-group">
             <label>Локация</label>
-            <select>
-              <option value="1">Нур-Султан</option>
+            <select defaultValue="default">
+              <option value="default">Нур-Султан</option>
               <option value="2">Алматы</option>
               <option value="3">Талдыкорган</option>
               <option value="4">Кокшетау</option>

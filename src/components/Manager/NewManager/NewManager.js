@@ -29,6 +29,8 @@ const formSchema = Yup.object().shape({
   avatar: Yup.array(),
 })
 
+let token = localStorage.getItem('token')
+
 const NewManager = (props) => {
   const handleSubmit = (values) => {
     let request = {
@@ -44,9 +46,14 @@ const NewManager = (props) => {
   }
   const [fileNames, setFileNames] = useState([])
 
-  const [error, setError] = useState(props.newManagerInfo.error)
+  const [error, setError] = useState([])
   useEffect(() => {
-    setError(props.newManagerInfo.error)
+    let errs = []
+    if (!props.newManagerInfo.error) return
+    for (let err in props.newManagerInfo.error.data) {
+      errs.push(props.newManagerInfo.error.data[err][0])
+    }
+    setError(errs)
   }, [props.newManagerInfo.error])
 
   const [status, setStatus] = useState('')
@@ -58,7 +65,11 @@ const NewManager = (props) => {
   }, [props.newManagerInfo.status])
 
   useEffect(() => {
-    props.getManagers()
+    if (token === null) {
+      document.location.reload(true)
+    } else {
+      props.getManagers(token)
+    }
   }, [])
 
   const handleDrop = (accepted, rejected, setFieldValue) => {
@@ -211,7 +222,11 @@ const NewManager = (props) => {
                 </div>
               )}
               {status === 'error' && (
-                <div className="field-error">{error.data.email[0]}</div>
+                <div className="field-error">
+                  {error.map((err) => {
+                    return err
+                  })}
+                </div>
               )}
               {status === 'pending' ? (
                 <div className="preloader-container">

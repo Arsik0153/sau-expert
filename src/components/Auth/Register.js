@@ -178,8 +178,8 @@ const Register = (props) => {
                     <option value="2">Женский</option>
                   </Field>
                   <label>Город</label>
-                  <Field name="city" as="select">
-                    <option selected="selected">Выберите город</option>
+                  <Field name="city" as="select" defaultValue="default">
+                    <option value="default">Выберите город</option>
                     <option value="1">Нур-Султан</option>
                     <option value="2">Алматы</option>
                     <option value="3">Талдыкорган</option>

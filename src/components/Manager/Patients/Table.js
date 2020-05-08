@@ -17,7 +17,7 @@ const Table = ({ result }) => {
       <tbody>
         {result &&
           result.map((res) => (
-            <tr>
+            <tr key={res.id}>
               <Status active={res.is_active}>
                 {res.is_active ? 'Активный' : 'Неактивный'}
               </Status>

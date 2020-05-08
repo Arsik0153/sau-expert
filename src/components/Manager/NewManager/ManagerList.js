@@ -19,7 +19,7 @@ const ManagerList = ({ info }) => {
         <tbody>
           {info &&
             info.map((res) => (
-              <tr>
+              <tr key={res.id}>
                 <td>
                   {/*<img src={ava} alt="Photo" />*/}
                   <p>{res.short_name}</p>

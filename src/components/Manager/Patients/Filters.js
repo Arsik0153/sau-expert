@@ -4,14 +4,14 @@ import styled from 'styled-components'
 const Filters = () => {
   return (
     <Container>
-      <select name="diagnosis">
-        <option selected="selected">Диагноз</option>
+      <select name="diagnosis" defaultValue="default">
+        <option value="default">Диагноз</option>
         <option value="1">Диагноз 1</option>
         <option value="2">Диагноз 2</option>
         <option value="3">Диагноз 3</option>
       </select>
-      <select name="city">
-        <option selected="selected">Город</option>
+      <select name="city" defaultValue="default">
+        <option value="default">Город</option>
         <option value="1">Нур-Султан</option>
         <option value="2">Алматы</option>
         <option value="3">Талдыкорган</option>
@@ -41,13 +41,13 @@ const Filters = () => {
         <option value="27">Риддер</option>
         <option value="28">Другой</option>
       </select>
-      <select name="status">
-        <option selected="selected">Статус</option>
+      <select name="status" defaultValue="default">
+        <option value="default">Статус</option>
         <option value="1">Активный</option>
         <option value="2">Неактивный</option>
       </select>
-      <select name="registrationDate">
-        <option selected="selected">Дата регистрации</option>
+      <select name="registrationDate" defaultValue="default">
+        <option value="default">Дата регистрации</option>
         <option value="1">Дата 1</option>
       </select>
     </Container>

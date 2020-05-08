@@ -77,10 +77,15 @@ const NewDoctor = (props) => {
   }
   const [fileNames, setFileNames] = useState([])
 
-  /*const [error, setError] = useState(props.auth.error)
+  const [error, setError] = useState([])
   useEffect(() => {
-    setError(props.auth.error)
-  }, [props.auth.error])*/
+    let errs = []
+    if (!props.newDoctorInfo.error) return
+    for (let err in props.newDoctorInfo.error.data) {
+      errs.push(props.newDoctorInfo.error.data[err][0])
+    }
+    setError(errs)
+  }, [props.newDoctorInfo.error])
 
   const [status, setStatus] = useState('')
   useEffect(() => {
@@ -228,8 +233,8 @@ const NewDoctor = (props) => {
                   <option value="2">Женский</option>
                 </Field>
                 <label>Город</label>
-                <Field name="city" as="select">
-                  <option selected="selected">Выберите город</option>
+                <Field name="city" as="select" defaultValue="default">
+                  <option value="default">Выберите город</option>
                   <option value="1">Нур-Султан</option>
                   <option value="2">Алматы</option>
                   <option value="3">Талдыкорган</option>
@@ -350,17 +355,22 @@ const NewDoctor = (props) => {
                   )}
                 </div>
               )}
-              {
-                /*status === 'error' && (
-                  <div className="field-error">{error}</div>
-                )}
-                {status === 'pending' ? (
-                  <div className="preloader-container">
-                    <Preloader />
-                  </div>
-                ) : (*/
+
+              {status === 'error' && (
+                <div className="field-error">
+                  {error.map((err) => {
+                    return err
+                  })}
+                </div>
+              )}
+
+              {status === 'pending' ? (
+                <div className="preloader-container">
+                  <Preloader />
+                </div>
+              ) : (
                 <button type="submit">Добавить</button>
-              }
+              )}
             </Form>
           )}
         </Formik>

@@ -11,13 +11,15 @@ const Table = ({ result }) => {
           <td>Статус</td>
           <td>Пользователь</td>
           <td>Дата рождения</td>
+          <td>Город</td>
+          <td>Опыт</td>
           <td>Дата регистрации</td>
         </tr>
       </thead>
       <tbody>
         {result &&
           result.map((res) => (
-            <tr>
+            <tr key={res.id}>
               <Status active={res.is_active}>
                 {res.is_active ? 'Активный' : 'Неактивный'}
               </Status>
@@ -28,6 +30,8 @@ const Table = ({ result }) => {
                 </Link>
               </td>
               <td>{res.birth_date}</td>
+              <td>{res.city}</td>
+              <td>{res.experience}</td>
               <td>{`${new Date(
                 res.date_joined
               ).toLocaleDateString()} ${new Date(

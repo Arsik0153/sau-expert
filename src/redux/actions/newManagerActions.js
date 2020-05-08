@@ -44,13 +44,13 @@ const newManagerFailure = (error) => ({
 })
 
 //GET ALL
-export const getManagers = () => {
+export const getManagers = (tkn) => {
   return (dispatch) => {
     dispatch(getManagersStarted())
     axios
       .get(`${BASE_URL}/management/managers/`, {
         headers: {
-          Authorization: `Token ${token}`,
+          Authorization: `Token ${tkn}`,
         },
       })
       .then((res) => {

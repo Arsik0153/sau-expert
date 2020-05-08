@@ -9,7 +9,6 @@ import {
 } from './../../../redux/actions/ManagerStatisticActions'
 
 const Main = (props) => {
-  let user = JSON.parse(localStorage.getItem('user'))
   let token = localStorage.getItem('token')
 
   useEffect(() => {
