@@ -25,6 +25,12 @@ import NewManager from './components/Manager/NewManager/NewManager'
 import ViewPatient from './components/Manager/ViewPatient/ViewPatient'
 import NewDoctor from './components/Manager/NewDoctor/NewDoctor'
 import ViewDoctor from './components/Manager/ViewDoctor/ViewDoctor'
+import Doctor from './components/Doctor/Main/Doctor'
+import DoctorIssues from './components/Doctor/Issues/Issues'
+import DoctorNotifications from './components/Doctor/Notifications/Notifications'
+import DoctorPatients from './components/Doctor/Patients/Patients'
+import DoctorChat from './components/Doctor/Chat/Chat'
+import DoctorMyProfile from './components/Doctor/Profile/Profile'
 
 const App = () => {
   return (
@@ -164,6 +170,17 @@ const App = () => {
           type="Менеджер"
           component={ViewDoctor}
         />
+
+        <Route exact path="/doctor/main" component={Doctor} />
+        <Route exact path="/doctor/issues" component={DoctorIssues} />
+        <Route
+          exact
+          path="/doctor/notifications"
+          component={DoctorNotifications}
+        />
+        <Route exact path="/doctor/patients" component={DoctorPatients} />
+        <Route exact path="/doctor/chat" component={DoctorChat} />
+        <Route exact path="/doctor/myprofile" component={DoctorMyProfile} />
       </Switch>
     </BrowserRouter>
   )
