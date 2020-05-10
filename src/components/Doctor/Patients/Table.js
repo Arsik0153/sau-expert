@@ -38,7 +38,7 @@ const Table = ({ result }) => {
         <tr>
           <Status status={'active'}>Активный</Status>
           <td style={{ width: '20%' }}>
-            <Link to={`/manager/patient/123`}>
+            <Link to={`/doctor/patient/123`}>
               <img src={ava} alt="Photo" />
               <p>Иван Иванов</p>
             </Link>
@@ -50,7 +50,7 @@ const Table = ({ result }) => {
         <tr>
           <Status status={'active'}>Активный</Status>
           <td style={{ width: '20%' }}>
-            <Link to={`/manager/patient/123`}>
+            <Link to={`/doctor/patient/123`}>
               <img src={ava} alt="Photo" />
               <p>Иван Иванов</p>
             </Link>
@@ -62,7 +62,7 @@ const Table = ({ result }) => {
         <tr>
           <Status status={'inactive'}>Неактивный</Status>
           <td style={{ width: '20%' }}>
-            <Link to={`/manager/patient/123`}>
+            <Link to={`/doctor/patient/123`}>
               <img src={ava} alt="Photo" />
               <p>Иван Иванов</p>
             </Link>
@@ -74,7 +74,7 @@ const Table = ({ result }) => {
         <tr>
           <Status status={'waiting'}>Ожидающий</Status>
           <td style={{ width: '20%' }}>
-            <Link to={`/manager/patient/123`}>
+            <Link to={`/doctor/patient/123`}>
               <img src={ava} alt="Photo" />
               <p>Иван Иванов</p>
             </Link>

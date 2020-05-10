@@ -31,6 +31,7 @@ import DoctorNotifications from './components/Doctor/Notifications/Notifications
 import DoctorPatients from './components/Doctor/Patients/Patients'
 import DoctorChat from './components/Doctor/Chat/Chat'
 import DoctorMyProfile from './components/Doctor/Profile/Profile'
+import PatientProfile from './components/Doctor/PatientProfile/PatientProfile'
 
 const App = () => {
   return (
@@ -181,6 +182,11 @@ const App = () => {
         <Route exact path="/doctor/patients" component={DoctorPatients} />
         <Route exact path="/doctor/chat" component={DoctorChat} />
         <Route exact path="/doctor/myprofile" component={DoctorMyProfile} />
+        <Route
+          exact
+          path="/doctor/patient/:patientId"
+          component={PatientProfile}
+        />
       </Switch>
     </BrowserRouter>
   )
