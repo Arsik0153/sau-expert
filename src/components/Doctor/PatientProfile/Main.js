@@ -4,6 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Indicators from './Indicators/Indicators'
 import Graphs from './Indicators/Graphs'
 import Calendar from './Calendar/Calendar'
+import Treatment from './Treatment/Treatment'
 
 const Main = (props) => {
   return (
@@ -14,6 +15,7 @@ const Main = (props) => {
           <Tab>Показатели</Tab>
           <Tab>Графики</Tab>
           <Tab>Календарь</Tab>
+          <Tab>Лечение</Tab>
         </TabList>
 
         <TabPanel>
@@ -24,6 +26,9 @@ const Main = (props) => {
         </TabPanel>
         <TabPanel>
           <Calendar />
+        </TabPanel>
+        <TabPanel>
+          <Treatment />
         </TabPanel>
       </Tabs>
     </Container>
