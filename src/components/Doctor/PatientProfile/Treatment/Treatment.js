@@ -2,6 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Medicine from './Medicine/Medicine'
+import Lifestyle from './Lifestyle/Lifestyle'
+import Analysis from './Analysis/Analysis'
+import Measures from './Measures/Measures'
+import Chat from './Chat/Chat'
 
 const Treatment = () => {
   return (
@@ -17,6 +21,18 @@ const Treatment = () => {
         <TabPanel>
           <Medicine />
         </TabPanel>
+        <TabPanel>
+          <Lifestyle />
+        </TabPanel>
+        <TabPanel>
+          <Analysis />
+        </TabPanel>
+        <TabPanel>
+          <Measures />
+        </TabPanel>
+        <TabPanel>
+          <Chat />
+        </TabPanel>
       </Tabs>
     </Container>
   )
@@ -27,7 +43,7 @@ const Container = styled.div`
   .react-tabs__tab-list {
     display: flex;
     flex-direction: row;
-    justify-content: space-between !important;
+    justify-content: space-around !important;
     align-items: center !important;
     padding: 6px 50px !important;
     border-bottom: 1px solid #e6e8f1 !important;

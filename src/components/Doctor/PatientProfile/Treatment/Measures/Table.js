@@ -5,40 +5,39 @@ import edit from './../../../../../assets/edit.svg'
 const Table = () => {
   return (
     <Container>
-      <H1>История медикаментов</H1>
+      <H1>История замеров</H1>
       <Sheet>
         <thead>
           <tr>
-            <td>Название</td>
-            <td>Дозировка</td>
-            <td>Начало</td>
-            <td>Конец</td>
+            <td>Показатель</td>
+            <td>Время замера</td>
             <td></td>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
-            <td>14.09.19</td>
+            <td>Глюкоза</td>
             <td>14.09.19</td>
             <td>
               <img src={edit} alt="Edit" />
             </td>
           </tr>
           <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
-            <td>14.09.19</td>
+            <td>Глюкоза</td>
             <td>14.09.19</td>
             <td>
               <img src={edit} alt="Edit" />
             </td>
           </tr>
           <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
+            <td>Глюкоза</td>
             <td>14.09.19</td>
+            <td>
+              <img src={edit} alt="Edit" />
+            </td>
+          </tr>
+          <tr>
+            <td>Глюкоза</td>
             <td>14.09.19</td>
             <td>
               <img src={edit} alt="Edit" />
