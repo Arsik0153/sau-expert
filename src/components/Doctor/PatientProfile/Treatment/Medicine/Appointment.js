@@ -9,27 +9,38 @@ const Appointment = () => {
     window.Date.now() - 10 * 24 * 60 * 60 * 1000
   )
   const [endDate, setEndDate] = useState(window.Date.now())
+  const [type, setType] = useState('1')
   return (
     <Container>
       <h3>Назначение лечения</h3>
       <label>Наименование препарата</label>
       <input type="text" placeholder="Медикамент 1" />
       <label>Регулярность</label>
-      <select>
+      <select defaultValue="1" onChange={(e) => setType(e.target.value)}>
         <option value="1">Дни недели</option>
         <option value="2">Каждый день</option>
         <option value="3">Раз в несколько дней</option>
       </select>
-      <label>Дни приема</label>
-      <Days>
-        <Day active={true}>ПН</Day>
-        <Day>ВТ</Day>
-        <Day active={true}>СР</Day>
-        <Day>ЧТ</Day>
-        <Day active={true}>ПТ</Day>
-        <Day>СБ</Day>
-        <Day>ВС</Day>
-      </Days>
+      {type === '1' && (
+        <>
+          <label>Дни приема</label>
+          <Days>
+            <Day active={true}>ПН</Day>
+            <Day>ВТ</Day>
+            <Day active={true}>СР</Day>
+            <Day>ЧТ</Day>
+            <Day active={true}>ПТ</Day>
+            <Day>СБ</Day>
+            <Day>ВС</Day>
+          </Days>
+        </>
+      )}
+      {type === '3' && (
+        <>
+          <label>Интервал дней между приёмами</label>
+          <input type="text" placeholder="2" />
+        </>
+      )}
       <Dozing>
         <Doze>
           <label>Дозировка</label>
