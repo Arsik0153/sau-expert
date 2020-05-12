@@ -5,6 +5,7 @@ import Indicators from './Indicators/Indicators'
 import Graphs from './Indicators/Graphs'
 import Calendar from './Calendar/Calendar'
 import Treatment from './Treatment/Treatment'
+import Chat from './Chat/Chat'
 
 const Main = (props) => {
   return (
@@ -16,6 +17,7 @@ const Main = (props) => {
           <Tab>Графики</Tab>
           <Tab>Календарь</Tab>
           <Tab>Лечение</Tab>
+          <Tab>Чат</Tab>
         </TabList>
 
         <TabPanel>
@@ -29,6 +31,9 @@ const Main = (props) => {
         </TabPanel>
         <TabPanel>
           <Treatment />
+        </TabPanel>
+        <TabPanel>
+          <Chat />
         </TabPanel>
       </Tabs>
     </Container>
