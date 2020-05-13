@@ -44,8 +44,8 @@ const Main = (props) => {
     props.viewPatient(request)
   }, [])
 
-  const [modalIsOpen, setIsOpen] = React.useState(false)
-  const [type, setType] = React.useState('')
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [type, setType] = useState('')
 
   const openModal = (type) => {
     setType(type)

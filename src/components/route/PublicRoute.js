@@ -9,8 +9,12 @@ const PublicRoute = ({ component: Component, restricted = false, ...rest }) => {
   useEffect(() => {
     if (user && user.type === 'Пациент') {
       setUrl('/patient/profile')
-    } else {
+    } else if (user && user.type === 'Менеджер') {
       setUrl('/manager/main')
+    } else if (user && user.type === 'Врач') {
+      setUrl('/doctor/main')
+    } else {
+      setUrl('/')
     }
   }, [user])
   return (

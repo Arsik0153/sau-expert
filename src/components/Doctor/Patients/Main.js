@@ -2,14 +2,21 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Filters from './Filters'
 import Table from './Table'
-/*import { connect } from 'react-redux'*/
+import { connect } from 'react-redux'
+import { getPatientsForDoctor } from './../../../redux/actions/doctor/patients'
 
 const Main = (props) => {
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    props.getPatientsForDoctor(token)
+  }, [])
   return (
     <Container>
       <H1>Пациенты</H1>
       <Filters />
-      <Table result="" />
+      {props.patientsForDoctor.info.results && (
+        <Table result={props.patientsForDoctor.info.results} />
+      )}
     </Container>
   )
 }
@@ -24,19 +31,18 @@ const H1 = styled.h1`
   margin: 50px 0 45px 50px;
 `
 
-/*const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
   return {
-    patientTable: state.patientTable,
+    patientsForDoctor: state.patientsForDoctor,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPatients: (values) => {
-      dispatch(getPatients(values))
+    getPatientsForDoctor: (values) => {
+      dispatch(getPatientsForDoctor(values))
     },
   }
-}*/
+}
 
-//export default connect(mapStateToProps, mapDispatchToProps)(Main)
-export default Main
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import avafull from './../../../assets/ava-full.png'
 
-const Info = () => {
+const Info = ({ info }) => {
   return (
     <Container>
       <img src={avafull} alt="Avatar" />
@@ -10,19 +10,19 @@ const Info = () => {
         <tbody>
           <tr>
             <td>Ф.И.О.</td>
-            <td>Иванов Иван Иванович</td>
+            <td>{info.full_name}</td>
           </tr>
           <tr>
             <td>Пол</td>
-            <td>Мужской</td>
+            <td>{info.sex}</td>
           </tr>
           <tr>
             <td>Дата рождения</td>
-            <td>10.10.1960</td>
+            <td>{info.birth_date}</td>
           </tr>
           <tr>
             <td>Телефон</td>
-            <td>+7 800 555 3535</td>
+            <td>{info.phone}</td>
           </tr>
         </tbody>
       </Table>
@@ -30,15 +30,19 @@ const Info = () => {
         <tbody>
           <tr>
             <td>Город</td>
-            <td>Алматы</td>
-          </tr>
-          <tr>
-            <td>Адрес</td>
-            <td>Бостандыкский район</td>
+            <td>{info.city}</td>
           </tr>
           <tr>
             <td>E-mail</td>
-            <td>ivanov@ivan.ivanovich</td>
+            <td>{info.email}</td>
+          </tr>
+          <tr>
+            <td>Опыт работы</td>
+            <td>{info.experience}</td>
+          </tr>
+          <tr>
+            <td>Должность</td>
+            <td>{info.position}</td>
           </tr>
         </tbody>
       </Table>

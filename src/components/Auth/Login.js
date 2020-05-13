@@ -49,6 +49,8 @@ const Login = (props) => {
         history.push('/patient/profile')
       if (props.userState.info.type === 'Менеджер' && isLogin())
         history.push('/manager/main')
+      if (props.userState.info.type === 'Врач' && isLogin())
+        history.push('/doctor/main')
     }
   }, [props.userState.status])
 

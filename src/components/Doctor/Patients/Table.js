@@ -8,81 +8,22 @@ const Table = ({ result }) => {
     <Container>
       <thead>
         <tr>
-          <td>Статус</td>
           <td>Пользователь</td>
           <td>Дата рождения</td>
-          <td>Дата регистрации</td>
         </tr>
       </thead>
       <tbody>
-        {/*result &&
-          result.map((res) => (
-            <tr key={res.id}>
-              <Status active={res.is_active}>
-                {res.is_active ? 'Активный' : 'Неактивный'}
-              </Status>
-              <td style={{ width: '20%' }}>
-                <Link to={`/manager/patient/${res.id}`}>
-                  {<img src={res.avatar && res.avatar} alt="Photo" />}
-                  <p>{res.short_name}</p>
-                </Link>
-              </td>
-              <td>{res.birth_date}</td>
-              <td>{`${new Date(
-                res.date_joined
-              ).toLocaleDateString()} ${new Date(
-                res.date_joined
-              ).toLocaleTimeString()}`}</td>
-            </tr>
-              ))*/}
-        <tr>
-          <Status status={'active'}>Активный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to={`/doctor/patient/123`}>
-              <img src={ava} alt="Photo" />
-              <p>Иван Иванов</p>
-            </Link>
-          </td>
-          <td>Игоров А.И.</td>
-          <td>2000-01-01</td>
-          <td>2000-01-01</td>
-        </tr>
-        <tr>
-          <Status status={'active'}>Активный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to={`/doctor/patient/123`}>
-              <img src={ava} alt="Photo" />
-              <p>Иван Иванов</p>
-            </Link>
-          </td>
-          <td>Игоров А.И.</td>
-          <td>2000-01-01</td>
-          <td>2000-01-01</td>
-        </tr>
-        <tr>
-          <Status status={'inactive'}>Неактивный</Status>
-          <td style={{ width: '20%' }}>
-            <Link to={`/doctor/patient/123`}>
-              <img src={ava} alt="Photo" />
-              <p>Иван Иванов</p>
-            </Link>
-          </td>
-          <td>Игоров А.И.</td>
-          <td>2000-01-01</td>
-          <td>2000-01-01</td>
-        </tr>
-        <tr>
-          <Status status={'waiting'}>Ожидающий</Status>
-          <td style={{ width: '20%' }}>
-            <Link to={`/doctor/patient/123`}>
-              <img src={ava} alt="Photo" />
-              <p>Иван Иванов</p>
-            </Link>
-          </td>
-          <td>Игоров А.И.</td>
-          <td>2000-01-01</td>
-          <td>2000-01-01</td>
-        </tr>
+        {result.map((res) => (
+          <tr key={res.id}>
+            <td>
+              <Link to={`/doctor/patient/${res.id}`}>
+                <img src={ava} alt="Photo" />
+                <p>{res.short_name}</p>
+              </Link>
+            </td>
+            <td>{res.birth_date}</td>
+          </tr>
+        ))}
       </tbody>
     </Container>
   )

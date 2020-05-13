@@ -1,43 +1,58 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import options from './../../../assets/options.svg'
 import NotificationsTable from './NotificationsTable'
 import IssuesTable from './IssuesTable'
+import { connect } from 'react-redux'
+import { getDoctorStatistics } from './../../../redux/actions/doctor/statistics'
 
-const Main = () => {
+const Main = (props) => {
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    props.getDoctorStatistics(token)
+  }, [])
   return (
     <Container>
       <H1>Главная</H1>
-      <CardsContainer>
-        <Card color="#686868">
-          <img src={options} alt="More" />
-          <H5>Все пациенты</H5>
-          <p>
-            <span>564</span> пациентов
-          </p>
-        </Card>
-        <Card color="#6FCF97">
-          <img src={options} alt="More" />
-          <H5>Активные</H5>
-          <p>
-            <span>564</span> пациентов
-          </p>
-        </Card>
-        <Card color="#BD1119">
-          <img src={options} alt="More" />
-          <H5>Неактивные</H5>
-          <p>
-            <span>564</span> пациентов
-          </p>
-        </Card>
-        <Card color="#FFC542">
-          <img src={options} alt="More" />
-          <H5>В ожидании</H5>
-          <p>
-            <span>564</span> пациентов
-          </p>
-        </Card>
-      </CardsContainer>
+      {props.doctorDashboard.info.patients && (
+        <CardsContainer>
+          <Card color="#686868">
+            <img src={options} alt="More" />
+            <H5>Все пациенты</H5>
+            <p>
+              <span>{props.doctorDashboard.info.patients.all}</span> пациентов
+            </p>
+          </Card>
+          <Card color="#6FCF97">
+            <img src={options} alt="More" />
+            <H5>Активные</H5>
+            <p>
+              <span>{props.doctorDashboard.info.patients.active_patients}</span>{' '}
+              пациентов
+            </p>
+          </Card>
+          <Card color="#BD1119">
+            <img src={options} alt="More" />
+            <H5>Неактивные</H5>
+            <p>
+              <span>
+                {props.doctorDashboard.info.patients.inactive_patients}
+              </span>{' '}
+              пациентов
+            </p>
+          </Card>
+          <Card color="#FFC542">
+            <img src={options} alt="More" />
+            <H5>В ожидании</H5>
+            <p>
+              <span>
+                {props.doctorDashboard.info.patients.pending_patients}
+              </span>{' '}
+              пациентов
+            </p>
+          </Card>
+        </CardsContainer>
+      )}
       <div className="flex">
         <NotificationsTable />
         <IssuesTable />
@@ -95,4 +110,18 @@ const H5 = styled.h5`
   font-weight: 500;
 `
 
-export default Main
+const mapStateToProps = (state) => {
+  return {
+    doctorDashboard: state.doctorDashboard,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getDoctorStatistics: (values) => {
+      dispatch(getDoctorStatistics(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

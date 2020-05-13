@@ -172,17 +172,44 @@ const App = () => {
           component={ViewDoctor}
         />
 
-        <Route exact path="/doctor/main" component={Doctor} />
-        <Route exact path="/doctor/issues" component={DoctorIssues} />
-        <Route
+        <PrivateRoute
+          type="Врач"
+          exact
+          path="/doctor/main"
+          component={Doctor}
+        />
+        <PrivateRoute
+          type="Врач"
+          exact
+          path="/doctor/issues"
+          component={DoctorIssues}
+        />
+        <PrivateRoute
+          type="Врач"
           exact
           path="/doctor/notifications"
           component={DoctorNotifications}
         />
-        <Route exact path="/doctor/patients" component={DoctorPatients} />
-        <Route exact path="/doctor/chat" component={DoctorChat} />
-        <Route exact path="/doctor/myprofile" component={DoctorMyProfile} />
-        <Route
+        <PrivateRoute
+          type="Врач"
+          exact
+          path="/doctor/patients"
+          component={DoctorPatients}
+        />
+        <PrivateRoute
+          type="Врач"
+          exact
+          path="/doctor/chat"
+          component={DoctorChat}
+        />
+        <PrivateRoute
+          type="Врач"
+          exact
+          path="/doctor/myprofile"
+          component={DoctorMyProfile}
+        />
+        <PrivateRoute
+          type="Врач"
           exact
           path="/doctor/patient/:patientId"
           component={PatientProfile}

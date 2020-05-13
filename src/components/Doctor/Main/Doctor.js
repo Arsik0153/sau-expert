@@ -5,13 +5,6 @@ import Header from './../../Header'
 import Main from './Main'
 
 const Doctor = () => {
-  let user = {
-    type: 'Врач',
-    first_name: 'Иван',
-    last_name: 'Иванов',
-  }
-  localStorage.setItem('user', JSON.stringify(user))
-
   return (
     <Container>
       <Navbar />
