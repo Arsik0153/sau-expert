@@ -7,11 +7,12 @@ import Calendar from './Calendar/Calendar'
 import Treatment from './Treatment/Treatment'
 import Chat from './Chat/Chat'
 import Documents from './Documents/Documents'
+import Profile from './Profile/Profile'
 
 const Main = (props) => {
   return (
     <Container>
-      <H1>Иванов Иван Иванович</H1>
+      <H1>{props.info.full_name}</H1>
       <Tabs>
         <TabList>
           <Tab>Показатели</Tab>
@@ -20,6 +21,7 @@ const Main = (props) => {
           <Tab>Лечение</Tab>
           <Tab>Чат</Tab>
           <Tab>Документы</Tab>
+          <Tab>Профиль</Tab>
         </TabList>
 
         <TabPanel>
@@ -39,6 +41,9 @@ const Main = (props) => {
         </TabPanel>
         <TabPanel>
           <Documents />
+        </TabPanel>
+        <TabPanel>
+          <Profile info={props.info} />
         </TabPanel>
       </Tabs>
     </Container>
