@@ -25,7 +25,7 @@ const Main = (props) => {
           <Tab>Режим дня</Tab>
         </TabList>
         <TabPanel>
-          <Diagnosis />
+          <Diagnosis id={props.id} />
         </TabPanel>
         <TabPanel>
           <Anketa />

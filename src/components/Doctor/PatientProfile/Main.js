@@ -43,7 +43,7 @@ const Main = (props) => {
           <Documents />
         </TabPanel>
         <TabPanel>
-          <Profile info={props.info} />
+          <Profile info={props.info} id={props.id} />
         </TabPanel>
       </Tabs>
     </Container>
