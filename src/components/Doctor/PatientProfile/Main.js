@@ -66,6 +66,7 @@ const Container = styled.div`
     padding-bottom: 16px;
     cursor: pointer;
     outline: none;
+    border-bottom: none !important;
   }
   .react-tabs__tab:first-child {
     margin-left: 50px;

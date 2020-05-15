@@ -4,139 +4,14 @@ import DatePicker from 'react-datepicker'
 import edit from '../../../../assets/editGreen.svg'
 import deleteRed from '../../../../assets/delete-red.svg'
 import { connect } from 'react-redux'
-import { getDiagnosList } from '../../../../redux/actions/doctor/diagnosList'
-import { searchDiagnos } from '../../../../redux/actions/doctor/diagnos'
-import Preloader from '../../../helpers/Preloader'
+import Main from './diagnosis/Main'
+import Extra from './diagnosis/Extra'
 
 const Diagnosis = (props) => {
-  const [startDate, setStartDate] = useState(
-    window.Date.now() - 10 * 24 * 60 * 60 * 1000
-  )
-  let token = localStorage.getItem('token')
-  useEffect(() => {
-    props.getDiagnosList({
-      id: props.id,
-      token,
-    })
-  }, [])
-
-  const [searchMain, setSearchMain] = useState('')
-  const [mainDdOpen, setMainDdOpen] = useState(false)
-  const isFirstRun = useRef(true)
-  useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false
-      return
-    }
-    props.searchDiagnos(searchMain)
-  }, [searchMain])
   return (
     <Container>
-      <div>
-        <H3>Основной диагноз</H3>
-        <NewDiagnosis>
-          <div className="grid">
-            <div>
-              <label>Название</label>
-              <Dropdown visible={searchMain !== '' && mainDdOpen}>
-                <input
-                  type="text"
-                  placeholder="Список МКБ-10"
-                  value={searchMain}
-                  onChange={(e) => {
-                    setSearchMain(e.target.value)
-                    setMainDdOpen(true)
-                  }}
-                />
-                <div className="dd-menu">
-                  {props.diagnosSearch.info.results &&
-                    props.diagnosSearch.info.results.slice(0, 5).map((d) => (
-                      <li
-                        key={d.id}
-                        onClick={() => {
-                          setSearchMain(d.name)
-                          setMainDdOpen(false)
-                        }}
-                      >
-                        {d.name}
-                      </li>
-                    ))}
-                </div>
-              </Dropdown>
-            </div>
-            <div>
-              <label>Дата начала</label>
-              <DatePicker
-                locale="ru"
-                dateFormat="yyyy-MM-dd"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-              />
-            </div>
-          </div>
-          <textarea placeholder="Комментарий"></textarea>
-          <button type="submit">Добавить</button>
-        </NewDiagnosis>
-        {props.diagnosList.status !== 'success' ? (
-          <div className="preloader-container">
-            <Preloader />
-          </div>
-        ) : (
-          <Table>
-            <tbody>
-              <tr>
-                <td>Название</td>
-                <td>Дата начала</td>
-                <td></td>
-              </tr>
-              {props.diagnosList.info.results.map((result) => {
-                if (result.category === 'Основной диагноз')
-                  return (
-                    <tr key={result.id}>
-                      <td>{result.disease}</td>
-                      <td>{result.begin_date}</td>
-                      <td>
-                        <img src={edit} alt="Edit" />
-                        <img src={deleteRed} alt="Delete" />
-                      </td>
-                    </tr>
-                  )
-              })}
-            </tbody>
-          </Table>
-        )}
-      </div>
-
-      <div>
-        <H3>Сопутствующий диагноз</H3>
-        {props.diagnosList.status !== 'success' ? (
-          <div className="preloader-container">
-            <Preloader />
-          </div>
-        ) : (
-          <Table>
-            <tbody>
-              <tr>
-                <td>Название</td>
-                <td>Дата начала</td>
-              </tr>
-              {props.diagnosList.info.results.map((result) => {
-                if (result.category === 'Основной диагноз')
-                  return (
-                    <tr key={result.id}>
-                      <td>{result.disease}</td>
-                      <td>{result.begin_date}</td>
-                      <td>
-                        <img src={edit} alt="Edit" />
-                        <img src={deleteRed} alt="Delete" />
-                      </td>
-                    </tr>
-                  )
-              })}
-            </tbody>
-          </Table>
-        )}
-      </div>
+      <Main id={props.id} />
+      <Extra id={props.id} />
     </Container>
   )
 }
@@ -282,10 +157,11 @@ const Dropdown = styled.div`
   }
 `
 
-const mapStateToProps = (state) => {
+/*const mapStateToProps = (state) => {
   return {
     diagnosList: state.diagnosList,
     diagnosSearch: state.diagnosSearch,
+    newDiagnosInfo: state.newDiagnosInfo,
   }
 }
 
@@ -297,7 +173,12 @@ const mapDispatchToProps = (dispatch) => {
     searchDiagnos: (values) => {
       dispatch(searchDiagnos(values))
     },
+    newDiagnos: (values) => {
+      dispatch(newDiagnos(values))
+    },
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Diagnosis)
+*/
+export default Diagnosis
