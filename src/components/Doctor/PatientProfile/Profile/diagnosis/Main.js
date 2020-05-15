@@ -51,6 +51,10 @@ const Main = (props) => {
       setMainError('Напишите диагноз')
       return
     }
+    if (commentMain === '') {
+      setMainError('Напишите комментарии к диагнозу')
+      return
+    }
     let request = {
       disease_id: searchMain.id,
       begin_date: formattedDate,

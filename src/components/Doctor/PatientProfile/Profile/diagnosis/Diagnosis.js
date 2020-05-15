@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
-import edit from '../../../../assets/editGreen.svg'
-import deleteRed from '../../../../assets/delete-red.svg'
+import edit from '../../../../../assets/editGreen.svg'
+import deleteRed from '../../../../../assets/delete-red.svg'
 import { connect } from 'react-redux'
-import Main from './diagnosis/Main'
-import Extra from './diagnosis/Extra'
+import Main from './Main'
+import Extra from './Extra'
 
 const Diagnosis = (props) => {
   return (
