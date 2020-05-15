@@ -49,6 +49,7 @@ const Main = (props) => {
     }
     if (searchMain.text === '') {
       setMainError('Напишите диагноз')
+      return
     }
     let request = {
       disease_id: searchMain.id,
