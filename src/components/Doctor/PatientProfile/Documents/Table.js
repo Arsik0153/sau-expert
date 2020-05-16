@@ -17,6 +17,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
+        {/*}
         <tr>
           <td>1</td>
           <td>AnalizKrovi.pdf</td>
@@ -55,7 +56,7 @@ const Table = () => {
           <td>
             <img src={download} className="download" alt="Download" />
           </td>
-        </tr>
+  </tr>*/}
       </tbody>
     </Container>
   )

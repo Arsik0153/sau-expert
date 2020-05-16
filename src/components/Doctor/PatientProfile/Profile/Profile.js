@@ -4,10 +4,10 @@ import change from './../../../../assets/edit.svg'
 import Info from './Info'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Diagnosis from './Diagnosis/Diagnosis'
-import Anketa from './Anketa'
+import Anketa from './Anketa/Anketa'
 import Diabet from './Diabet'
-import Heart from './Heart'
-import Schedule from './Schedule'
+import Heart from './Heart/Heart'
+import Schedule from './Schedule/Schedule'
 //import { connect } from 'react-redux'
 //import { getPatientProfile } from '../../../../redux/actions/doctor/patientProfile'
 import Preloader from '../../../helpers/Preloader'
@@ -34,10 +34,10 @@ const Main = (props) => {
           <Diabet />
         </TabPanel>
         <TabPanel>
-          <Heart />
+          <Heart id={props.id} />
         </TabPanel>
         <TabPanel>
-          <Schedule />
+          <Schedule id={props.id} />
         </TabPanel>
       </Tabs>
     </Container>
