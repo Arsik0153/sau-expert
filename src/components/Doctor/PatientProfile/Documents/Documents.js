@@ -1,14 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Dropzone from 'react-dropzone'
 import upload from './../../../../assets/upload.svg'
 import Table from './Table'
+import { connect } from 'react-redux'
+import { getDocuments } from '../../../../redux/actions/doctor/documents'
+import Preloader from '../../../helpers/Preloader'
 
-const Documents = () => {
+const Documents = (props) => {
   const [fileNames, setFileNames] = useState([])
   const handleDrop = (accepted) => {
     setFileNames(accepted.map((file) => file.name))
   }
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    props.getDocuments({
+      id: props.id,
+      token,
+    })
+  }, [])
+
   return (
     <Container>
       <div className="flex">
@@ -62,7 +73,13 @@ const Documents = () => {
           </div>
         </div>
       </div>
-      <Table />
+      {props.getDocumentsInfo.status !== 'success' ? (
+        <div className="preloader-container">
+          <Preloader />
+        </div>
+      ) : (
+        <Table info={props.getDocumentsInfo.info.results} />
+      )}
     </Container>
   )
 }
@@ -95,5 +112,17 @@ const Container = styled.div`
     border: 2px dashed #57c3a7;
   }
 `
+const mapStateToProps = (state) => {
+  return {
+    getDocumentsInfo: state.getDocumentsInfo,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getDocuments: (values) => {
+      dispatch(getDocuments(values))
+    },
+  }
+}
 
-export default Documents
+export default connect(mapStateToProps, mapDispatchToProps)(Documents)

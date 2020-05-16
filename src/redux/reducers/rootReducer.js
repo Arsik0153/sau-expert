@@ -27,6 +27,7 @@ import { newDiagnosReducer } from './doctor/newDiagnos'
 import { newHeartReducer } from './doctor/newHeartReducer'
 import { newScheduleReducer } from './doctor/newSchedule'
 import { getScheduleReducer } from './doctor/getScheduleReducer'
+import { getDocumentsReducer } from './doctor/getDocumentsReducer'
 
 const rootReducer = combineReducers({
   indicators: indicatorsReducer,
@@ -57,6 +58,7 @@ const rootReducer = combineReducers({
   newHeartInfo: newHeartReducer,
   newScheduleInfo: newScheduleReducer,
   getScheduleInfo: getScheduleReducer,
+  getDocumentsInfo: getDocumentsReducer,
 })
 
 export default rootReducer

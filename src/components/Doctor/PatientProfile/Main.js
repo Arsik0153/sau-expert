@@ -40,7 +40,7 @@ const Main = (props) => {
           <Chat />
         </TabPanel>
         <TabPanel>
-          <Documents />
+          <Documents id={props.id} />
         </TabPanel>
         <TabPanel>
           <Profile info={props.info} id={props.id} />
@@ -74,7 +74,7 @@ const Container = styled.div`
   .react-tabs__tab--selected {
     font-weight: bold;
     color: #57c3a7;
-    border-bottom: 4px solid #57c3a7;
+    border-bottom: 4px solid #57c3a7 !important;
   }
 `
 const H1 = styled.h1`

@@ -58,10 +58,9 @@ const Info = ({ info }) => {
               {info.doctors &&
                 info.doctors.map((doctor) => (
                   <React.Fragment key={doctor.id}>
-                    <Link to={`/manager/doctor/${doctor.id}`}>
-                      {doctor.short_name}
-                    </Link>
-                    ({doctor.position})
+                    <p>
+                      {doctor.short_name} ({doctor.position})
+                    </p>
                     <br />
                   </React.Fragment>
                 ))}
@@ -117,9 +116,6 @@ const Table = styled.table`
     border-bottom: 2px solid rgba(31, 32, 65, 0.1);
     :last-child {
       border-bottom: 0;
-    }
-    p {
-      color: #57c3a7;
     }
     td:first-child {
       font-weight: 600;

@@ -5,7 +5,7 @@ import Info from './Info'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Diagnosis from './Diagnosis/Diagnosis'
 import Anketa from './Anketa/Anketa'
-import Diabet from './Diabet'
+import Diabet from './Diabet/Diabet'
 import Heart from './Heart/Heart'
 import Schedule from './Schedule/Schedule'
 //import { connect } from 'react-redux'
@@ -100,7 +100,7 @@ const Container = styled.div`
     background: #57c3a7 !important;
     box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.03) !important;
     border-radius: 3px !important;
-    padding: 8px 30px !important;
+    padding: 8px 30px 4px 30px !important;
   }
 `
 const H1 = styled.h1`

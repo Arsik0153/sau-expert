@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ava from './../../../../assets/ava-full.png'
 import download from './../../../../assets/download.svg'
 
-const Table = () => {
+const Table = ({ info }) => {
   return (
     <Container>
       <thead>
@@ -17,46 +17,23 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {/*}
-        <tr>
-          <td>1</td>
-          <td>AnalizKrovi.pdf</td>
-          <td>Анализ</td>
-          <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" className="ava" />
-            <p>Игоров А.И.</p>
-          </td>
-          <td>19.12.2019, 21:00</td>
-          <td>
-            <img src={download} className="download" alt="Download" />
-          </td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>AnalizKrovi.pdf</td>
-          <td>Анализ</td>
-          <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" className="ava" />
-            <p>Игоров А.И.</p>
-          </td>
-          <td>19.12.2019, 21:00</td>
-          <td>
-            <img src={download} className="download" alt="Download" />
-          </td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>AnalizKrovi.pdf</td>
-          <td>Анализ</td>
-          <td style={{ width: '20%' }}>
-            <img src={ava} alt="Photo" className="ava" />
-            <p>Игоров А.И.</p>
-          </td>
-          <td>19.12.2019, 21:00</td>
-          <td>
-            <img src={download} className="download" alt="Download" />
-          </td>
-  </tr>*/}
+        {info.map((res, index) => (
+          <tr key={index}>
+            <td>{index + 1}</td>
+            <td>{res.title}</td>
+            <td>{res.type === 1 ? 'Анализ' : ''}</td>
+            <td style={{ width: '20%' }}>
+              <img src={ava} alt="Photo" className="ava" />
+              <p>{res.author.short_name}</p>
+            </td>
+            <td>{res.created_at}</td>
+            <td>
+              <a href={res.file} target="_blank">
+                <img src={download} className="download" alt="Download" />
+              </a>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </Container>
   )
