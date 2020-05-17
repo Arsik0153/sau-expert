@@ -29,6 +29,8 @@ import { newScheduleReducer } from './doctor/newSchedule'
 import { getScheduleReducer } from './doctor/getScheduleReducer'
 import { getDocumentsReducer } from './doctor/getDocumentsReducer'
 import { getHeartReducer } from './doctor/getHeart'
+import { newDocumentReducer } from './doctor/newDocument'
+import { newCriticalReducer } from './doctor/newCritical'
 
 const rootReducer = combineReducers({
   indicators: indicatorsReducer,
@@ -61,6 +63,8 @@ const rootReducer = combineReducers({
   getScheduleInfo: getScheduleReducer,
   getDocumentsInfo: getDocumentsReducer,
   getHeartInfo: getHeartReducer,
+  newDocumentInfo: newDocumentReducer,
+  newCriticalInfo: newCriticalReducer,
 })
 
 export default rootReducer

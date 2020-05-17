@@ -99,11 +99,21 @@ const Check1 = (props) => {
         low_pulse: props.low_pulse,
         very_low_dbp: props.very_low_dbp,
         very_low_sbp: props.very_low_sbp,
+        very_low_pulse: props.very_low_pulse,
       },
     }
     console.log(values)
     props.newHeart(values)
     setMainError('')
+  }
+
+  const update = () => {
+    setTimeout(() => {
+      props.getHeart({
+        id: props.id,
+        token,
+      })
+    }, 150)
   }
 
   return (
@@ -171,7 +181,11 @@ const Check1 = (props) => {
           <button type="submit" onClick={() => handleSubmit()}>
             Сохранить
           </button>
-          <Criticals id={props.id} />
+          <Criticals
+            id={props.id}
+            info={props.getHeartInfo.info.critical_cases}
+            update={update}
+          />
         </>
       )}
     </Box>

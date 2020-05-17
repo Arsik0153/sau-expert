@@ -4,21 +4,21 @@ const initialState = {
   error: null,
 }
 
-export const getDocumentsReducer = (state = initialState, action) => {
+export const newDocumentReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_DOCUMENTS_STARTED':
+    case 'NEW_DOCUMENT_STARTED':
       return {
         ...state,
         status: 'pending',
       }
-    case 'GET_DOCUMENTS_SUCCESS':
+    case 'NEW_DOCUMENT_SUCCESS':
       return {
         ...state,
         status: 'success',
         error: null,
         info: action.payload,
       }
-    case 'GET_DOCUMENTS_FAILURE':
+    case 'NEW_DOCUMENT_FAILURE':
       return {
         ...state,
         status: 'error',

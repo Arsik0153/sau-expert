@@ -4,7 +4,10 @@ import Dropzone from 'react-dropzone'
 import upload from './../../../../assets/upload.svg'
 import Table from './Table'
 import { connect } from 'react-redux'
-import { getDocuments } from '../../../../redux/actions/doctor/documents'
+import {
+  getDocuments,
+  newDocument,
+} from '../../../../redux/actions/doctor/documents'
 import Preloader from '../../../helpers/Preloader'
 import Modal from 'react-modal'
 import close from './../../../../assets/close.svg'
@@ -37,7 +40,8 @@ const customStyles = {
 const Documents = (props) => {
   const [fileNames, setFileNames] = useState([])
   const handleDrop = (accepted) => {
-    setFileNames(accepted.map((file) => file.name))
+    setFileNames(accepted.map((file) => file))
+    setTitle(accepted[0].name)
   }
   let token = localStorage.getItem('token')
   useEffect(() => {
@@ -49,6 +53,26 @@ const Documents = (props) => {
 
   const [modalIsOpen, setIsOpen] = useState(false)
 
+  const [title, setTitle] = useState('')
+  const handleSubmit = () => {
+    let values = {
+      id: props.id,
+      token,
+      request: {
+        title,
+        type: 1,
+        file: fileNames[0],
+      },
+    }
+    props.newDocument(values)
+    setTimeout(() => {
+      props.getDocuments({
+        id: props.id,
+        token,
+      })
+    }, 150)
+  }
+
   return (
     <Container>
       <Modal
@@ -58,13 +82,13 @@ const Documents = (props) => {
         contentLabel="Example Modal"
       >
         <DocModal>
-          <H2>Управление подпиской</H2>
+          <H2>Загрузить документ</H2>
           <Close src={close} alt="Close" onClick={() => setIsOpen(false)} />
           <Dropzone
             onDrop={(accepted) => {
               handleDrop(accepted)
             }}
-            accept="image/*"
+            accept="image/*,.pdf"
             minSize={1024}
             maxSize={3072000}
             multiple={false}
@@ -94,7 +118,7 @@ const Documents = (props) => {
                     <>
                       <input {...getInputProps()} />
                       <img src={upload} alt="Upload" />
-                      <p>Загрузить файл</p>
+                      <p>Прикрепить файл</p>
                     </>
                   )}
                 </div>
@@ -105,13 +129,16 @@ const Documents = (props) => {
           <input
             type="text"
             placeholder="analiz.pdf"
-            value={fileNames[0] ? fileNames[0] : ''}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <label>Тип документа</label>
           <select>
             <option value="1">Анализ</option>
           </select>
-          <button type="submit">Сохранить</button>
+          <button type="submit" onClick={() => handleSubmit()}>
+            Сохранить
+          </button>
         </DocModal>
       </Modal>
       <div className="flex">
@@ -154,11 +181,12 @@ const Button = styled.div`
 `
 const Close = styled.img`
   position: absolute;
-  right: 20px;
-  top: 25px;
+  right: 0px;
+  top: 10px;
   cursor: pointer;
 `
 const DocModal = styled.div`
+  position: relative !important;
   .dropzone {
     border: 2px solid #57c3a7;
     border-radius: 4px;
@@ -252,12 +280,16 @@ const DocModal = styled.div`
 const mapStateToProps = (state) => {
   return {
     getDocumentsInfo: state.getDocumentsInfo,
+    newDocument: state.newDocument,
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     getDocuments: (values) => {
       dispatch(getDocuments(values))
+    },
+    newDocument: (values) => {
+      dispatch(newDocument(values))
     },
   }
 }

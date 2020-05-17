@@ -1,16 +1,46 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
+import { connect } from 'react-redux'
+import { newCritical } from '../../../../../redux/actions/doctor/criticals'
 
 const Criticals = (props) => {
+  let token = localStorage.getItem('token')
   const [startDate, setStartDate] = useState(window.Date.now())
+  const [comment, setComment] = useState('')
+
+  const handleSubmit = () => {
+    let thistime = new Date(startDate)
+    let formattedDate =
+      thistime.getFullYear() +
+      '-' +
+      ('0' + (thistime.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + thistime.getDate()).slice(-2)
+    let values = {
+      token,
+      id: props.id,
+      request: {
+        comment,
+        date: formattedDate,
+      },
+    }
+    props.newCritical(values)
+    props.update()
+  }
+
   return (
     <Container>
       <H4>Критические случаи</H4>
       <div className="grid">
         <div>
           <label>Название</label>
-          <input type="text" placeholder="Описание случая" />
+          <input
+            type="text"
+            placeholder="Описание случая"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
         </div>
         <div>
           <label>Дата начала</label>
@@ -21,7 +51,7 @@ const Criticals = (props) => {
             onChange={(date) => setStartDate(date)}
           />
         </div>
-        <Plus>+</Plus>
+        <Plus onClick={() => handleSubmit()}>+</Plus>
       </div>
       <Table>
         <tbody>
@@ -29,10 +59,13 @@ const Criticals = (props) => {
             <td>Критический случай</td>
             <td>Дата</td>
           </tr>
-          <tr>
-            <td>Случай 2</td>
-            <td>23.01.19</td>
-          </tr>
+          {props.info &&
+            props.info.map((res, index) => (
+              <tr key={index}>
+                <td>{res.comment}</td>
+                <td>{res.date}</td>
+              </tr>
+            ))}
         </tbody>
       </Table>
     </Container>
@@ -158,5 +191,17 @@ const Table = styled.table`
     }
   }
 `
+const mapStateToProps = (state) => {
+  return {
+    newCriticalInfo: state.newCriticalInfo,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    newCritical: (values) => {
+      dispatch(newCritical(values))
+    },
+  }
+}
 
-export default Criticals
+export default connect(mapStateToProps, mapDispatchToProps)(Criticals)

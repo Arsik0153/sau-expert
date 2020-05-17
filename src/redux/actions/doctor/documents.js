@@ -29,7 +29,47 @@ const getDocumentsSuccess = (data) => ({
 })
 
 const getDocumentsFailure = (error) => ({
-  type: 'NEW_HEART_FAILURE',
+  type: 'GET_DOCUMENTS_FAILURE',
+  payload: {
+    error,
+  },
+})
+
+export const newDocument = (values) => {
+  return (dispatch) => {
+    dispatch(newDocumentStarted())
+    axios
+      .post(
+        `${BASE_URL}/doctor/patients/${values.id}/documents/`,
+        {
+          ...values.request,
+        },
+        {
+          headers: {
+            Authorization: `Token ${values.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        dispatch(newDocumentSuccess(res.data))
+      })
+      .catch((error) => {
+        dispatch(newDocumentFailure(error.response))
+      })
+  }
+}
+
+const newDocumentStarted = () => ({
+  type: 'NEW_DOCUMENT_STARTED',
+})
+
+const newDocumentSuccess = (data) => ({
+  type: 'NEW_DOCUMENT_SUCCESS',
+  payload: data,
+})
+
+const newDocumentFailure = (error) => ({
+  type: 'NEW_DOCUMENT_FAILURE',
   payload: {
     error,
   },

@@ -4,21 +4,21 @@ const initialState = {
   error: null,
 }
 
-export const getDocumentsReducer = (state = initialState, action) => {
+export const newCriticalReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_DOCUMENTS_STARTED':
+    case 'NEW_CRITICAL_STARTED':
       return {
         ...state,
         status: 'pending',
       }
-    case 'GET_DOCUMENTS_SUCCESS':
+    case 'NEW_CRITICAL_SUCCESS':
       return {
         ...state,
         status: 'success',
         error: null,
         info: action.payload,
       }
-    case 'GET_DOCUMENTS_FAILURE':
+    case 'NEW_CRITICAL_FAILURE':
       return {
         ...state,
         status: 'error',
