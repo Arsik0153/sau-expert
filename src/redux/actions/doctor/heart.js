@@ -40,3 +40,37 @@ const newHeartFailure = (error) => ({
     error,
   },
 })
+
+export const getHeart = (values) => {
+  return (dispatch) => {
+    dispatch(getHeartStarted())
+    axios
+      .get(`${BASE_URL}/doctor/patients/${values.id}/heart/`, {
+        headers: {
+          Authorization: `Token ${values.token}`,
+        },
+      })
+      .then((res) => {
+        dispatch(getHeartSuccess(res.data))
+      })
+      .catch((error) => {
+        dispatch(getHeartFailure(error.response))
+      })
+  }
+}
+
+const getHeartStarted = () => ({
+  type: 'NEW_HEART_STARTED',
+})
+
+const getHeartSuccess = (data) => ({
+  type: 'NEW_HEART_SUCCESS',
+  payload: data,
+})
+
+const getHeartFailure = (error) => ({
+  type: 'NEW_HEART_FAILURE',
+  payload: {
+    error,
+  },
+})

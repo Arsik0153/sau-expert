@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
 import { connect } from 'react-redux'
-import { newHeart } from '../../../../../redux/actions/doctor/heart'
+import { newHeart, getHeart } from '../../../../../redux/actions/doctor/heart'
 import { getDiagnosList } from '../../../../../redux/actions/doctor/diagnosList'
 import { searchDiagnos } from '../../../../../redux/actions/doctor/diagnos'
 import Preloader from '../../../../helpers/Preloader'
@@ -15,7 +15,32 @@ const Check1 = (props) => {
       id: props.id,
       token,
     })
+    props.getHeart({
+      id: props.id,
+      token,
+    })
   }, [])
+  useEffect(() => {
+    if (props.getHeartInfo.status === 'success') {
+      let info = props.getHeartInfo.info
+      props.setSearchMain({ id: info.disease_id, text: info.disease })
+      props.setStartDate(new Date(info.begin_date))
+      props.setPills(info.tablets)
+      props.setCholseterol(info.cholesterol)
+      props.setVeryHighDbp(info.very_high_dbp)
+      props.setVeryHighSbp(info.very_high_sbp)
+      props.setVeryHighPulse(info.very_high_pulse)
+      props.setHighDbp(info.high_dbp)
+      props.setHighSbp(info.high_sbp)
+      props.setHighPulse(info.high_pulse)
+      props.setLowDbp(info.low_dbp)
+      props.setLowSbp(info.high_sbp)
+      props.setLowPulse(info.high_pulse)
+      props.setVeryLowDbp(info.very_low_dbp)
+      props.setVeryLowSbp(info.very_low_sbp)
+      props.setVeryLowPulse(info.very_low_pulse)
+    }
+  }, [props.getHeartInfo.status])
 
   const [mainDdOpen, setMainDdOpen] = useState(false)
 
@@ -58,7 +83,7 @@ const Check1 = (props) => {
       id: props.id,
       token,
       request: {
-        disease_id: props.searchMain.id,
+        disease: props.searchMain.id,
         begin_date: formattedDate,
         category_id: 1,
         tablets: props.pills,
@@ -83,64 +108,72 @@ const Check1 = (props) => {
 
   return (
     <Box>
-      <H3>Заболевание</H3>
-      <div className="grid">
-        <div>
-          <label>Название</label>
-          <Dropdown visible={props.searchMain !== '' && mainDdOpen}>
-            <input
-              type="text"
-              placeholder="Список МКБ-10"
-              value={props.searchMain.text}
-              onChange={(e) => {
-                props.setSearchMain({ id: '', text: e.target.value })
-                setMainDdOpen(true)
-              }}
-            />
-            <div className="dd-menu">
-              {props.diagnosSearch.info.results &&
-                props.diagnosSearch.info.results.slice(0, 5).map((d) => (
-                  <li
-                    key={d.id}
-                    onClick={() => {
-                      props.setSearchMain({ id: d.id, text: d.name })
-                      setMainDdOpen(false)
-                    }}
-                  >
-                    {d.name}
-                  </li>
-                ))}
+      {props.getHeartInfo.status !== 'success' ? (
+        <div className="preloader-container">
+          <Preloader />
+        </div>
+      ) : (
+        <>
+          <H3>Заболевание</H3>
+          <div className="grid">
+            <div>
+              <label>Название</label>
+              <Dropdown visible={props.searchMain !== '' && mainDdOpen}>
+                <input
+                  type="text"
+                  placeholder="Список МКБ-10"
+                  value={props.searchMain.text}
+                  onChange={(e) => {
+                    props.setSearchMain({ id: '', text: e.target.value })
+                    setMainDdOpen(true)
+                  }}
+                />
+                <div className="dd-menu">
+                  {props.diagnosSearch.info.results &&
+                    props.diagnosSearch.info.results.slice(0, 5).map((d) => (
+                      <li
+                        key={d.id}
+                        onClick={() => {
+                          props.setSearchMain({ id: d.id, text: d.name })
+                          setMainDdOpen(false)
+                        }}
+                      >
+                        {d.name}
+                      </li>
+                    ))}
+                </div>
+              </Dropdown>
             </div>
-          </Dropdown>
-        </div>
-        <div>
-          <label>Дата начала</label>
-          <DatePicker
-            locale="ru"
-            dateFormat="yyyy-MM-dd"
-            selected={props.startDate}
-            onChange={(date) => props.setStartDate(date)}
-          />
-        </div>
-      </div>
-      <H4>Дополнительная информация</H4>
-      <label>Таблетки</label>
-      <textarea
-        placeholder="Комментарии"
-        value={props.pills}
-        onChange={(e) => props.setPills(e.target.value)}
-      ></textarea>
-      <label>Холестерин</label>
-      <textarea
-        placeholder="Комментарии"
-        value={props.cholesterol}
-        onChange={(e) => props.setCholseterol(e.target.value)}
-      ></textarea>
-      {mainError && <div className="field-error">{mainError}</div>}
-      <button type="submit" onClick={() => handleSubmit()}>
-        Сохранить
-      </button>
-      <Criticals id={props.id} />
+            <div>
+              <label>Дата начала</label>
+              <DatePicker
+                locale="ru"
+                dateFormat="yyyy-MM-dd"
+                selected={props.startDate}
+                onChange={(date) => props.setStartDate(date)}
+              />
+            </div>
+          </div>
+          <H4>Дополнительная информация</H4>
+          <label>Таблетки</label>
+          <textarea
+            placeholder="Комментарии"
+            value={props.pills}
+            onChange={(e) => props.setPills(e.target.value)}
+          ></textarea>
+          <label>Холестерин</label>
+          <textarea
+            placeholder="Комментарии"
+            value={props.cholesterol}
+            onChange={(e) => props.setCholseterol(e.target.value)}
+          ></textarea>
+          {mainError && <div className="field-error">{mainError}</div>}
+          <button type="submit" onClick={() => handleSubmit()}>
+            Сохранить
+          </button>
+          <Criticals id={props.id} />
+        </>
+      )}
     </Box>
   )
 }
@@ -275,6 +308,7 @@ const mapStateToProps = (state) => {
     diagnosList: state.diagnosList,
     diagnosSearch: state.diagnosSearch,
     newHeartInfo: state.newHeartInfo,
+    getHeartInfo: state.getHeartInfo,
   }
 }
 
@@ -288,6 +322,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     newHeart: (values) => {
       dispatch(newHeart(values))
+    },
+    getHeart: (values) => {
+      dispatch(getHeart(values))
     },
   }
 }

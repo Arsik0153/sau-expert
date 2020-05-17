@@ -55,6 +55,8 @@ const Heart = (props) => {
         setVeryLowDbp={setVeryLowDbp}
         very_low_sbp={very_low_sbp}
         setVeryLowSbp={setVeryLowSbp}
+        very_low_pulse={very_low_pulse}
+        setVeryLowPulse={setVeryLowPulse}
       />
       <Box>
         <H3>Настройка диапазонов</H3>
