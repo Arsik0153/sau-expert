@@ -31,7 +31,7 @@ const Main = (props) => {
           <Anketa />
         </TabPanel>
         <TabPanel>
-          <Diabet />
+          <Diabet id={props.id} />
         </TabPanel>
         <TabPanel>
           <Heart id={props.id} />

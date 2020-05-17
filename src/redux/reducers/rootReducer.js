@@ -31,6 +31,10 @@ import { getDocumentsReducer } from './doctor/getDocumentsReducer'
 import { getHeartReducer } from './doctor/getHeart'
 import { newDocumentReducer } from './doctor/newDocument'
 import { newCriticalReducer } from './doctor/newCritical'
+import { getLifestyleReducer } from './doctor/getLifestyle'
+import { setLifestyleReducer } from './doctor/setLifestyle'
+import { getDiabetReducer } from './doctor/getDiabet'
+import { setDiabetReducer } from './doctor/setDiabet'
 
 const rootReducer = combineReducers({
   indicators: indicatorsReducer,
@@ -65,6 +69,10 @@ const rootReducer = combineReducers({
   getHeartInfo: getHeartReducer,
   newDocumentInfo: newDocumentReducer,
   newCriticalInfo: newCriticalReducer,
+  getLifestyleInfo: getLifestyleReducer,
+  setLifestyleInfo: setLifestyleReducer,
+  getDiabetInfo: getDiabetReducer,
+  setDiabetInfo: setDiabetReducer,
 })
 
 export default rootReducer

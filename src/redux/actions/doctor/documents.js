@@ -38,15 +38,43 @@ const getDocumentsFailure = (error) => ({
 export const newDocument = (values) => {
   return (dispatch) => {
     dispatch(newDocumentStarted())
-    axios
+    let formData = new FormData()
+    formData.append('title', values.request.title)
+    formData.append('type', 1)
+    formData.append('file', values.request.file)
+
+    var myHeaders = new Headers()
+    myHeaders.append('Authorization', `Token ${values.token}`)
+    myHeaders.append('Content-Type', 'multipart/form-data')
+    myHeaders.append('Origin', 'http://localhost:3000')
+    myHeaders.append('Host', 'localhost:3000')
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formData,
+      redirect: 'follow',
+    }
+    fetch(
+      `http://94.130.25.159/api/v1/doctor/patients/ac94895d-11d5-48bf-978c-b22163c4318a/documents/`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        dispatch(newDocumentSuccess(result.data))
+      })
+      .catch((error) => {
+        dispatch(newDocumentFailure(error.response))
+      })
+    /*axios
       .post(
         `${BASE_URL}/doctor/patients/${values.id}/documents/`,
         {
-          ...values.request,
+          formData,
         },
         {
           headers: {
             Authorization: `Token ${values.token}`,
+            'Content-Type': 'multipart/form-data',
           },
         }
       )
@@ -55,7 +83,7 @@ export const newDocument = (values) => {
       })
       .catch((error) => {
         dispatch(newDocumentFailure(error.response))
-      })
+      })*/
   }
 }
 

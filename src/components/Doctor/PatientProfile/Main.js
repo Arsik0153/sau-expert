@@ -34,7 +34,7 @@ const Main = (props) => {
           <Calendar />
         </TabPanel>
         <TabPanel>
-          <Treatment />
+          <Treatment id={props.id} />
         </TabPanel>
         <TabPanel>
           <Chat />

@@ -7,7 +7,7 @@ import Analysis from './Analysis/Analysis'
 import Measures from './Measures/Measures'
 import Chat from './Chat/Chat'
 
-const Treatment = () => {
+const Treatment = (props) => {
   return (
     <Container>
       <Tabs>
@@ -22,7 +22,7 @@ const Treatment = () => {
           <Medicine />
         </TabPanel>
         <TabPanel>
-          <Lifestyle />
+          <Lifestyle id={props.id} />
         </TabPanel>
         <TabPanel>
           <Analysis />
@@ -66,7 +66,7 @@ const Container = styled.div`
     background: #57c3a7 !important;
     box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.03) !important;
     border-radius: 3px !important;
-    padding: 8px 30px !important;
+    padding: 8px 30px 4px 30px !important;
   }
 `
 

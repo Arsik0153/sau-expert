@@ -44,7 +44,6 @@ const Table = () => {
                 className="styled-checkbox"
                 id="1233"
                 type="checkbox"
-                value="value1"
                 //onChange={(e) => changeCorrect(id, index, e)}
               />
               <label htmlFor="1233"></label>

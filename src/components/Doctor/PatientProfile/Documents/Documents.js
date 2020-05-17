@@ -64,6 +64,7 @@ const Documents = (props) => {
         file: fileNames[0],
       },
     }
+    console.log(values.request)
     props.newDocument(values)
     setTimeout(() => {
       props.getDocuments({

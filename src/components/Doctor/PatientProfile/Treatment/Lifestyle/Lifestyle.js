@@ -1,31 +1,115 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import {
+  getLifestyle,
+  setLifestyle,
+} from '../../../../../redux/actions/doctor/lifestyle'
+import Preloader from '../../../../helpers/Preloader'
 
-const Lifestyle = () => {
+const Lifestyle = (props) => {
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    let values = {
+      id: props.id,
+      token,
+    }
+    props.getLifestyle(values)
+  }, [])
+
+  const [goal_steps, setGoalSteps] = useState('')
+  const [smoking, setSmoking] = useState('')
+  const [alcohol, setAlcohol] = useState('')
+  const [exercises, setExercises] = useState('')
+  const [nutrition, setNutrition] = useState('')
+  const [additionally, setAdditionally] = useState('')
+  useEffect(() => {
+    let info = props.getLifestyleInfo.info
+    if (props.getLifestyleInfo.status === 'success') {
+      setGoalSteps(info.goal_steps)
+      setSmoking(info.smoking)
+      setAlcohol(info.alcohol)
+      setExercises(info.exercises)
+      setNutrition(info.nutrition)
+      setAdditionally(info.additionally)
+    }
+  }, [props.getLifestyleInfo.status])
+  const handleSubmit = () => {
+    let values = {
+      token,
+      id: props.id,
+      request: {
+        goal_steps,
+        smoking,
+        alcohol,
+        exercises,
+        nutrition,
+        additionally,
+      },
+    }
+    props.setLifestyle(values)
+  }
+
   return (
     <Container>
       <H3>Рекомендации</H3>
-      <Grid>
-        <div>
-          <label>Цель по шагам</label>
-          <input type="text" placeholder="Текст" />
-          <label>Упражнения</label>
-          <textarea placeholder="Текст"></textarea>
-          <button type="submit">Сохранить</button>
+      {props.getLifestyleInfo.status === 'pending' ||
+      props.setLifestyleInfo.status === 'pending' ? (
+        <div className="preloader-container">
+          <Preloader />
         </div>
-        <div>
-          <label>Курение</label>
-          <input type="text" placeholder="Текст" />
-          <label>Питание</label>
-          <textarea placeholder="Текст"></textarea>
-        </div>
-        <div>
-          <label>Алкоголь</label>
-          <input type="text" placeholder="Текст" />
-          <label>Дополнительно</label>
-          <textarea placeholder="Текст"></textarea>
-        </div>
-      </Grid>
+      ) : (
+        <Grid>
+          <div>
+            <label>Цель по шагам</label>
+            <input
+              type="text"
+              placeholder="Текст"
+              value={goal_steps}
+              onChange={(e) => setGoalSteps(e.target.value)}
+            />
+            <label>Упражнения</label>
+            <textarea
+              placeholder="Текст"
+              value={exercises}
+              onChange={(e) => setExercises(e.target.value)}
+            ></textarea>
+            <button type="submit" onClick={() => handleSubmit()}>
+              Сохранить
+            </button>
+          </div>
+          <div>
+            <label>Курение</label>
+            <input
+              type="text"
+              placeholder="Текст"
+              value={smoking}
+              onChange={(e) => setSmoking(e.target.value)}
+            />
+            <label>Питание</label>
+            <textarea
+              placeholder="Текст"
+              value={nutrition}
+              onChange={(e) => setNutrition(e.target.value)}
+            ></textarea>
+          </div>
+          <div>
+            <label>Алкоголь</label>
+            <input
+              type="text"
+              placeholder="Текст"
+              value={alcohol}
+              onChange={(e) => setAlcohol(e.target.value)}
+            />
+            <label>Дополнительно</label>
+            <textarea
+              placeholder="Текст"
+              value={additionally}
+              onChange={(e) => setAdditionally(e.target.value)}
+            ></textarea>
+          </div>
+        </Grid>
+      )}
     </Container>
   )
 }
@@ -101,4 +185,22 @@ const Grid = styled.div`
   }
 `
 
-export default Lifestyle
+const mapStateToProps = (state) => {
+  return {
+    getLifestyleInfo: state.getLifestyleInfo,
+    setLifestyleInfo: state.setLifestyleInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getLifestyle: (values) => {
+      dispatch(getLifestyle(values))
+    },
+    setLifestyle: (values) => {
+      dispatch(setLifestyle(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lifestyle)
