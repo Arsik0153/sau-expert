@@ -74,6 +74,29 @@ const Main = (props) => {
       token,
     })
   }
+
+  const useOutsideAlerter = (ref) => {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setMainDdOpen(false)
+        }
+      }
+
+      // Bind the event listener
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [ref])
+  }
+  const wrapperRef = useRef(null)
+  useOutsideAlerter(wrapperRef)
+
   return (
     <div>
       <H3>Основной диагноз</H3>
@@ -81,7 +104,10 @@ const Main = (props) => {
         <div className="grid">
           <div>
             <label>Название</label>
-            <Dropdown visible={searchMain !== '' && mainDdOpen}>
+            <Dropdown
+              visible={searchMain !== '' && mainDdOpen}
+              ref={wrapperRef}
+            >
               <input
                 type="text"
                 placeholder="Список МКБ-10"
@@ -93,7 +119,7 @@ const Main = (props) => {
               />
               <div className="dd-menu">
                 {props.diagnosSearch.info.results &&
-                  props.diagnosSearch.info.results.slice(0, 5).map((d) => (
+                  props.diagnosSearch.info.results.map((d) => (
                     <li
                       key={d.id}
                       onClick={() => {
@@ -271,6 +297,21 @@ const Dropdown = styled.div`
     background: #fff;
     box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.18);
+    max-height: 300px;
+    overflow-y: auto;
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #c5c5c5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #57c3a7;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #458f7c;
+    }
     li {
       cursor: pointer;
       width: 100%;
