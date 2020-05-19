@@ -75,3 +75,80 @@ const getScheduleFailure = (error) => ({
     error,
   },
 })
+
+export const deleteSchedule = (values) => {
+  return (dispatch) => {
+    dispatch(deleteScheduleStarted())
+    axios
+      .delete(
+        `${BASE_URL}/doctor/patients/${values.id}/daily_regime/${values.scheduleId}/`,
+        {
+          headers: {
+            Authorization: `Token ${values.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        dispatch(deleteScheduleSuccess(res.data))
+      })
+      .catch((error) => {
+        dispatch(deleteScheduleFailure(error.response))
+      })
+  }
+}
+
+const deleteScheduleStarted = () => ({
+  type: 'DELETE_SCHEDULE_STARTED',
+})
+
+const deleteScheduleSuccess = (data) => ({
+  type: 'DELETE_SCHEDULE_SUCCESS',
+  payload: data,
+})
+
+const deleteScheduleFailure = (error) => ({
+  type: 'DELETE_SCHEDULE_FAILURE',
+  payload: {
+    error,
+  },
+})
+
+export const editSchedule = (values) => {
+  return (dispatch) => {
+    dispatch(editScheduleStarted())
+    axios
+      .put(
+        `${BASE_URL}/doctor/patients/${values.id}/daily_regime/${values.scheduleId}/`,
+        {
+          ...values.request,
+        },
+        {
+          headers: {
+            Authorization: `Token ${values.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        dispatch(editScheduleSuccess(res.data))
+      })
+      .catch((error) => {
+        dispatch(editScheduleFailure(error.response))
+      })
+  }
+}
+
+const editScheduleStarted = () => ({
+  type: 'EDIT_SCHEDULE_STARTED',
+})
+
+const editScheduleSuccess = (data) => ({
+  type: 'EDIT_SCHEDULE_SUCCESS',
+  payload: data,
+})
+
+const editScheduleFailure = (error) => ({
+  type: 'EDIT_SCHEDULE_FAILURE',
+  payload: {
+    error,
+  },
+})

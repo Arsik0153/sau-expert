@@ -5,10 +5,39 @@ import { connect } from 'react-redux'
 import {
   newSchedule,
   getSchedule,
+  deleteSchedule,
+  editSchedule,
 } from '../../../../../redux/actions/doctor/schedule'
 import Preloader from './../../../../helpers/Preloader'
 import deleteRed from '../../../../../assets/delete-red.svg'
 import editGreen from '../../../../../assets/editGreen.svg'
+import Modal from 'react-modal'
+import close from './../../../../../assets/close.svg'
+
+Modal.setAppElement('#root')
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: '1001',
+  },
+  content: {
+    width: '450px',
+    position: 'relative !important',
+    maxWidth: '500px',
+    margin: '0 auto',
+    top: '0 !important',
+    left: '0 !important',
+    right: '0 !important',
+    bottom: '0 !important',
+    position: 'static',
+    padding: '30px',
+    overflow: 'none',
+  },
+}
 
 const Food = (props) => {
   let token = localStorage.getItem('token')
@@ -39,8 +68,132 @@ const Food = (props) => {
       token,
     })
   }, [])
+
+  //DELETE
+  const [delId, setDelId] = useState('')
+  const [delModalOpen, setDelModalOpen] = useState(false)
+  const handleDelete = () => {
+    let values = {
+      id: props.id,
+      token,
+      scheduleId: delId,
+    }
+    props.deleteSchedule(values)
+  }
+  useEffect(() => {
+    if (props.deleteScheduleInfo.status === 'success') {
+      setDelModalOpen(false)
+      props.getSchedule({
+        id: props.id,
+        token,
+      })
+    }
+  }, [props.deleteScheduleInfo.status])
+
+  //EDIT
+  const [editData, setEditData] = useState({ id: '', title: '', time: '' })
+  const [editModalOpen, setEditModalOpen] = useState(false)
+  const handleEdit = () => {
+    let request = {
+      id: props.id,
+      token,
+      scheduleId: editData.id,
+      request: {
+        id: editData.id,
+        category: 1,
+        title: editData.title,
+        time: editData.time,
+      },
+    }
+    props.editSchedule(request)
+  }
+  useEffect(() => {
+    if (props.editScheduleInfo.status === 'success') {
+      setEditModalOpen(false)
+      props.getSchedule({
+        id: props.id,
+        token,
+      })
+    }
+  }, [props.editScheduleInfo.status])
+
   return (
     <Container>
+      <Modal
+        isOpen={delModalOpen}
+        onRequestClose={() => setDelModalOpen(false)}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <ModalContainer>
+          <H2>Удаление приема пищи</H2>
+          <Close
+            src={close}
+            alt="Close"
+            onClick={() => setDelModalOpen(false)}
+          />
+          <label>Вы уверены что хотите удалить этот прием пищи?</label>
+          {props.deleteScheduleInfo.status === 'pending' ? (
+            <div className="preloader-container">
+              <Preloader />
+            </div>
+          ) : (
+            <button type="submit" onClick={() => handleDelete()}>
+              Да, удалить
+            </button>
+          )}
+        </ModalContainer>
+      </Modal>
+      <Modal
+        isOpen={editModalOpen}
+        onRequestClose={() => setEditModalOpen(false)}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <ModalContainer>
+          <H2>Редактирование режима</H2>
+          <Close
+            src={close}
+            alt="Close"
+            onClick={() => setEditModalOpen(false)}
+          />
+          {props.editScheduleInfo.status === 'pending' ? (
+            <div className="preloader-container">
+              <Preloader />
+            </div>
+          ) : (
+            <>
+              <div className="grid">
+                <div>
+                  <label>Прием пищи</label>
+                  <input
+                    type="text"
+                    placeholder="Завтрак"
+                    value={editData.title}
+                    onChange={(e) =>
+                      setEditData({ ...editData, title: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <label>Время</label>
+                  <input
+                    type="time"
+                    value={editData.time}
+                    onChange={(e) =>
+                      setEditData({ ...editData, time: e.target.value })
+                    }
+                    placeholder="09:00"
+                  />
+                </div>
+              </div>
+              <button type="submit" onClick={() => handleEdit()}>
+                Сохранить
+              </button>
+            </>
+          )}
+        </ModalContainer>
+      </Modal>
       <H3>Прием пищи</H3>
       <div className="grid">
         <div>
@@ -82,8 +235,27 @@ const Food = (props) => {
                     <td>{res.title}</td>
                     <td>{res.time}</td>
                     <td style={{ width: '55px' }}>
-                      <img src={editGreen} alt="Edit" />
-                      <img src={deleteRed} alt="Delete" />
+                      <img
+                        src={editGreen}
+                        alt="Edit"
+                        onClick={() => {
+                          setEditData({
+                            ...editData,
+                            id: res.id,
+                            title: res.title,
+                            time: res.time,
+                          })
+                          setEditModalOpen(true)
+                        }}
+                      />
+                      <img
+                        src={deleteRed}
+                        alt="Delete"
+                        onClick={() => {
+                          setDelId(res.id)
+                          setDelModalOpen(true)
+                        }}
+                      />
                     </td>
                   </tr>
                 )
@@ -211,11 +383,78 @@ const Plus = styled.button`
   padding-bottom: 20px;
   cursor: pointer;
 `
+const Close = styled.img`
+  position: absolute;
+  right: 0px;
+  top: 7px;
+  cursor: pointer;
+`
+const H2 = styled.h2`
+  font-weight: 600;
+  font-size: 24px;
+  color: #202020;
+`
+const ModalContainer = styled.div`
+  position: relative;
+  button[type='submit'] {
+    width: 100%;
+    background: #57c3a7;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #ffffff;
+    padding: 15px 0;
+    border: none;
+    margin-top: 15px;
+    outline: none;
+    font-family: 'Source Sans Pro', sans-serif;
+    cursor: pointer;
+  }
+  label {
+    font-size: 16px;
+    color: #333333;
+    font-weight: 400;
+    display: inline-block;
+    margin-top: 15px;
+  }
+  .preloader-container {
+    display: flex;
+    justify-content: center;
+  }
+  select,
+  input,
+  textarea {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(31, 32, 65, 0.25);
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 13px 10px;
+    font-size: 16px;
+    color: #000;
+    margin: 10px 0 10px 0;
+    outline: none;
+    resize: none;
+    :focus {
+      border: 1px solid #57c3a7;
+    }
+    ::placeholder {
+      color: #bdbdbd;
+      font-weight: 300;
+    }
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 30px;
+  }
+`
 
 const mapStateToProps = (state) => {
   return {
     newScheduleInfo: state.newScheduleInfo,
     getScheduleInfo: state.getScheduleInfo,
+    deleteScheduleInfo: state.deleteScheduleInfo,
+    editScheduleInfo: state.editScheduleInfo,
   }
 }
 
@@ -226,6 +465,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     getSchedule: (values) => {
       dispatch(getSchedule(values))
+    },
+    deleteSchedule: (values) => {
+      dispatch(deleteSchedule(values))
+    },
+    editSchedule: (values) => {
+      dispatch(editSchedule(values))
     },
   }
 }
