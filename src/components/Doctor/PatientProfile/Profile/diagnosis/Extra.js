@@ -8,8 +8,38 @@ import { getDiagnosList } from '../../../../../redux/actions/doctor/diagnosList'
 import {
   searchDiagnos,
   newDiagnos,
+  deleteDiagnos,
+  getDiagnosDetails,
+  editDiagnos,
 } from '../../../../../redux/actions/doctor/diagnos'
 import Preloader from '../../../../helpers/Preloader'
+import Modal from 'react-modal'
+import close from './../../../../../assets/close.svg'
+
+Modal.setAppElement('#root')
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: '1001',
+  },
+  content: {
+    width: '450px',
+    position: 'relative !important',
+    maxWidth: '500px',
+    margin: '0 auto',
+    top: '0 !important',
+    left: '0 !important',
+    right: '0 !important',
+    bottom: '0 !important',
+    position: 'static',
+    padding: '30px',
+    overflow: 'none',
+  },
+}
 
 const Extra = (props) => {
   const [startDate, setStartDate] = useState(window.Date.now())
@@ -22,10 +52,61 @@ const Extra = (props) => {
     })
   }, [])
 
+  const [modalIsOpen, setIsOpen] = useState(false)
+  const [activeId, setActiveId] = useState('')
+
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false)
+  const [editData, setEditData] = useState({
+    id: '',
+    comment: '',
+    disease: '',
+    disease_id: '',
+    begin_date: '',
+    category_id: '',
+    category: '',
+  })
+  const [editDdOpen, setEditDdOpen] = useState(false)
+  const isFirstRun2 = useRef(true)
+  useEffect(() => {
+    if (isFirstRun2.current) {
+      isFirstRun2.current = false
+      return
+    }
+    let values = {
+      id: props.id,
+      token,
+      diagnosId: editData.id,
+    }
+    props.getDiagnosDetails(values)
+  }, [editData.id])
+  useEffect(() => {
+    if (props.diagnosDetails.status === 'success') {
+      let info = props.diagnosDetails.info
+      setEditData({
+        ...editData,
+        comment: info.comment,
+        disease_id: info.disease_id,
+        category_id: info.category_id,
+        category: info.category,
+        begin_date: new Date(info.begin_date),
+      })
+      setSearchEdit({ ...searchEdit, text: info.disease, id: info.disease_id })
+    }
+  }, [props.diagnosDetails.status])
+  const [searchEdit, setSearchEdit] = useState({ id: '', text: '' })
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
+    props.searchDiagnos(searchEdit.text)
+  }, [searchEdit])
+
   const [searchMain, setSearchMain] = useState({ id: '', text: '' })
   const [mainDdOpen, setMainDdOpen] = useState(false)
   const [commentMain, setCommentMain] = useState('')
   const [mainError, setMainError] = useState('')
+
   const isFirstRun = useRef(true)
   useEffect(() => {
     if (isFirstRun.current) {
@@ -34,6 +115,7 @@ const Extra = (props) => {
     }
     props.searchDiagnos(searchMain.text)
   }, [searchMain])
+
   const handleSubmitMain = () => {
     let thistime = new Date(startDate)
     let formattedDate =
@@ -74,14 +156,198 @@ const Extra = (props) => {
       token,
     })
   }
+
+  const useOutsideAlerter = (ref) => {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setMainDdOpen(false)
+        }
+      }
+
+      // Bind the event listener
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [ref])
+  }
+  const wrapperRef = useRef(null)
+  useOutsideAlerter(wrapperRef)
+
+  const handleDelete = () => {
+    let values = {
+      id: props.id,
+      token,
+      diagnosId: activeId,
+    }
+    props.deleteDiagnos(values)
+  }
+  useEffect(() => {
+    if (props.deleteDiagnosInfo.status === 'success') {
+      props.getDiagnosList({
+        id: props.id,
+        token,
+      })
+      setIsOpen(false)
+    }
+  }, [props.deleteDiagnosInfo.status])
+
+  const handleEdit = () => {
+    let thistime = new Date(editData.begin_date)
+    let formattedDate =
+      thistime.getFullYear() +
+      '-' +
+      ('0' + (thistime.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + thistime.getDate()).slice(-2)
+
+    let values = {
+      id: props.id,
+      token,
+      diagnosId: editData.id,
+      request: {
+        disease_id: searchEdit.id,
+        begin_date: formattedDate,
+        category_id: editData.category_id,
+        comment: editData.comment,
+      },
+    }
+    props.editDiagnos(values)
+  }
+  useEffect(() => {
+    if (props.editDiagnosInfo.status === 'success') {
+      props.getDiagnosList({
+        id: props.id,
+        token,
+      })
+      setEditModalIsOpen(false)
+    }
+  }, [props.editDiagnosInfo.status])
+
   return (
     <div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setIsOpen(false)}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <ModalContainer>
+          <H2>Удаление диагноза</H2>
+          <Close src={close} alt="Close" onClick={() => setIsOpen(false)} />
+          <label>Вы уверены что хотите удалить этот диагноз?</label>
+          {props.deleteDiagnosInfo.status === 'pending' ? (
+            <div className="preloader-container">
+              <Preloader />
+            </div>
+          ) : (
+            <button type="submit" onClick={() => handleDelete()}>
+              Да, удалить
+            </button>
+          )}
+        </ModalContainer>
+      </Modal>
+      <Modal
+        isOpen={editModalIsOpen}
+        onRequestClose={() => setEditModalIsOpen(false)}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <ModalContainer>
+          <H2>Редактирование диагноза</H2>
+          {props.diagnosDetails.status === 'pending' ||
+          props.editDiagnosInfo.status === 'pending' ? (
+            <div className="preloader-container">
+              <Preloader />
+            </div>
+          ) : (
+            <>
+              <Close
+                src={close}
+                alt="Close"
+                onClick={() => setEditModalIsOpen(false)}
+              />
+              <div className="grid">
+                <div>
+                  <label>Название</label>
+                  <Dropdown visible={searchEdit !== '' && editDdOpen}>
+                    <input
+                      type="text"
+                      placeholder="Список МКБ-10"
+                      value={searchEdit.text}
+                      onChange={(e) => {
+                        setEditData({ ...editData, disease: e.target.value })
+                        setSearchEdit({ id: '', text: e.target.value })
+                        setEditDdOpen(true)
+                      }}
+                    />
+                    <div className="dd-menu">
+                      {props.diagnosSearch.info.results &&
+                        props.diagnosSearch.info.results.map((d) => (
+                          <li
+                            key={d.id}
+                            onClick={() => {
+                              setSearchEdit({ id: d.id, text: d.name })
+                              setEditDdOpen(false)
+                            }}
+                          >
+                            {d.name}
+                          </li>
+                        ))}
+                    </div>
+                  </Dropdown>
+                </div>
+                <div>
+                  <label>Дата начала</label>
+                  <DatePicker
+                    locale="ru"
+                    dateFormat="yyyy-MM-dd"
+                    selected={editData.begin_date}
+                    onChange={(date) =>
+                      setEditData({ ...editData, begin_date: date })
+                    }
+                  />
+                </div>
+              </div>
+              <textarea
+                placeholder="Комментарий"
+                value={editData.comment}
+                onChange={(e) =>
+                  setEditData({ ...editData, comment: e.target.value })
+                }
+              ></textarea>
+              {props.deleteDiagnosInfo.status === 'pending' ? (
+                <div className="preloader-container">
+                  <Preloader />
+                </div>
+              ) : (
+                <button type="submit" onClick={() => handleEdit()}>
+                  Изменить
+                </button>
+              )}
+            </>
+          )}
+        </ModalContainer>
+      </Modal>
       <H3>Сопутствующий диагноз</H3>
+      <Close
+        src={close}
+        alt="Close"
+        onClick={() => setEditModalIsOpen(false)}
+      />
       <NewDiagnosis>
         <div className="grid">
           <div>
             <label>Название</label>
-            <Dropdown visible={searchMain !== '' && mainDdOpen}>
+            <Dropdown
+              visible={searchMain !== '' && mainDdOpen}
+              ref={wrapperRef}
+            >
               <input
                 type="text"
                 placeholder="Список МКБ-10"
@@ -93,7 +359,7 @@ const Extra = (props) => {
               />
               <div className="dd-menu">
                 {props.diagnosSearch.info.results &&
-                  props.diagnosSearch.info.results.slice(0, 5).map((d) => (
+                  props.diagnosSearch.info.results.map((d) => (
                     <li
                       key={d.id}
                       onClick={() => {
@@ -146,8 +412,27 @@ const Extra = (props) => {
                     <td>{result.disease}</td>
                     <td>{result.begin_date}</td>
                     <td>
-                      <img src={edit} alt="Edit" />
-                      <img src={deleteRed} alt="Delete" />
+                      <img
+                        src={edit}
+                        alt="Edit"
+                        onClick={() => {
+                          setEditData({
+                            ...editData,
+                            id: result.id,
+                            begin_date: new Date(result.begin_date),
+                            disease: result.disease,
+                          })
+                          setEditModalIsOpen(true)
+                        }}
+                      />
+                      <img
+                        src={deleteRed}
+                        alt="Delete"
+                        onClick={() => {
+                          setActiveId(result.id)
+                          setIsOpen(true)
+                        }}
+                      />
                     </td>
                   </tr>
                 )
@@ -271,6 +556,21 @@ const Dropdown = styled.div`
     background: #fff;
     box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.18);
+    max-height: 300px;
+    overflow-y: auto;
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #c5c5c5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #57c3a7;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #458f7c;
+    }
     li {
       cursor: pointer;
       width: 100%;
@@ -282,12 +582,80 @@ const Dropdown = styled.div`
     }
   }
 `
+const Close = styled.img`
+  position: absolute;
+  right: 0px;
+  top: 7px;
+  cursor: pointer;
+`
+const H2 = styled.h2`
+  font-weight: 600;
+  font-size: 24px;
+  color: #202020;
+`
+const ModalContainer = styled.div`
+  position: relative;
+  button[type='submit'] {
+    width: 100%;
+    background: #57c3a7;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #ffffff;
+    padding: 15px 0;
+    border: none;
+    margin-top: 15px;
+    outline: none;
+    font-family: 'Source Sans Pro', sans-serif;
+    cursor: pointer;
+  }
+  label {
+    font-size: 16px;
+    color: #333333;
+    font-weight: 400;
+    display: inline-block;
+    margin-top: 15px;
+  }
+  .preloader-container {
+    display: flex;
+    justify-content: center;
+  }
+  select,
+  input,
+  textarea {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(31, 32, 65, 0.25);
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 13px 10px;
+    font-size: 16px;
+    color: #000;
+    margin: 10px 0 10px 0;
+    outline: none;
+    resize: none;
+    :focus {
+      border: 1px solid #57c3a7;
+    }
+    ::placeholder {
+      color: #bdbdbd;
+      font-weight: 300;
+    }
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 30px;
+  }
+`
 
 const mapStateToProps = (state) => {
   return {
     diagnosList: state.diagnosList,
     diagnosSearch: state.diagnosSearch,
     newDiagnosInfo: state.newDiagnosInfo,
+    deleteDiagnosInfo: state.deleteDiagnosInfo,
+    diagnosDetails: state.diagnosDetails,
+    editDiagnosInfo: state.editDiagnosInfo,
   }
 }
 
@@ -301,6 +669,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     newDiagnos: (values) => {
       dispatch(newDiagnos(values))
+    },
+    deleteDiagnos: (values) => {
+      dispatch(deleteDiagnos(values))
+    },
+    getDiagnosDetails: (values) => {
+      dispatch(getDiagnosDetails(values))
+    },
+    editDiagnos: (values) => {
+      dispatch(editDiagnos(values))
     },
   }
 }
