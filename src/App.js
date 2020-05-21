@@ -32,6 +32,7 @@ import DoctorPatients from './components/Doctor/Patients/Patients'
 import DoctorChat from './components/Doctor/Chat/Chat'
 import DoctorMyProfile from './components/Doctor/Profile/Profile'
 import PatientProfile from './components/Doctor/PatientProfile/PatientProfile'
+import Anketa from './components/Doctor/PatientProfile/Profile/Anketa/Profile/Profile'
 
 const App = () => {
   return (
@@ -213,6 +214,12 @@ const App = () => {
           exact
           path="/doctor/patient/:patientId"
           component={PatientProfile}
+        />
+        <PrivateRoute
+          type="Врач"
+          exact
+          path="/doctor/patient/:patientId/newprofile/"
+          component={Anketa}
         />
       </Switch>
     </BrowserRouter>

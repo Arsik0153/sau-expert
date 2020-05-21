@@ -28,7 +28,7 @@ const Main = (props) => {
           <Diagnosis id={props.id} />
         </TabPanel>
         <TabPanel>
-          <Anketa />
+          <Anketa id={props.id} info={props.info} />
         </TabPanel>
         <TabPanel>
           <Diabet id={props.id} />

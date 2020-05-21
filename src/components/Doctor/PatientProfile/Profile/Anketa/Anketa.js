@@ -1,19 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Table from './Table'
+import { useHistory } from 'react-router-dom'
 
-const Anketa = () => {
+const Anketa = (props) => {
+  let history = useHistory()
+  const [profile, setProfile] = useState('')
   return (
     <Container>
       <Box>
         <H3>Провести анкетирование</H3>
         <label>Название</label>
-        <input type="text" placeholder="Осмотр" />
-        <button type="submit">Назначить</button>
+        <select onChange={(e) => setProfile(e.target.value)} value={profile}>
+          <option value="Осмотр">Осмотр</option>
+        </select>
+        <button
+          type="submit"
+          onClick={() => {
+            localStorage.setItem(
+              'profile',
+              JSON.stringify({
+                patient: props.id,
+                title: 'Осмотр',
+                name: props.info.full_name,
+              })
+            )
+            history.push(`/doctor/patient/${props.id}/newprofile/`)
+          }}
+        >
+          Назначить
+        </button>
       </Box>
       <Box>
         <H3>История анкетирования</H3>
-        <Table />
+        <Table id={props.id} />
       </Box>
     </Container>
   )
@@ -25,7 +45,8 @@ const Container = styled.div`
   grid-gap: 30px;
   margin: 0 50px 50px 50px;
   textarea,
-  input {
+  input,
+  select {
     width: 100%;
     background: #ffffff;
     border: 1px solid rgba(31, 32, 65, 0.25);
@@ -76,6 +97,10 @@ const Container = styled.div`
     font-weight: 300;
     margin-top: 10px;
     border-radius: 4px;
+  }
+  select {
+    background: #ffffff;
+    appearance: none;
   }
 `
 const H3 = styled.h3`
