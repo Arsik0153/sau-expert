@@ -1,47 +1,34 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import MsgMy from './MsgMy'
 import MsgOther from './MsgOther'
 
-const History = () => {
+const History = (props) => {
+  const chat = useRef()
+
+  useEffect(() => {
+    chat.current.scrollTop += chat.current.scrollHeight
+  }, [props])
+
   return (
-    <Container>
-      <MsgMy
-        text="Done! Furthermore, please check Tracking page to see new photos from
-          event construction site."
-        time="18.11.2019 10:30"
-        src="https://sun9-72.userapi.com/c857632/v857632437/1eb217/Yy_HgWS2HXo.jpg"
-      />
-      <MsgOther
-        text="Done! Furthermore, please check Tracking page to see new photos from
-          event construction site."
-        time="18.11.2019 10:30"
-        src="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
-      />
-      <MsgMy
-        text="Done! Furthermore, please check Tracking page to see new photos from
-          event construction site."
-        time="18.11.2019 10:30"
-        src="https://sun9-72.userapi.com/c857632/v857632437/1eb217/Yy_HgWS2HXo.jpg"
-      />
-      <MsgOther
-        text="Done! Furthermore, please check Tracking page to see new photos from
-          event construction site."
-        time="18.11.2019 10:30"
-        src="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
-      />
-      <MsgMy
-        text="Done! Furthermore, please check Tracking page to see new photos from
-          event construction site."
-        time="18.11.2019 10:30"
-        src="https://sun9-72.userapi.com/c857632/v857632437/1eb217/Yy_HgWS2HXo.jpg"
-      />
-      <MsgOther
-        text="Done! Furthermore, please check Tracking page to see new photos from
-          event construction site."
-        time="18.11.2019 10:30"
-        src="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
-      />
+    <Container ref={chat}>
+      {props.list.map((msg) =>
+        msg.contact.id === props.myId ? (
+          <MsgMy
+            key={msg.id}
+            text={msg.content}
+            time={new Date(msg.timestamp).toLocaleDateString('ru-RU')}
+            src="https://sun9-72.userapi.com/c857632/v857632437/1eb217/Yy_HgWS2HXo.jpg"
+          />
+        ) : (
+          <MsgOther
+            key={msg.id}
+            text={msg.content}
+            time={new Date(msg.timestamp).toLocaleDateString('ru-RU')}
+            src="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
+          />
+        )
+      )}
     </Container>
   )
 }

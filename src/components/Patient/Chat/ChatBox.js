@@ -1,17 +1,91 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import UserTab from './UserTab'
 import search from './../../../assets/search.svg'
 import Dialog from './Dialog'
+import { connect } from 'react-redux'
+import { getChats } from '../../../redux/actions/patient/getChats'
+import Preloader from '../../helpers/Preloader'
 
-const ChatBox = () => {
+const ChatBox = (props) => {
+  let token = localStorage.getItem('token')
+  let user = JSON.parse(localStorage.getItem('user'))
+
+  const [messages, setMessages] = useState([])
+  const [open, setOpen] = useState(false)
   const [msgText, setMsgText] = useState('')
+  const [activeId, setActiveId] = useState('')
+  const [messgs, setMessgs] = useState([])
+  const ws = useRef(null)
+  const uuid = user.id
+  const [activeName, setActiveName] = useState('')
+
+  const isFirstRun = useRef(true)
+  useEffect(() => {
+    props.getChats(token)
+  }, [])
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
+    ws.current = new WebSocket(`ws://94.130.25.159/ws/chat/${activeId}/`)
+    ws.current.onopen = () => {
+      setOpen(true)
+      ws.current.send(JSON.stringify({ command: 'fetch_messages' }))
+    }
+    ws.current.onclose = (e) => {
+      console.log(e)
+    }
+
+    ws.current.onmessage = (e) => {
+      const data = JSON.parse(e.data)
+      console.log(data)
+      if (data.command === 'messages') {
+        setMessages([...messages, ...data.messages])
+      }
+      if (data.command === 'new_message') {
+        setMessages([...messages, data.message])
+      }
+    }
+
+    return () => {
+      ws.current.close()
+    }
+  }, [activeId])
+
+  useEffect(() => {
+    setMessgs([...messgs, ...messages])
+  }, [messages])
 
   const handleSend = (e) => {
     if (e.key === 'Enter') {
-      alert('Сообщение: ' + msgText)
+      if (activeId !== '' && msgText !== '') {
+        ws.current.send(
+          JSON.stringify({
+            command: 'new_message',
+            message: {
+              uuid,
+              content: msgText,
+            },
+          })
+        )
+      }
+      e.target.value = ''
       setMsgText('')
+    } else {
+      setMsgText(e.target.value)
     }
+    return false
+  }
+  const handleClick = (id, name) => {
+    setActiveId(id)
+    setActiveName(name)
+  }
+  const handleEdit = (e) => {
+    setMsgText(e.target.value)
+    console.log(e.target.value)
   }
 
   return (
@@ -21,36 +95,36 @@ const ChatBox = () => {
           <H3>Диалоги</H3>
         </Header>
         <SideBody>
-          <UserTab
-            imgSrc="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
-            name="Сидоров П.М."
-            status="2 новых сообщения"
-          />
-          <UserTab
-            imgSrc="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
-            name="Иванов И.И."
-            status="2 новых сообщения"
-          />
-          <UserTab
-            imgSrc="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
-            name="Саматова Д.Т."
-            status="2 новых сообщения"
-          />
+          {props.getChatsInfo.status !== 'success' ? (
+            <div className="preloader-container">
+              <Preloader />
+            </div>
+          ) : (
+            props.getChatsInfo.info.map((info) => (
+              <UserTab
+                key={info.id}
+                imgSrc="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
+                name={info.name}
+                status={`${info.new_messages} новых сообщения`}
+                click={() => handleClick(info.id, info.name)}
+              />
+            ))
+          )}
         </SideBody>
       </Side>
       <Body>
         <Header>
           <div className="flex">
-            <H3>Сидоров Петр Михайлович</H3>
+            <H3>{activeName}</H3>
             <img src={search} alt="Seatch" />
           </div>
         </Header>
-        <Dialog />
+        <Dialog list={messgs} myId={uuid} />
         <Textarea
           placeholder="Введите сообщение"
           onKeyDown={(e) => handleSend(e)}
           value={msgText}
-          onChange={(e) => setMsgText(e.target.value)}
+          onChange={(e) => handleEdit(e)}
         ></Textarea>
       </Body>
     </Container>
@@ -103,6 +177,12 @@ const SideBody = styled.div`
   ::-webkit-scrollbar-thumb:hover {
     background: #458f7c;
   }
+  .preloader-container {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
 `
 const Body = styled.div`
   width: 70%;
@@ -141,4 +221,17 @@ const Textarea = styled.textarea`
   }
 `
 
-export default ChatBox
+const mapStateToProps = (state) => {
+  return {
+    getChatsInfo: state.getChatsInfo,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getChats: (values) => {
+      dispatch(getChats(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatBox)

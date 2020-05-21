@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import History from './History'
 
-const Dialog = () => {
+const Dialog = (props) => {
   return (
     <Container>
-      <History />
+      <History list={props.list} myId={props.myId} />
     </Container>
   )
 }

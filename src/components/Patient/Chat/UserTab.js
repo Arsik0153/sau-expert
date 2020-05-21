@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const UserTab = ({ imgSrc, name, status }) => {
+const UserTab = ({ imgSrc, name, status, click }) => {
   return (
-    <Container>
+    <Container onClick={click}>
       <img
         src="https://sun9-62.userapi.com/c857724/v857724931/1e6422/xUHjNVxZdvo.jpg"
         alt="User"

@@ -37,10 +37,10 @@ const Main = (props) => {
           <Treatment id={props.id} />
         </TabPanel>
         <TabPanel>
-          <Chat />
+          <Chat id={props.id} info={props.info} />
         </TabPanel>
         <TabPanel>
-          <Documents id={props.id} />
+          <Documents id={props.id} info={props.info} />
         </TabPanel>
         <TabPanel>
           <Profile info={props.info} id={props.id} />
