@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine AS build
 RUN apk --no-cache add  gettext && \
     npm install -g http-server
 WORKDIR /app
