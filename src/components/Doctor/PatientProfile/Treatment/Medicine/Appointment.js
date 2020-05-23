@@ -17,6 +17,7 @@ const Appointment = (props) => {
   const [days, setDays] = useState([])
   const [dosage, setDosage] = useState('')
   const [times, setTimes] = useState([{ time: '' }])
+  const [interval_days, setIntervalDays] = useState('')
 
   const filterDays = (day) => {
     if (days.includes(day)) {
@@ -76,6 +77,33 @@ const Appointment = (props) => {
           end_date: formattedEnd,
         },
       }
+    } else if (type === 'IS_EVERYDAY') {
+      values = {
+        token,
+        id: props.id,
+        request: {
+          title,
+          regularity: type,
+          dosage,
+          time_receipt: times,
+          begin_date: formattedBegin,
+          end_date: formattedEnd,
+        },
+      }
+    } else if (type === 'INTERVAL_DAYS') {
+      values = {
+        token,
+        id: props.id,
+        request: {
+          title,
+          regularity: type,
+          dosage,
+          time_receipt: times,
+          begin_date: formattedBegin,
+          end_date: formattedEnd,
+          interval_days,
+        },
+      }
     }
     props.newAppointment(values)
     props.update()
@@ -131,7 +159,12 @@ const Appointment = (props) => {
       {type === 'INTERVAL_DAYS' && (
         <>
           <label>Интервал дней между приёмами</label>
-          <input type="text" placeholder="2" />
+          <input
+            type="text"
+            placeholder="2"
+            value={interval_days}
+            onChange={(e) => setIntervalDays(e.target.value)}
+          />
         </>
       )}
       <Dozing>
