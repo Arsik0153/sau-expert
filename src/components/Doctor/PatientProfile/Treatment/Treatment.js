@@ -31,7 +31,7 @@ const Treatment = (props) => {
           <Measures id={props.id} />
         </TabPanel>
         <TabPanel>
-          <Chat />
+          <Chat id={props.id} />
         </TabPanel>
       </Tabs>
     </Container>

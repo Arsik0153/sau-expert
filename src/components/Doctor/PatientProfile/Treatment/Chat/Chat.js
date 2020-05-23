@@ -4,7 +4,7 @@ import UserTab from './UserTab'
 import search from './../../../../../assets/search.svg'
 import Dialog from './Dialog'
 
-const Chat = () => {
+const Chat = (props) => {
   const [msgText, setMsgText] = useState('')
 
   const handleSend = (e) => {
@@ -23,13 +23,7 @@ const Chat = () => {
             <img src={search} alt="Seatch" />
           </div>
         </Header>
-        <Dialog />
-        {/*<Textarea
-          placeholder="Введите сообщение"
-          onKeyDown={(e) => handleSend(e)}
-          value={msgText}
-          onChange={(e) => setMsgText(e.target.value)}
-        ></Textarea>*/}
+        <Dialog id={props.id} />
       </Body>
     </Container>
   )
@@ -58,6 +52,7 @@ const H3 = styled.h3`
   font-weight: 600;
   font-size: 24px;
   color: #202020;
+  margin-top: -6px;
 `
 const SideBody = styled.div`
   height: calc(100% - 92px);
