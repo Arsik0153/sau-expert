@@ -4,7 +4,7 @@ import Navbar from './../Navbar'
 import Header from './../../Header'
 import Main from './Main'
 
-const Chat = () => {
+const Map = () => {
   return (
     <Container>
       <Navbar />
@@ -23,4 +23,4 @@ const Container = styled.div`
   grid-template-rows: 100px 1fr;
 `
 
-export default Chat
+export default Map
