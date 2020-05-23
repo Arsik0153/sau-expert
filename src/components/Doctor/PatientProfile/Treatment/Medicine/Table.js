@@ -1,15 +1,9 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import edit from './../../../../../assets/edit.svg'
-import { connect } from 'react-redux'
-import { getMedicineList } from '../../../../../redux/actions/doctor/getMedicineList'
 import Preloader from '../../../../helpers/Preloader'
 
 const Table = (props) => {
-  let token = localStorage.getItem('token')
-  useEffect(() => {
-    props.getMedicineList({ id: props.id, token })
-  }, [])
   return (
     <Container>
       <H1>История медикаментов</H1>
@@ -102,16 +96,4 @@ const H1 = styled.h1`
   margin-bottom: 15px;
 `
 
-const mapStateToProps = (state) => {
-  return {
-    medicineList: state.medicineList,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getMedicineList: (values) => dispatch(getMedicineList(values)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Table)
+export default Table

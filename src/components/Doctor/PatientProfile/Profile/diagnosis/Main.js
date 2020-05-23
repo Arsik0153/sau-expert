@@ -151,10 +151,12 @@ const Main = (props) => {
     setSearchMain({ id: '', text: '' })
     setCommentMain('')
     setMainError('')
-    props.getDiagnosList({
-      id: props.id,
-      token,
-    })
+    setTimeout(() => {
+      props.getDiagnosList({
+        id: props.id,
+        token,
+      })
+    }, 200)
   }
 
   const useOutsideAlerter = (ref) => {

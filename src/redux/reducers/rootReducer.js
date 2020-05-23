@@ -44,6 +44,7 @@ import { newAnketaReducer } from './doctor/newAnketa'
 import { getAnketaReducer } from './doctor/getAnketa'
 import { getChatsReducer } from './patient/getChats'
 import { getMedicineListReducer } from './doctor/getMedicineList'
+import { newAppointmentReducer } from './doctor/newAppointment'
 
 const rootReducer = combineReducers({
   indicators: indicatorsReducer,
@@ -91,6 +92,7 @@ const rootReducer = combineReducers({
   getAnketaInfo: getAnketaReducer,
   getChatsInfo: getChatsReducer,
   medicineList: getMedicineListReducer,
+  newAppointmentInfo: newAppointmentReducer,
 })
 
 export default rootReducer

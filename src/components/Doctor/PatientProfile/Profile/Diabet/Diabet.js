@@ -70,7 +70,9 @@ const Diabet = (props) => {
         very_low_range_glucose,
       },
     }
-    props.setDiabet(values)
+    setTimeout(() => {
+      props.setDiabet(values)
+    }, 200)
   }
 
   useEffect(() => {

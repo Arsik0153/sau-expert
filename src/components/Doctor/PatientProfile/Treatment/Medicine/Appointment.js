@@ -3,13 +3,16 @@ import styled from 'styled-components'
 import del from './../../../../../assets/delete-red.svg'
 import plus from './../../../../../assets/plus-green.svg'
 import DatePicker from 'react-datepicker'
+import { connect } from 'react-redux'
+import { newAppointment } from '../../../../../redux/actions/doctor/newAppointment'
 
-const Appointment = () => {
+const Appointment = (props) => {
+  let token = localStorage.getItem('token')
   const [startDate, setStartDate] = useState(
     window.Date.now() - 10 * 24 * 60 * 60 * 1000
   )
   const [endDate, setEndDate] = useState(window.Date.now())
-  const [type, setType] = useState('INTERVAL_DAYS')
+  const [type, setType] = useState('RECEPTION_DAYS')
   const [title, setTitle] = useState('')
   const [days, setDays] = useState([])
   const [dosage, setDosage] = useState('')
@@ -43,16 +46,39 @@ const Appointment = () => {
     }
   }
   const handleSubmit = () => {
-    let values = {
-      title,
-      regularity: type,
-      reception_days: days,
-      dosage,
-      time_receipt: times,
-      begin_date: new Date(startDate).toLocaleDateString('ru-RU'),
-      end_date: new Date(endDate).toLocaleDateString('ru-RU'),
+    let thisBegin = new Date(startDate)
+    let formattedBegin =
+      thisBegin.getFullYear() +
+      '-' +
+      ('0' + (thisBegin.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + thisBegin.getDate()).slice(-2)
+
+    let thisEnd = new Date(endDate)
+    let formattedEnd =
+      thisEnd.getFullYear() +
+      '-' +
+      ('0' + (thisEnd.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + thisEnd.getDate()).slice(-2)
+    let values = {}
+    if (type === 'RECEPTION_DAYS') {
+      values = {
+        token,
+        id: props.id,
+        request: {
+          title,
+          regularity: type,
+          reception_days: days,
+          dosage,
+          time_receipt: times,
+          begin_date: formattedBegin,
+          end_date: formattedEnd,
+        },
+      }
     }
-    console.log(values)
+    props.newAppointment(values)
+    props.update()
   }
 
   return (
@@ -67,14 +93,14 @@ const Appointment = () => {
       />
       <label>Регулярность</label>
       <select
-        defaultValue="INTERVAL_DAYS"
+        defaultValue="RECEPTION_DAYS"
         onChange={(e) => setType(e.target.value)}
       >
-        <option value="INTERVAL_DAYS">Дни недели</option>
+        <option value="RECEPTION_DAYS">Дни недели</option>
         <option value="IS_EVERYDAY">Каждый день</option>
-        <option value="RECEPTION_DAYS">Раз в несколько дней</option>
+        <option value="INTERVAL_DAYS">Раз в несколько дней</option>
       </select>
-      {type === 'INTERVAL_DAYS' && (
+      {type === 'RECEPTION_DAYS' && (
         <>
           <label>Дни приема</label>
           <Days>
@@ -102,7 +128,7 @@ const Appointment = () => {
           </Days>
         </>
       )}
-      {type === 'RECEPTION_DAYS' && (
+      {type === 'INTERVAL_DAYS' && (
         <>
           <label>Интервал дней между приёмами</label>
           <input type="text" placeholder="2" />
@@ -166,9 +192,9 @@ const Appointment = () => {
               <DatePicker
                 locale="ru"
                 dateFormat="yyyy-MM-dd"
-                selected={startDate}
+                selected={endDate}
                 onChange={(date) => setEndDate(date)}
-                selectsStart
+                selectsEnd
                 startDate={startDate}
                 endDate={endDate}
               />
@@ -188,6 +214,7 @@ const Container = styled.div`
   box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.03);
   border-radius: 6px;
   padding: 30px;
+  height: fit-content;
   select,
   input {
     width: 100%;
@@ -322,4 +349,18 @@ const Dates = styled.div`
   }
 `
 
-export default Appointment
+const mapStateToProps = (state) => {
+  return {
+    newAppointmentInfo: state.newAppointmentInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    newAppointment: (values) => {
+      dispatch(newAppointment(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Appointment)

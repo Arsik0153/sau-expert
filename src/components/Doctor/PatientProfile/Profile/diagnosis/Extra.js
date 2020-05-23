@@ -140,7 +140,7 @@ const Extra = (props) => {
     let request = {
       disease_id: searchMain.id,
       begin_date: formattedDate,
-      category_id: 2,
+      category: 2,
       comment: commentMain,
     }
     props.newDiagnos({
@@ -151,10 +151,12 @@ const Extra = (props) => {
     setSearchMain({ id: '', text: '' })
     setCommentMain('')
     setMainError('')
-    props.getDiagnosList({
-      id: props.id,
-      token,
-    })
+    setTimeout(() => {
+      props.getDiagnosList({
+        id: props.id,
+        token,
+      })
+    }, 200)
   }
 
   const useOutsideAlerter = (ref) => {
@@ -406,7 +408,7 @@ const Extra = (props) => {
               <td></td>
             </tr>
             {props.diagnosList.info.results.map((result) => {
-              if (result.category === 'Сопутствующий диагноз')
+              if (result.category === 2)
                 return (
                   <tr key={result.id}>
                     <td>{result.disease}</td>
