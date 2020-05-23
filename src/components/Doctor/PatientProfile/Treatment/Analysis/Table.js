@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import edit from './../../../../../assets/edit.svg'
+import Preloader from './../../../../helpers/Preloader'
 
-const Table = () => {
+const Table = ({ info, toggleChecked }) => {
   return (
     <Container>
       <H1>История назначений</H1>
@@ -17,59 +18,33 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
-            <td>14.09.19</td>
-            <td>
-              <Checkbox
-                className="styled-checkbox"
-                id="123"
-                type="checkbox"
-                value="value1"
-                //onChange={(e) => changeCorrect(id, index, e)}
-              />
-              <label htmlFor="123"></label>
-            </td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
-          <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
-            <td>14.09.19</td>
-            <td>
-              <Checkbox
-                className="styled-checkbox"
-                id="1233"
-                type="checkbox"
-                //onChange={(e) => changeCorrect(id, index, e)}
-              />
-              <label htmlFor="1233"></label>
-            </td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
-          <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
-            <td>14.09.19</td>
-            <td>
-              <Checkbox
-                className="styled-checkbox"
-                id="1235"
-                type="checkbox"
-                value="value1"
-                //onChange={(e) => changeCorrect(id, index, e)}
-              />
-              <label htmlFor="1235"></label>
-            </td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
+          {info &&
+            info.map((inf) => (
+              <tr key={inf.id}>
+                <td>{inf.title}</td>
+                <td>{new Date(inf.created_at).toLocaleDateString('ru-RU')}</td>
+                <td>
+                  {inf.analysis_date
+                    ? new Date(inf.analysis_date).toLocaleDateString('ru-RU')
+                    : 'Не загружено'}
+                </td>
+                <td>
+                  <Checkbox
+                    className="styled-checkbox"
+                    id={inf.id}
+                    type="checkbox"
+                    checked={inf.is_checked}
+                    onChange={(e) =>
+                      toggleChecked(!e.target.checked, inf.id, inf.is_uploaded)
+                    }
+                  />
+                  <label htmlFor={inf.id}></label>
+                </td>
+                <td>
+                  <img src={edit} alt="Edit" />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Sheet>
     </Container>
@@ -96,6 +71,7 @@ const Sheet = styled.table`
       border-bottom: 1px solid rgba(209, 216, 245, 0.6);
       width: 100%;
       img {
+        cursor: pointer;
       }
       p {
         margin-top: 17px;

@@ -25,7 +25,7 @@ const Treatment = (props) => {
           <Lifestyle id={props.id} />
         </TabPanel>
         <TabPanel>
-          <Analysis />
+          <Analysis id={props.id} />
         </TabPanel>
         <TabPanel>
           <Measures id={props.id} />

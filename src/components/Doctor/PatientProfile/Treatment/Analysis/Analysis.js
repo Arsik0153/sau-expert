@@ -1,18 +1,71 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from './Table'
+import { connect } from 'react-redux'
+import {
+  getAnalysis,
+  editAnalysis,
+  newAnalysis,
+} from '../../../../../redux/actions/doctor/analysis'
 
-const Analysis = () => {
+const Analysis = (props) => {
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    props.getAnalysis({ id: props.id, token })
+  }, [])
+
+  const update = () => {
+    setTimeout(() => {
+      props.getAnalysis({ id: props.id, token })
+    }, 200)
+  }
+
+  const toggleChecked = (newChecked, id, is_uploaded) => {
+    if (!is_uploaded) return
+    let values = {
+      id: props.id,
+      token,
+      analysisId: id,
+      request: {
+        is_checked: newChecked,
+      },
+    }
+    props.editAnalysis(values)
+  }
+
+  const [title, setTitle] = useState('')
+  const handleSubmit = () => {
+    let values = {
+      id: props.id,
+      token,
+      request: {
+        title,
+      },
+    }
+    props.newAnalysis(values)
+    update()
+  }
+
   return (
     <Container>
       <Box>
         <H3>Назначение анализа</H3>
         <label>Название</label>
-        <input type="text" placeholder="Анализ крови" />
-        <button type="submit">Назначить</button>
+        <input
+          type="text"
+          placeholder="Анализ крови"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <button type="submit" onClick={() => handleSubmit()}>
+          Назначить
+        </button>
       </Box>
       <Box>
-        <Table />
+        <Table
+          info={props.getAnalysisInfo.info}
+          toggleChecked={toggleChecked}
+        />
       </Box>
     </Container>
   )
@@ -90,4 +143,26 @@ const H3 = styled.h3`
   margin-bottom: 20px;
 `
 
-export default Analysis
+const mapStateToProps = (state) => {
+  return {
+    getAnalysisInfo: state.getAnalysisInfo,
+    editAnalysisInfo: state.editAnalysisInfo,
+    newAnalysisInfo: state.newAnalysisInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAnalysis: (values) => {
+      dispatch(getAnalysis(values))
+    },
+    editAnalysis: (values) => {
+      dispatch(editAnalysis(values))
+    },
+    newAnalysis: (values) => {
+      dispatch(newAnalysis(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Analysis)
