@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import edit from './../../../../../assets/edit.svg'
 
-const Table = () => {
+const Table = ({ info }) => {
   return (
     <Container>
       <H1>История замеров</H1>
@@ -15,34 +15,16 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Глюкоза</td>
-            <td>14.09.19</td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
-          <tr>
-            <td>Глюкоза</td>
-            <td>14.09.19</td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
-          <tr>
-            <td>Глюкоза</td>
-            <td>14.09.19</td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
-          <tr>
-            <td>Глюкоза</td>
-            <td>14.09.19</td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
+          {info &&
+            info.map((inf) => (
+              <tr key={inf.id}>
+                <td>{inf.title}</td>
+                <td>{new Date(inf.created_at).toLocaleDateString('ru-RU')}</td>
+                <td>
+                  <img src={edit} alt="Edit" />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Sheet>
     </Container>

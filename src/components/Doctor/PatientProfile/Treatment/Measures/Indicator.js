@@ -8,7 +8,6 @@ const Appointment = () => {
   const [startDate, setStartDate] = useState(
     window.Date.now() - 10 * 24 * 60 * 60 * 1000
   )
-  const [endDate, setEndDate] = useState(window.Date.now())
   const [type, setType] = useState('1')
   const [radio, setRadio] = useState('1')
   return (
@@ -73,8 +72,6 @@ const Appointment = () => {
             selected={startDate}
             onChange={(date) => setStartDate(date)}
             selectsStart
-            startDate={startDate}
-            endDate={endDate}
           />
         </Doze>
         <Time>
