@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 FROM node:lts-alpine AS build
 RUN apk --no-cache add  gettext && \
     npm install -g http-server
@@ -13,3 +14,20 @@ COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
+=======
+FROM node:lts-alpine AS build
+RUN apk --no-cache add  gettext && \
+    npm install -g http-server
+WORKDIR /app
+COPY package.json package.json
+RUN npm install
+COPY . /app
+RUN npm run build
+
+FROM nginx:stable-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+# new
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
+>>>>>>> 80cdea866adfeb978d5ab355cf0a9ca18eed982b
