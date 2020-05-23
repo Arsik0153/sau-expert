@@ -14,7 +14,6 @@ const Chat = (props) => {
   const ws = useRef(null)
   const room = '711b997c-ba91-49e9-b67a-e8e9ef365388'
   const uuid = user.id
-  console.log(uuid)
 
   useEffect(() => {
     ws.current = new WebSocket(`ws://94.130.25.159/ws/chat/${room}/`)

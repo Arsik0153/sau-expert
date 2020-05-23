@@ -1,51 +1,53 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import edit from './../../../../../assets/edit.svg'
+import { connect } from 'react-redux'
+import { getMedicineList } from '../../../../../redux/actions/doctor/getMedicineList'
+import Preloader from '../../../../helpers/Preloader'
 
-const Table = () => {
+const Table = (props) => {
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    props.getMedicineList({ id: props.id, token })
+  }, [])
   return (
     <Container>
       <H1>История медикаментов</H1>
-      <Sheet>
-        <thead>
-          <tr>
-            <td>Название</td>
-            <td>Дозировка</td>
-            <td>Начало</td>
-            <td>Конец</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
-            <td>14.09.19</td>
-            <td>14.09.19</td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
-          <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
-            <td>14.09.19</td>
-            <td>14.09.19</td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
-          <tr>
-            <td>Медикамент 1</td>
-            <td>4 таб. 2гр в день</td>
-            <td>14.09.19</td>
-            <td>14.09.19</td>
-            <td>
-              <img src={edit} alt="Edit" />
-            </td>
-          </tr>
-        </tbody>
-      </Sheet>
+      {props.medicineList.status !== 'success' ? (
+        <div className="preloader-container">
+          <Preloader />
+        </div>
+      ) : (
+        <Sheet>
+          <thead>
+            <tr>
+              <td>Название</td>
+              <td>Дозировка</td>
+              <td>Начало</td>
+              <td>Конец</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            {props.medicineList.info.results &&
+              props.medicineList.info.results.map((result) => (
+                <tr key={result.id}>
+                  <td>{result.title}</td>
+                  <td>{result.dosage}</td>
+                  <td>
+                    {new Date(result.begin_date).toLocaleDateString('ru-RU')}
+                  </td>
+                  <td>
+                    {new Date(result.end_date).toLocaleDateString('ru-RU')}
+                  </td>
+                  <td>
+                    <img src={edit} alt="Edit" />
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Sheet>
+      )}
     </Container>
   )
 }
@@ -56,6 +58,11 @@ const Container = styled.div`
   box-shadow: 0px 10px 20px rgba(31, 32, 65, 0.05);
   border-radius: 4px;
   height: fit-content;
+  .preloader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `
 const Sheet = styled.table`
   width: 100%;
@@ -95,4 +102,16 @@ const H1 = styled.h1`
   margin-bottom: 15px;
 `
 
-export default Table
+const mapStateToProps = (state) => {
+  return {
+    medicineList: state.medicineList,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getMedicineList: (values) => dispatch(getMedicineList(values)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table)

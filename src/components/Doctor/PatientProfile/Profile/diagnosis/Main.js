@@ -213,7 +213,7 @@ const Main = (props) => {
       request: {
         disease_id: searchEdit.id,
         begin_date: formattedDate,
-        category_id: editData.category_id,
+        category: editData.category_id,
         comment: editData.comment,
       },
     }
@@ -407,7 +407,7 @@ const Main = (props) => {
               <td></td>
             </tr>
             {props.diagnosList.info.results.map((result) => {
-              if (result.category === 'Основной диагноз')
+              if (result.category === 1)
                 return (
                   <tr key={result.id}>
                     <td>{result.disease}</td>

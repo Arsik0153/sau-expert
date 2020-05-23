@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import Appointment from './Appointment'
 import Table from './Table'
 
-const Medicine = () => {
+const Medicine = (props) => {
   return (
     <Container>
-      <Appointment />
-      <Table />
+      <Appointment id={props.id} />
+      <Table id={props.id} />
     </Container>
   )
 }

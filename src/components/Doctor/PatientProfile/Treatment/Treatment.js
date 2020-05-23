@@ -19,7 +19,7 @@ const Treatment = (props) => {
           <Tab>История лечения</Tab>
         </TabList>
         <TabPanel>
-          <Medicine />
+          <Medicine id={props.id} />
         </TabPanel>
         <TabPanel>
           <Lifestyle id={props.id} />

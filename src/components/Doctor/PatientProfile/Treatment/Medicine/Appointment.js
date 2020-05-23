@@ -9,33 +9,100 @@ const Appointment = () => {
     window.Date.now() - 10 * 24 * 60 * 60 * 1000
   )
   const [endDate, setEndDate] = useState(window.Date.now())
-  const [type, setType] = useState('1')
+  const [type, setType] = useState('INTERVAL_DAYS')
+  const [title, setTitle] = useState('')
+  const [days, setDays] = useState([])
+  const [dosage, setDosage] = useState('')
+  const [times, setTimes] = useState([{ time: '' }])
+
+  const filterDays = (day) => {
+    if (days.includes(day)) {
+      setDays(days.filter((d) => d !== day))
+    } else {
+      setDays([...days, day])
+    }
+  }
+
+  const editTime = (newTime, index) => {
+    let timesCopy = times
+    timesCopy[index].time = newTime
+    setTimes([...timesCopy])
+  }
+  const deleteTime = (index) => {
+    let timesCopy = []
+    console.log(times.length)
+    if (times.length === 1) return
+    else {
+      times.map((t, i) => {
+        if (i === index) {
+          return false
+        }
+        timesCopy.push(t)
+      })
+      setTimes(timesCopy)
+    }
+  }
+  const handleSubmit = () => {
+    let values = {
+      title,
+      regularity: type,
+      reception_days: days,
+      dosage,
+      time_receipt: times,
+      begin_date: new Date(startDate).toLocaleDateString('ru-RU'),
+      end_date: new Date(endDate).toLocaleDateString('ru-RU'),
+    }
+    console.log(values)
+  }
+
   return (
     <Container>
       <h3>Назначение лечения</h3>
       <label>Наименование препарата</label>
-      <input type="text" placeholder="Медикамент 1" />
+      <input
+        type="text"
+        placeholder="Медикамент 1"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
       <label>Регулярность</label>
-      <select defaultValue="1" onChange={(e) => setType(e.target.value)}>
-        <option value="1">Дни недели</option>
-        <option value="2">Каждый день</option>
-        <option value="3">Раз в несколько дней</option>
+      <select
+        defaultValue="INTERVAL_DAYS"
+        onChange={(e) => setType(e.target.value)}
+      >
+        <option value="INTERVAL_DAYS">Дни недели</option>
+        <option value="IS_EVERYDAY">Каждый день</option>
+        <option value="RECEPTION_DAYS">Раз в несколько дней</option>
       </select>
-      {type === '1' && (
+      {type === 'INTERVAL_DAYS' && (
         <>
           <label>Дни приема</label>
           <Days>
-            <Day active={true}>ПН</Day>
-            <Day>ВТ</Day>
-            <Day active={true}>СР</Day>
-            <Day>ЧТ</Day>
-            <Day active={true}>ПТ</Day>
-            <Day>СБ</Day>
-            <Day>ВС</Day>
+            <Day active={days.includes('1')} onClick={() => filterDays('1')}>
+              ПН
+            </Day>
+            <Day active={days.includes('2')} onClick={() => filterDays('2')}>
+              ВТ
+            </Day>
+            <Day active={days.includes('3')} onClick={() => filterDays('3')}>
+              СР
+            </Day>
+            <Day active={days.includes('4')} onClick={() => filterDays('4')}>
+              ЧТ
+            </Day>
+            <Day active={days.includes('5')} onClick={() => filterDays('5')}>
+              ПТ
+            </Day>
+            <Day active={days.includes('6')} onClick={() => filterDays('6')}>
+              СБ
+            </Day>
+            <Day active={days.includes('7')} onClick={() => filterDays('7')}>
+              ВС
+            </Day>
           </Days>
         </>
       )}
-      {type === '3' && (
+      {type === 'RECEPTION_DAYS' && (
         <>
           <label>Интервал дней между приёмами</label>
           <input type="text" placeholder="2" />
@@ -44,19 +111,34 @@ const Appointment = () => {
       <Dozing>
         <Doze>
           <label>Дозировка</label>
-          <input type="text" placeholder="4 таб. 2гр в день" />
+          <input
+            type="text"
+            placeholder="4 таб. 2гр в день"
+            value={dosage}
+            onChange={(e) => setDosage(e.target.value)}
+          />
         </Doze>
         <Time>
           <label>Время приема</label>
           <div className="inner">
-            <input type="text" placeholder="09:00" />
-            <img src={del} alt="Delete" />
-            <input type="text" placeholder="09:00" />
-            <img src={del} alt="Delete" />
-            <input type="text" placeholder="09:00" />
-            <img src={del} alt="Delete" />
+            {times.map((t, index) => (
+              <React.Fragment key={index}>
+                <input
+                  type="time"
+                  placeholder="09:00"
+                  value={t.time}
+                  onChange={(e) => editTime(e.target.value, index)}
+                />
+                <img src={del} alt="Delete" onClick={() => deleteTime(index)} />
+              </React.Fragment>
+            ))}
             <span></span>
-            <img src={plus} alt="Add" className="plus-btn" />
+            <img
+              src={plus}
+              alt="Add"
+              className="plus-btn"
+              onClick={() => setTimes([...times, { time: '' }])}
+            />
           </div>
         </Time>
       </Dozing>
@@ -94,7 +176,9 @@ const Appointment = () => {
           </div>
         </div>
       </Dates>
-      <button type="submit">Сохранить</button>
+      <button type="submit" onClick={() => handleSubmit()}>
+        Сохранить
+      </button>
     </Container>
   )
 }
@@ -107,6 +191,7 @@ const Container = styled.div`
   select,
   input {
     width: 100%;
+    height: 46px;
     background: #ffffff;
     border: 1px solid rgba(31, 32, 65, 0.25);
     box-sizing: border-box;
