@@ -7,13 +7,6 @@ import Dialog from './Dialog'
 const Chat = (props) => {
   const [msgText, setMsgText] = useState('')
 
-  const handleSend = (e) => {
-    if (e.key === 'Enter') {
-      alert('Сообщение: ' + msgText)
-      setMsgText('')
-    }
-  }
-
   return (
     <Container>
       <Body>
