@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import edit from './../../../../../assets/edit.svg'
 import Preloader from './../../../../helpers/Preloader'
 
-const Table = ({ info, toggleChecked }) => {
+const Table = ({ info, toggleChecked, openModal }) => {
   return (
     <Container>
       <H1>История назначений</H1>
@@ -41,7 +41,12 @@ const Table = ({ info, toggleChecked }) => {
                   <label htmlFor={inf.id}></label>
                 </td>
                 <td>
-                  <img src={edit} alt="Edit" />
+                  <Img
+                    src={edit}
+                    alt="Edit"
+                    onClick={() => openModal(inf.id, inf.title)}
+                    style={{ cursor: 'pointer' }}
+                  />
                 </td>
               </tr>
             ))}
@@ -70,9 +75,6 @@ const Sheet = styled.table`
     tr {
       border-bottom: 1px solid rgba(209, 216, 245, 0.6);
       width: 100%;
-      img {
-        cursor: pointer;
-      }
       p {
         margin-top: 17px;
         font-weight: 600;
@@ -85,7 +87,9 @@ const Sheet = styled.table`
     }
   }
 `
-
+const Img = styled.img`
+  cursor: pointer !important;
+`
 const H1 = styled.h1`
   font-weight: 600;
   font-size: 24px;

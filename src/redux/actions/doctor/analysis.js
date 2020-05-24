@@ -40,7 +40,7 @@ export const editAnalysis = (values) => {
     dispatch(editAnalysisStarted())
     axios
       .put(
-        `${BASE_URL}/doctor/patients/${values.id}/analysis/${values.analysisId}`,
+        `${BASE_URL}/doctor/patients/${values.id}/analysis/${values.analysisId}/`,
         {
           ...values.request,
         },
