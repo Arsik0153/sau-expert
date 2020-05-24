@@ -85,6 +85,7 @@ const Day = styled.div`
 `
 
 export function InnerCalendar({ customData }) {
+  console.log(customData)
   const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   const DAYS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   const DAYS_OF_THE_WEEK = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
@@ -156,7 +157,7 @@ export function InnerCalendar({ customData }) {
           .fill(null)
           .map((_, index) => {
             const d = index - (startDay - 2)
-            let str = `${date.getFullYear()}-${month + 1}-${d}`
+            let str = date.toLocaleDateString('ru-RU')
             let isCustom = false
             let percentage = 0
             for (let i = 0; i < customData.length; i++) {

@@ -1,31 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { InnerCalendar } from './InnerCalendar'
 
-const data = [
-  {
-    date: '2020-4-21',
-    percentage: 100,
-  },
-  {
-    date: '2020-4-22',
-    percentage: 100,
-  },
-  {
-    date: '2020-4-23',
-    percentage: 0,
-  },
-  {
-    date: '2020-4-24',
-    percentage: 40,
-  },
-  {
-    date: '2020-4-25',
-    percentage: 100,
-  },
-]
+const CalendarBox = ({ info }) => {
+  const [data, setData] = useState([])
+  /*const data = [
+    {
+      date: '2020-4-21',
+      percentage: 100,
+    },
+    {
+      date: '2020-4-22',
+      percentage: 100,
+    },
+    {
+      date: '2020-4-23',
+      percentage: 0,
+    },
+    {
+      date: '2020-4-24',
+      percentage: 40,
+    },
+    {
+      date: '2020-4-25',
+      percentage: 100,
+    },
+  ]*/
+  useEffect(() => {
+    let d = []
+    info.map((inf) =>
+      d.push({
+        date: new Date(inf.completion_date).toLocaleDateString('ru-RU'),
+        percentage: 100,
+      })
+    )
+    setData(d)
+  }, [info])
 
-const CalendarBox = () => {
   return (
     <Container>
       <InnerCalendar customData={data} />

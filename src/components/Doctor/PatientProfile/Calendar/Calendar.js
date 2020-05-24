@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import CalendarBox from './CalendarBox'
 import Tasks from './Tasks'
 import Done from './Done'
+import { connect } from 'react-redux'
+import { getCalendar } from '../../../../redux/actions/doctor/calendar'
 
-const Calendar = () => {
+const Calendar = (props) => {
+  let token = localStorage.getItem('token')
+  useEffect(() => {
+    props.getCalendar({ id: props.id, token })
+  }, [])
   return (
     <Container>
       <H1>Календарь</H1>
       <Grid>
-        <CalendarBox />
+        <CalendarBox info={props.getCalendarInfo.info} />
         <Tasks />
         <Done />
       </Grid>
@@ -35,4 +41,18 @@ const Grid = styled.div`
   grid-gap: 30px;
 `
 
-export default Calendar
+const mapStateToProps = (state) => {
+  return {
+    getCalendarInfo: state.getCalendarInfo,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCalendar: (values) => {
+      dispatch(getCalendar(values))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar)

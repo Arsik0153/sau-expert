@@ -50,6 +50,7 @@ import { getHistoryReducer } from './doctor/getHistory'
 import { getAnalysisReducer } from './doctor/getAnalysis'
 import { editAnalysisReducer } from './doctor/editAnalysis'
 import { newAnalysisReducer } from './doctor/newAnalysis'
+import { getCalendarReducer } from './doctor/getCalendar'
 
 const rootReducer = combineReducers({
   indicators: indicatorsReducer,
@@ -103,6 +104,7 @@ const rootReducer = combineReducers({
   getAnalysisInfo: getAnalysisReducer,
   editAnalysisinfo: editAnalysisReducer,
   newAnalysisInfo: newAnalysisReducer,
+  getCalendarInfo: getCalendarReducer,
 })
 
 export default rootReducer
