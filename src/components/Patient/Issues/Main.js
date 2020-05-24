@@ -131,16 +131,17 @@ const Main = (props) => {
               <Scroll>
                 <table>
                   <tbody>
-                    {props.issues.info.results.map((issue) => (
-                      <tr key={issue.id}>
-                        <td>
-                          <p onClick={(e) => openModal('glucose')}>
-                            {issue.text}
-                          </p>
-                        </td>
-                        <td>{issue.created_at}</td>
-                      </tr>
-                    ))}
+                    {props.issues.info &&
+                      props.issues.info.map((issue) => (
+                        <tr key={issue.id}>
+                          <td>
+                            <p onClick={(e) => openModal('glucose')}>
+                              {issue.text}
+                            </p>
+                          </td>
+                          <td>{issue.created_at}</td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </Scroll>
@@ -213,6 +214,7 @@ const Box = styled.div`
     border: none;
     margin-top: 15px;
     outline: none;
+    cursor: pointer;
   }
   .field-error {
     width: 100%;
@@ -240,7 +242,7 @@ const Scroll = styled.div`
       padding: 18px 40px;
       font-size: 16px;
       color: #202020;
-      border-bottom: 1px solid rgba(31, 32, 65, 0.1);
+      border-top: 1px solid rgba(31, 32, 65, 0.1);
       p {
         text-decoration: underline;
         color: #57c3a7;

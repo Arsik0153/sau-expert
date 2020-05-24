@@ -1,6 +1,6 @@
 const initialState = {
   status: '',
-  info: {},
+  info: [],
   error: null,
 }
 
