@@ -137,10 +137,11 @@ const Main = (props) => {
       setMainError('Напишите комментарии к диагнозу')
       return
     }
+
     let request = {
       disease_id: searchMain.id,
       begin_date: formattedDate,
-      category_id: 1,
+      category: 1,
       comment: commentMain,
     }
     props.newDiagnos({

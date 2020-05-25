@@ -19,7 +19,7 @@ const Table = ({ info }) => {
             info.map((inf) => (
               <tr key={inf.id}>
                 <td>{inf.title}</td>
-                <td>{new Date(inf.created_at).toLocaleDateString('ru-RU')}</td>
+                <td>{new Date(inf.begin_date).toLocaleDateString('ru-RU')}</td>
                 <td>
                   <img src={edit} alt="Edit" />
                 </td>

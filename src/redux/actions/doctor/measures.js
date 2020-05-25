@@ -5,7 +5,7 @@ export const getMeasures = (values) => {
   return (dispatch) => {
     dispatch(getMeasuresStarted())
     axios
-      .get(`${BASE_URL}/doctor/patients/${values.id}/analysis/`, {
+      .get(`${BASE_URL}/doctor/patients/${values.id}/measurement_purpose/`, {
         headers: {
           Authorization: `Token ${values.token}`,
         },
