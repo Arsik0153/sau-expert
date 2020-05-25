@@ -216,7 +216,7 @@ const Main = (props) => {
       request: {
         disease_id: searchEdit.id,
         begin_date: formattedDate,
-        category: editData.category_id,
+        category: 1,
         comment: editData.comment,
       },
     }

@@ -215,7 +215,7 @@ const Extra = (props) => {
       request: {
         disease_id: searchEdit.id,
         begin_date: formattedDate,
-        category_id: editData.category_id,
+        category: 2,
         comment: editData.comment,
       },
     }
